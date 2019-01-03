@@ -8,7 +8,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/UnityChatDemo/Scenes/UnityChatDemo.unity
     guid: e2037edd94d4a0a42b18198e6da397ea
-  - enabled: 0
-    path: Assets/UnityChatDemo/Scenes/UnityChatDemo_MR.unity
-    guid: c5176b1542787c74f8473b6cb4b0d05f
   m_configObjects: {}
