@@ -182,9 +182,9 @@ QualitySettings:
     PSP2: 2
     Standalone: 1
     Tizen: 2
-    WebGL: 3
+    WebGL: 1
     WiiU: 5
     Windows Store Apps: 1
     XboxOne: 5
-    iPhone: 2
+    iPhone: 1
     tvOS: 2
