@@ -6052,6 +6052,7 @@ MonoBehaviour:
   VideoResolution: 2
   VideoQuality: 1
   Framerate: 15
+  EnableDetection: 0
   CapCamera: {fileID: 535887094}
   ChatPeerRawImage: {fileID: 1690060813}
   SelfRawImage: {fileID: 1043811784}
