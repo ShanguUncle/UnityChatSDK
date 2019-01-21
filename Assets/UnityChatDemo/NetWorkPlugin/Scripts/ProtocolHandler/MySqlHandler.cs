@@ -66,7 +66,7 @@ public class MySqlHandler : MonoBehaviour, IHandler
         }
         else
         {
-            ChatManager._instance.OnlineUserList = new Dictionary<string,int>();
+            ChatManager._instance.OnlineUserList = new Dictionary<int, string>();
         }
       
 
