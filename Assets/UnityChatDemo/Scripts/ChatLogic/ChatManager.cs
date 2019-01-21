@@ -32,7 +32,7 @@ public class ChatManager : MonoBehaviour {
     //聊天对象接听
     public bool UserComeIn { get; set; } 
     //在线用户列表(用户名，用户ID)
-    public Dictionary<string, int>  OnlineUserList { get; set; }
+    public Dictionary<int,string>  OnlineUserList { get; set; }
 
 
     private void Awake()
@@ -41,7 +41,7 @@ public class ChatManager : MonoBehaviour {
     }
     void Start () {
         CallID = "";
-        OnlineUserList =new Dictionary<string,int>();
+        OnlineUserList =new Dictionary<int, string>();
     }
 	
 

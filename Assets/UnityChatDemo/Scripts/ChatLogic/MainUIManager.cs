@@ -61,9 +61,9 @@ public class MainUIManager : MonoBehaviour {
         { 
             GameObject go = Instantiate(FriendItemPrefab, AddressContent);
             FriendItem item = go.GetComponent<FriendItem>();
-            item.FriendName = list.Key;
-            go.transform.Find("Text").GetComponent<Text>().text= list.Key;
-            item.FriendID = list.Value;
+            item.FriendName = list.Value;
+            go.transform.Find("Text").GetComponent<Text>().text= list.Value;
+            item.FriendID = list.Key;
         }
     }
     /// <summary>
