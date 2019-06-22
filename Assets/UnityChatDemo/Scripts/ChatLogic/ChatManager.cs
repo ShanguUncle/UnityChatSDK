@@ -1,9 +1,10 @@
-﻿using NetWorkPlugin;
-using ProtobufNet;
+﻿using ChatProto.Proto;
+using Google.Protobuf;
+using NetWorkPlugin;
 using Protocol;
-using Protocol.ProtobufNet;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 /// <summary>
@@ -43,17 +44,6 @@ public class ChatManager : MonoBehaviour {
         CallID = "";
         OnlineUserList =new Dictionary<int, string>();
     }
-	
-
-    void checkConnect()
-    {
-        if (NetWorkManager.Instance!=null&&!NetWorkManager.Instance.IsConnect())
-        {
-            print("SIP Server is Disconnect!!!");
-            MessageManager._instance.ShowMessage("已断开连接！");
-            return;
-        }
-    }
     /// <summary>
     /// /登录
     /// </summary>
@@ -61,7 +51,6 @@ public class ChatManager : MonoBehaviour {
     /// <param name="password">密码</param>
     public void Login(string account,string password)
     {
-        checkConnect();
         ProtocolDataModel pd = new ProtocolDataModel();
         pd.Type = ProtocolType.TYPE_MYSQL;
         pd.Request = MySqlDataProtocol.MYSQL_LOGIN_CRES;
@@ -69,7 +58,12 @@ public class ChatManager : MonoBehaviour {
         LoginInfo info = new LoginInfo();
         info.Account = account;
         info.Password = password;
-        pd.Message = ProtobufCodec.Serialize(info);
+        using (MemoryStream stream = new MemoryStream())
+        {
+            info.WriteTo(stream);
+            pd.Message = stream.ToArray();
+        }
+      
         NetWorkManager.Instance.Send(pd);
 
     }
@@ -78,7 +72,6 @@ public class ChatManager : MonoBehaviour {
     /// </summary>
     public void GetOnlineUserList()
     {
-        checkConnect();
         ProtocolDataModel pd = new ProtocolDataModel();
         pd.Type = ProtocolType.TYPE_MYSQL;
         pd.Request = MySqlDataProtocol.MYSQL_ONLINEUSER_CREQ;
@@ -92,12 +85,11 @@ public class ChatManager : MonoBehaviour {
     /// <param name="type">呼叫类型 1：音频 2：视频</param>
     /// <param name="from">呼叫者 ID</param>
     /// <param name="to">被呼叫者ID </param>
-    public void Call(string callID, int type,int from,int to)
+    public void Call(string callID, ChatType type,int from,int to)
     {
         if (CallID == "")
         {
             CallID = callID;
-            checkConnect();
             ProtocolDataModel pd = new ProtocolDataModel();
             pd.Type = ProtocolType.TYPE_IM;
             pd.Request = IMProtocol.IM_CALL_CRE;
@@ -106,13 +98,18 @@ public class ChatManager : MonoBehaviour {
             info.UserName = UserName;
             info.UserID = UserID;
             info.CallID = callID;
+            info.CallType = (int)type;
 
-            info.CallType = type;
-            ChatDataHandler.Instance.chatType = type == 1 ? ChatType.Audio : ChatType.AV;
+            ChatDataHandler.Instance.ChatType = type;
 
             info.PeerID = to;
             ChatPeerID = to;
-            pd.Message = ProtobufCodec.Serialize(info);
+
+            using (MemoryStream stream = new MemoryStream())
+            {
+                info.WriteTo(stream);
+                pd.Message = stream.ToArray();
+            }
             NetWorkManager.Instance.Send(pd);       
         }
     
@@ -125,14 +122,17 @@ public class ChatManager : MonoBehaviour {
         if (CallID != "")
         {
             CallID = "";
-            checkConnect();
             ProtocolDataModel pd = new ProtocolDataModel();
             pd.Type = ProtocolType.TYPE_IM;
             pd.Request = IMProtocol.IM_HANG_CRES;
 
             IMInfo info = new IMInfo();
             info.PeerID = ChatPeerID;
-            pd.Message = ProtobufCodec.Serialize(info);
+            using (MemoryStream stream = new MemoryStream())
+            {
+                info.WriteTo(stream);
+                pd.Message = stream.ToArray();
+            }
             NetWorkManager.Instance.Send(pd);
             //结束udp传输
             ChatDataHandler.Instance.StopChat();
@@ -143,7 +143,6 @@ public class ChatManager : MonoBehaviour {
     /// </summary>
     public void Accept()
     {
-        checkConnect();
         ProtocolDataModel pd = new ProtocolDataModel();
         pd.Type = ProtocolType.TYPE_IM;
         pd.Request = IMProtocol.IM_ACCEPT_CRES;
@@ -153,7 +152,11 @@ public class ChatManager : MonoBehaviour {
         info.UserID = UserID;
         info.PeerID = ChatPeerID;
         //info.CallType = type;
-        pd.Message = ProtobufCodec.Serialize(info);
+        using (MemoryStream stream = new MemoryStream())
+        {
+            info.WriteTo(stream);
+            pd.Message = stream.ToArray();
+        }
         NetWorkManager.Instance.Send(pd);
 
         //开始udp传输

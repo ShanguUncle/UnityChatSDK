@@ -38,7 +38,7 @@ public class ChatUIManager : MonoBehaviour {
         _instance = this;
     }
     void Start () {
-		
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
 	}
 	
 	void Update () {
@@ -74,16 +74,16 @@ public class ChatUIManager : MonoBehaviour {
     }
     public void VoiceCall()
     {
-        Call(1, SelectFriendID);
+        Call(ChatType.Audio, SelectFriendID);
         print("语音通话");
     }
     public void VideoCall() 
     {
         print("视频通话");
-        Call(2, SelectFriendID);
+        Call(ChatType.AV, SelectFriendID);
     }
 
-    void Call(int type, int peer)
+    void Call(ChatType type, int peer)
     {
         string callID = Guid.NewGuid().ToString();
         print("callID:" + callID);
