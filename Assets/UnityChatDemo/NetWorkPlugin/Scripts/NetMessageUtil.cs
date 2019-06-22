@@ -14,24 +14,18 @@ public class NetMessageUtil : MonoBehaviour {
     IHandler imHandler;
     Queue<byte[]> receiveDataList;
     public static NetMessageUtil _instance;
-    public bool Isdisconnected { get; set; }
     private void Awake()
     {
         _instance = this;
-    }
-    void Start ()
-    {
+
         mySqlHandler = gameObject.AddComponent<MySqlHandler>();
         imHandler = gameObject.AddComponent<IMHandler>();
         receiveDataList = new Queue<byte[]>();
-        //注册服务器断开连接回调
-        NetWorkManager.Instance.ServerDisConnectEvent += OnServerDisConnect;
-        //注册收到服务器数据回调
-        NetWorkManager.Instance.ReceiveDataEvent += AddReceiveData;
+        NetWorkManager.Instance.DataReceiveEvent += AddReceiveData;
     }
-    void OnServerDisConnect()
+    void Start ()
     {
-        Isdisconnected = true;
+
     }
     public void AddReceiveData(byte[] data) 
     {

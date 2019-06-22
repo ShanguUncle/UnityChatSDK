@@ -52,13 +52,5 @@ public class Config : MonoBehaviour {
         }
 
         NetManager._instance.Connect();
-        Invoke("cheakRes", 2);
-    }
-    void cheakRes()
-    {
-        if (NetWorkManager.Instance.IsConnect())
-        {
-            NetPanl.SetActive(false);
-        }
     }
 }

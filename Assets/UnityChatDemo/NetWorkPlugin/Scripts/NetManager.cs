@@ -1,5 +1,6 @@
 ﻿using NetWorkPlugin;
 using Protocol;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
@@ -16,30 +17,50 @@ public class NetManager : MonoBehaviour {
     private void Awake()
     {
         _instance = this;
-        NetWorkManager nw = new NetWorkManager();
-        nw.InitNetWork(1024);
-    }
-    void Start () {
-
-        AutoConnect();
-
+        NetWorkManager.Instance.InitNetWork();
+        NetWorkManager.Instance.ConnectResultEvent += OnServerConnect;
+        NetWorkManager.Instance.DisconnectEvent += OnServerDisconnect;
     }
 
-    private void FixedUpdate()
+    //注册服务器连接回调
+    private void OnServerConnect(bool res)
     {
-        if (NetMessageUtil._instance.Isdisconnected)
+        print("服务器连接:" + res);
+        if (res)
         {
-            MessageManager._instance.ShowMessage("服务器断开连接！");
-            NetMessageUtil._instance.Isdisconnected = false;
+            MessageManager._instance.ShowMessage("服务器连接成功！");
+            Config._instance.NetPanl.SetActive(false);
+
+            //登录
+            ChatManager._instance.Login(SystemInfo.deviceName, SystemInfo.deviceName);
+        }
+        else
+        {
+            MessageManager._instance.ShowMessage("服务器连接失败！", 3);
             Config._instance.NetPanl.SetActive(true);
         }
     }
-
-    void AutoConnect()
+    //注册服务器断开连接回调
+    private void OnServerDisconnect()
     {
-        if(CheckLegal(Config._instance.SipServerIP, Config._instance.SipServerPort))
-        connectToServer(Config._instance.SipServerIP, Config._instance.SipServerPort);
+        onDisconnected = true;
+        print("服务器断开连接！");
     }
+    bool onDisconnected;
+    private void FixedUpdate()
+    {
+        if (onDisconnected)
+        {
+            onDisconnected = false;
+            MessageManager._instance.ShowMessage("服务器断开连接！");
+            Config._instance.NetPanl.SetActive(true);
+        }
+    }
+    void Start () {
+
+        Connect();
+    }
+
     public void Connect() 
     {
         if (CheckLegal(Config._instance.SipServerIP, Config._instance.SipServerPort))
@@ -64,30 +85,16 @@ public class NetManager : MonoBehaviour {
     void connectToServer(string ip,int port)
     {
         NetWorkManager.Instance.ConnectServer(ip, port);
-        Invoke("chectRes",3);
     }
-    void chectRes()
-    {
-        if (NetWorkManager.Instance.IsConnect())
-        {
-            MessageManager._instance.ShowMessage("服务器连接成功！");
-            //登录
-            ChatManager._instance.Login(SystemInfo.deviceName, SystemInfo.deviceName);
-        }
-        else
-        {
-            MessageManager._instance.ShowMessage("服务器连接失败！",5);
-            Config._instance.NetPanl.SetActive(true);
-        }
-    }
+
     public void DisConnect()
     {
-        NetWorkManager.Instance.DisConnectServer();
+        NetWorkManager.Instance.Disconnect();
     }
 
     private void OnDestroy()
     {
-        NetWorkManager.Instance.OnDestroy();
+        NetWorkManager.Instance.Disconnect();
     }
 
 }

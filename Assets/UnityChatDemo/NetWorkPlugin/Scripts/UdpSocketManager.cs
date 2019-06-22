@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using UdpStreamProtocol;
@@ -14,8 +16,10 @@ public class UdpSocketManager : MonoBehaviour
 
     public static UdpSocketManager _instance;
  
-    public Queue<byte[]> ReceivedDataQueue = new Queue<byte[]>();
+    public Queue<byte[]> ReceivedAudioDataQueue = new Queue<byte[]>(); 
+    public Queue<byte[]> ReceivedVideoDataQueue = new Queue<byte[]>();
 
+    ConcurrentDictionary<long, List<UdpPacket>> packetCache=new ConcurrentDictionary<long, List<UdpPacket>>();
     private DateTime packetStartTime;
 
 #if !UNITY_EDITOR && UNITY_WSA
@@ -43,55 +47,121 @@ public class UdpSocketManager : MonoBehaviour
 
     }
 
-    DateTime UdpHeratTime;
+    DateTime udpHeratTime;
 
-    private int UdpOutTime = 10;
-    private void FixedUpdate() 
+    private int udpOutTime = 10;
+    private void Update() //FixedUpdate()  
     {
-        if (isRunning && (DateTime.Now - UdpHeratTime).TotalSeconds > UdpOutTime)
+        if (isRunning && (DateTime.Now - udpHeratTime).TotalSeconds > udpOutTime)
         {
             print("udp心跳超时！！！");
             ChatUIManager._instance.Hang();
         }
-
-        if (ReceivedDataQueue.Count > 0)
+        lock (ReceivedAudioDataQueue)
         {
-            try
+            if (ReceivedAudioDataQueue.Count > 0)
             {
-                UdplDataModel model = UdpMessageCodec.decode(ReceivedDataQueue.Dequeue());
-                switch (model.Request)
+                ChatDataHandler.Instance.ReceiveAudio(ReceivedAudioDataQueue.Dequeue());
+            }
+            if (ReceivedAudioDataQueue.Count > 15)
+            {
+                ReceivedAudioDataQueue.Clear();
+            }
+        }
+        lock (ReceivedVideoDataQueue)
+        {
+            if (ReceivedVideoDataQueue.Count > 0)
+            {
+                VideoHandler(ReceivedVideoDataQueue.Dequeue());
+            }
+            if (ReceivedVideoDataQueue.Count > 15)
+            {
+                ReceivedVideoDataQueue.Clear();
+            }
+        }
+    }
+
+    private void VideoHandler(byte[] message)
+    {
+        UdpPacket packet = ChatDataHandler.Instance.UdpPacketDecode(ChatDataHandler.Instance.DeCodeChatDataID(message));
+
+        if (packet.Total ==1)
+        {
+            ChatDataHandler.Instance.ReceiveVideo(packet.Chunk);
+        }
+        else if (packet.Total>1)//需要组包
+        {
+            //超时未收到完整包，清理
+            lock (packetCache)
+            {
+                if (packetCache.Count > 15 && packet.Index == 0) packetCache.Clear();
+            }
+
+            byte[] data= AddPacket(packet);
+            if(data!=null) ChatDataHandler.Instance.ReceiveVideo(data);
+        }   
+    }
+
+    byte[] AddPacket(UdpPacket udpPacket)
+    {
+        if (packetCache.ContainsKey(udpPacket.Sequence))
+        {
+            List<UdpPacket> udpPackets = null;
+            if (packetCache.TryGetValue(udpPacket.Sequence, out udpPackets))
+            {
+                udpPackets.Add(udpPacket);
+
+                if (udpPackets.Count == udpPacket.Total)
                 {
-                    case RequestByte.REQUEST_HEART:
-                        UdpHeratTime= DateTime.Now;
-                        break;
-                    case RequestByte.REQUEST_STREAM:
-                        ChatDataHandler.Instance.ReceiveStreamRemote(model.Message);
-                        break;
-                    case RequestByte.REQUEST_AUDIO:
-                        ChatDataHandler.Instance.ReceiveAudio(model.Message);
-                        break;
-                    case RequestByte.REQUEST_VIDEO:
-                        ChatDataHandler.Instance.ReceiveVideo(model.Message);
-                        break;
+                    packetCache.TryRemove(udpPacket.Sequence, out udpPackets);
+
+                    udpPackets = udpPackets.OrderBy(u => u.Index).ToList();
+                    int allLength = udpPackets.Sum(u => u.Chunk.Length);
+
+                    //int maxPacketLength = udpPackets.Select(u => u.Chunk.Length).Max();
+
+                    byte[] wholePacket = new byte[allLength];
+                    foreach (var item in udpPackets)
+                    {
+                        Buffer.BlockCopy(item.Chunk, 0, wholePacket, item.Index * udpPacket.ChunkLength, item.Chunk.Length);
+                    }
+                    return wholePacket;
                 }
             }
-            catch (Exception e)
-            {
-                print("ReceivedDataQueue decode error:"+e.Message+","+e.StackTrace);
-            }
-        
-        }    
-		if (ReceivedDataQueue.Count > 5)
-        {
-            ReceivedDataQueue.Clear();
+            return null;
         }
-
+        else
+        {
+            List<UdpPacket> udpPackets = new List<UdpPacket>();
+            udpPackets.Add(udpPacket);
+            packetCache.AddOrUpdate(udpPacket.Sequence,udpPackets, (k, v) => { return udpPackets; });
+            return null;
+        }
     }
+
     public void OnReceiveData(byte[] data)
     {
-        ReceivedDataQueue.Enqueue(data);
+        try
+        {
+            UdplDataModel model = UdpMessageCodec.decode(data);
+            switch (model.Request)
+            {
+                case RequestByte.REQUEST_HEART:
+                    udpHeratTime = DateTime.Now;
+                    break;
+                case RequestByte.REQUEST_AUDIO:
+                    ReceivedAudioDataQueue.Enqueue(model.Message);
+                    break;
+                case RequestByte.REQUEST_VIDEO:
+                    ReceivedVideoDataQueue.Enqueue(model.Message);
+                    break;
+            }
+        }
+        catch (Exception e)
+        {
+            print("ReceivedDataQueue decode error:" + e.Message + "," + e.StackTrace);
+        }
     }
-
 
     bool isRunning=false;
     /// <summary>
@@ -114,7 +184,7 @@ public class UdpSocketManager : MonoBehaviour
         print("Start listening");
         StartCoroutine(sendHeart());
 
-        UdpHeratTime = DateTime.Now;
+        udpHeratTime = DateTime.Now;
     }
     //发送udp心跳包
     IEnumerator sendHeart()
@@ -122,7 +192,7 @@ public class UdpSocketManager : MonoBehaviour
         print("start heart...");
         while (isRunning)
         {
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(2);
 
             UdplDataModel model = new UdplDataModel(RequestByte.REQUEST_HEART, BitConverter.GetBytes(ChatManager._instance.UserID));
             byte[] data = UdpMessageCodec.encode(model); 
@@ -163,8 +233,7 @@ public class UdpSocketManager : MonoBehaviour
     /// <param name="buff"></param>
     public void Send(byte[] buff)
     {
-       if (buff.Length > 65500) { print("buff > 65500 !!!"); return; }
-#if !UNITY_EDITOR && UNITY_WSA
+#if !UNITY_EDITOR && UNITY_WSA 
         upClient.SendUdpMessage(buff);
 #else
         udpSendSocket.SendToAsyncByUDP(buff);
