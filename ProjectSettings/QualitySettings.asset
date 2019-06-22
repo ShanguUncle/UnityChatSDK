@@ -4,7 +4,7 @@
 QualitySettings:
   m_ObjectHideFlags: 0
   serializedVersion: 5
-  m_CurrentQuality: 2
+  m_CurrentQuality: 0
   m_QualitySettings:
   - serializedVersion: 2
     name: Very Low
@@ -175,16 +175,16 @@ QualitySettings:
     resolutionScalingFixedDPIFactor: 1
     excludedTargetPlatforms: []
   m_PerPlatformDefaultQuality:
-    Android: 1
+    Android: 2
     Nintendo 3DS: 5
     Nintendo Switch: 5
     PS4: 5
     PSP2: 2
-    Standalone: 3
+    Standalone: 2
     Tizen: 2
-    WebGL: 1
+    WebGL: 2
     WiiU: 5
-    Windows Store Apps: 1
+    Windows Store Apps: 0
     XboxOne: 5
-    iPhone: 1
+    iPhone: 2
     tvOS: 2
