@@ -1,10 +1,7 @@
-﻿using NetWorkPlugin;
-using ProtobufNet;
+﻿using ChatProto.Proto;
+using NetWorkPlugin;
 using Protocol;
-using Protocol.ProtobufNet;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -41,14 +38,14 @@ public class IMHandler : MonoBehaviour, IHandler
 
     private void peerCall(ProtocolDataModel pdm)
     {
-        IMInfo info = ProtobufCodec.DeSerialize<IMInfo>(pdm.Message);
+        IMInfo info = IMInfo.Parser.ParseFrom(pdm.Message);
         ChatManager._instance.InviteCome = true;
         ChatManager._instance.ChatPeerName = info.UserName;
         ChatManager._instance.ChatPeerID= info.UserID;
         ChatManager._instance.CallID = info.CallID;
 
         int type = info.CallType;
-        ChatDataHandler.Instance.chatType = type == 1 ? ChatType.Audio : ChatType.AV;
+        ChatDataHandler.Instance.ChatType = (ChatType)type;
 
         print("收到通话邀请：" + info.UserName+",CallID:" + info.CallID);
     }

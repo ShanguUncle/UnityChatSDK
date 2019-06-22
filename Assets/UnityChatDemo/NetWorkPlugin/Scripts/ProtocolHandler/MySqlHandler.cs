@@ -1,7 +1,6 @@
-﻿using NetWorkPlugin;
-using ProtobufNet;
+﻿using ChatProto.Proto;
+using NetWorkPlugin;
 using Protocol;
-using Protocol.ProtobufNet;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -44,7 +43,7 @@ public class MySqlHandler : MonoBehaviour, IHandler
         }
         else
         {
-            UserInfo user = ProtobufCodec.DeSerialize<UserInfo>(pdm.Message);
+            UserInfo user = UserInfo.Parser.ParseFrom(pdm.Message);
             ChatManager._instance.UserID = user.UserID;
             ChatManager._instance.UserName = user.UserName;
             ChatManager._instance.UserPortrait = user.UserPortrait;
@@ -59,10 +58,14 @@ public class MySqlHandler : MonoBehaviour, IHandler
     }
     private void GetOnlineUser(ProtocolDataModel pdm) 
     {
-        OnlineUserInfo info = ProtobufCodec.DeSerialize<OnlineUserInfo>(pdm.Message);
+        OnlineUserInfo info = OnlineUserInfo.Parser.ParseFrom(pdm.Message);
         if (info != null)
         {
-            ChatManager._instance.OnlineUserList = info.OnlineUserLiset;
+            ChatManager._instance.OnlineUserList.Clear();
+            for (int i = 0; i < info.OnlineUserLiset.Count; i++)
+            {
+                ChatManager._instance.OnlineUserList.Add(int.Parse(info.OnlineUserLiset[i].Split(',')[0]), info.OnlineUserLiset[i].Split(',')[1]);
+            }
         }
         else
         {
