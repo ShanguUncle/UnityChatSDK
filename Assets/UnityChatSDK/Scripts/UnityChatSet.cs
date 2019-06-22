@@ -13,18 +13,24 @@ public class UnityChatSet: MonoBehaviour {
     //声音采集阈值
     public  float AudioThreshold= 0.01f;
     //音视频分辨率
-    public VideoRes VideoResolution= VideoRes._360P; 
+    public VideoResolution VideoResolution = VideoResolution._360P; 
     //音视频压缩质量
     public VideoQuality VideoQuality = VideoQuality.Middle;
     //视频刷新率
     [Range(5,20)]
     public int Framerate = 15;
+
+    [Range(1, 10)]
+    public int AudioSample = 5;
+    public bool EchoCancellation;
+    public float EchoThreshold=0.1f;
+
     [Tooltip("check video frame static")]
     public bool EnableDetection; //检测通话视频是否静帧
     /// <summary>
     /// 当选择采集Unity Camera的画面时，选择要采集的unity的摄像机
     /// </summary>
-    public Camera CapCamera;
+    public Camera CaptureCamera;
     /// <summary>
     /// 聊天对象的视频画面显示
     /// </summary>
@@ -36,9 +42,6 @@ public class UnityChatSet: MonoBehaviour {
     IEnumerator Start()
     {
         yield return new WaitUntil(() => UnityChatSDK.Instance != null);
-        yield return new WaitUntil(() => ChatDataHandler.Instance != null);
-        yield return new WaitUntil(() => UdpSocketManager._instance != null);
-        yield return new WaitForSeconds(2);
         InitMic();
         InitVideo();
         SetDeciveCam();
@@ -48,11 +51,13 @@ public class UnityChatSet: MonoBehaviour {
     {
         UnityChatSDK.Instance.AudioVolume=AudioVolume;
         UnityChatSDK.Instance.AudioThreshold=AudioThreshold;
-        UnityChatSDK.Instance.audioFrequency = 8000;
+        UnityChatSDK.Instance.AudioFrequency = 8000;
+        UnityChatSDK.Instance.AudioSample = AudioSample;
+        UnityChatSDK.Instance.EchoCancellation = EchoCancellation;
+        UnityChatSDK.Instance.EchoThreshold = EchoThreshold;
         //初始化音频
         UnityChatSDK.Instance.InitMic();
         print("初始化音频OK");
-
     }
     //初始化视频
     void InitVideo() 
@@ -61,6 +66,7 @@ public class UnityChatSet: MonoBehaviour {
         UnityChatSDK.Instance.VideoQuality = VideoQuality;
         UnityChatSDK.Instance.Framerate = Framerate;
         UnityChatSDK.Instance.EnableDetection = EnableDetection;
+    
         //初始化视频
         UnityChatSDK.Instance.InitVideo();
 
@@ -71,13 +77,37 @@ public class UnityChatSet: MonoBehaviour {
     /// 选择要采集的视频类型（注：未注册不支持Unity Camera）
     /// </summary>
     /// <param name="type">  DeviceCamera是外表摄像头的画面 UnityCamera是Unity Camera渲染的画面</param>
-    /// <param name="captureCam"></param>
-    public void SetVideoCaptureType(VideoType type, Camera captureCam)
+    /// <param name="captureCamera"></param>
+    public void SetVideoCaptureType(VideoType type, Camera captureCamera)
     {
         UnityChatSDK.Instance.ChatPeerRawImage = ChatPeerRawImage;
         UnityChatSDK.Instance.SelfRawImage = SelfRawImage;
+        UnityChatSDK.Instance.SetVideoCaptureType(type, captureCamera);
+    }
 
-        UnityChatSDK.Instance.SetVideoCaptureType(type, captureCam);
+    public void SetResolution180P()
+    {
+        UnityChatSDK.Instance.SetResolution(VideoResolution._180P);
+    }
+    public void SetResolution360P()
+    {
+        UnityChatSDK.Instance.SetResolution(VideoResolution._360P);
+    }
+    public void SetResolution720P()
+    {
+        UnityChatSDK.Instance.SetResolution(VideoResolution._720P);
+    }
+    bool audioEnable;
+    public void SetAudioEnable()
+    {
+        UnityChatSDK.Instance.SetAudioEnable(audioEnable);
+        audioEnable = !audioEnable;
+    }
+    bool videoEnable; 
+    public void SetVideoEnable()
+    {
+        UnityChatSDK.Instance.SetVideoEnable(videoEnable);
+        videoEnable = !videoEnable;
     }
     /// <summary>
     /// 当外部可用摄像头的数量>2时，如手机端前后摄像头,改变要捕捉的外部摄像头
@@ -98,7 +128,20 @@ public class UnityChatSet: MonoBehaviour {
     /// </summary>
     public void SetUnityCam()
     {
-        SetVideoCaptureType(VideoType.UnityCamera, CapCamera);
+        SetVideoCaptureType(VideoType.UnityCamera, CaptureCamera);
     }
-
+    private void FixedUpdate()
+    {
+        if (ChatDataHandler.Instance.IsStartChat)
+        {
+            if (SelfRawImage.transform.GetComponent<RectTransform>().rect.size != SelfRawImage.texture.texelSize)
+            {
+                SelfRawImage.GetComponent<AspectRatioFitter>().aspectRatio = (SelfRawImage.texture.width + 0.0f) / SelfRawImage.texture.height;
+            }
+            if (ChatPeerRawImage.transform.GetComponent<RectTransform>().rect.size != ChatPeerRawImage.texture.texelSize)
+            {
+                ChatPeerRawImage.GetComponent<AspectRatioFitter>().aspectRatio = (ChatPeerRawImage.texture.width + 0.0f) / ChatPeerRawImage.texture.height;
+            }
+        }
+    }
 }
