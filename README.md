@@ -4,6 +4,8 @@ Unity video chat SDK, support UnityEditor, Android,IOS,Windows,UWP(Hololens)
 
 https://www.youtube.com/playlist?list=PLqNc8GThKNiQjA4IaFr1U_KQHYuKuqgus
 
+https://www.bilibili.com/video/av56439383
+
 ====================UnityChatSDK========================
 
 特点：
