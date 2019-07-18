@@ -134,11 +134,11 @@ public class UnityChatSet: MonoBehaviour {
     {
         if (ChatDataHandler.Instance.IsStartChat)
         {
-            if (SelfRawImage.transform.GetComponent<RectTransform>().rect.size != SelfRawImage.texture.texelSize)
+            if (SelfRawImage!=null && SelfRawImage.transform.GetComponent<RectTransform>().rect.size != SelfRawImage.texture.texelSize)
             {
                 SelfRawImage.GetComponent<AspectRatioFitter>().aspectRatio = (SelfRawImage.texture.width + 0.0f) / SelfRawImage.texture.height;
             }
-            if (ChatPeerRawImage.transform.GetComponent<RectTransform>().rect.size != ChatPeerRawImage.texture.texelSize)
+            if (ChatPeerRawImage!=null && ChatPeerRawImage.transform.GetComponent<RectTransform>().rect.size != ChatPeerRawImage.texture.texelSize)
             {
                 ChatPeerRawImage.GetComponent<AspectRatioFitter>().aspectRatio = (ChatPeerRawImage.texture.width + 0.0f) / ChatPeerRawImage.texture.height;
             }
