@@ -20,13 +20,17 @@ https://www.bilibili.com/video/av56439383
 
 5.可动态设置视频的压缩质量
 
-
 ========================技术支持=========================
 
 
 1.QQ群 211031265
 
 2.教程：https://blog.csdn.net/ShanGuUncle/article/details/81535884
+
+![Image text](https://github.com/ShanguUncle/UnityChatSDK/blob/master/Readme/Pics/01.jpg)
+![Image text](https://github.com/ShanguUncle/UnityChatSDK/blob/master/Readme/Pics/02.jpg)
+![Image text](https://github.com/ShanguUncle/UnityChatSDK/blob/master/Readme/Pics/03.jpg)
+
 
 =====================版本更新5.2=======================
 
