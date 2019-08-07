@@ -31,6 +31,7 @@ https://www.bilibili.com/video/av56439383
 =====================版本更新5.3=======================
 
 1.增加自定义Video模式，可以传输Texture2D
+
 2.增加HoloLens holograme capture Demo
 
 =====================版本更新5.2=======================
