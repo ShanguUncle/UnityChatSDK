@@ -12,6 +12,7 @@ public class UnityChatSet: MonoBehaviour {
     public  float AudioVolume= 1f;
     //声音采集阈值
     public  float AudioThreshold= 0.01f;
+    public VideoType VideoType = VideoType.DeviceCamera;
     //音视频分辨率
     public VideoResolution VideoResolution = VideoResolution._360P; 
     //音视频压缩质量
@@ -20,7 +21,7 @@ public class UnityChatSet: MonoBehaviour {
     [Range(5,20)]
     public int Framerate = 15;
 
-    [Range(1, 10)]
+    [Range(5, 10)]
     public int AudioSample = 5;
     public bool EchoCancellation;
     public float EchoThreshold=0.1f;
@@ -43,8 +44,7 @@ public class UnityChatSet: MonoBehaviour {
     {
         yield return new WaitUntil(() => UnityChatSDK.Instance != null);
         InitMic();
-        InitVideo();
-        SetDeciveCam();
+        InitVideo(); 
     }
     //初始化音频
     void InitMic() 
@@ -54,11 +54,12 @@ public class UnityChatSet: MonoBehaviour {
         UnityChatSDK.Instance.AudioFrequency = 8000;
         UnityChatSDK.Instance.AudioSample = AudioSample;
         UnityChatSDK.Instance.EchoCancellation = EchoCancellation;
-        UnityChatSDK.Instance.EchoThreshold = EchoThreshold;
+        //UnityChatSDK.Instance.EchoThreshold = EchoThreshold;
         //初始化音频
         UnityChatSDK.Instance.InitMic();
         print("初始化音频OK");
     }
+
     //初始化视频
     void InitVideo() 
     {
@@ -70,6 +71,23 @@ public class UnityChatSet: MonoBehaviour {
         //初始化视频
         UnityChatSDK.Instance.InitVideo();
 
+        switch (VideoType)
+        {
+            case VideoType.DeviceCamera:
+                SetVideoCaptureType(VideoType.DeviceCamera, null);
+                break;
+            case VideoType.UnityCamera:
+                SetVideoCaptureType(VideoType.UnityCamera, CaptureCamera);
+                break;
+            case VideoType.CustomMode:
+                SetVideoCaptureType(VideoType.CustomMode, null);
+                break;
+            default:
+                break;
+        }
+        UnityChatSDK.Instance.ChatPeerRawImage = ChatPeerRawImage;
+        UnityChatSDK.Instance.SelfRawImage = SelfRawImage;
+
         print("streamSDK init OK!" + "--videoRes:" + UnityChatSDK.Instance.VideoRes + "--quality:" + UnityChatSDK.Instance.VideoQuality
             + "--Framerate:" + UnityChatSDK.Instance.Framerate);
     }
@@ -80,8 +98,6 @@ public class UnityChatSet: MonoBehaviour {
     /// <param name="captureCamera"></param>
     public void SetVideoCaptureType(VideoType type, Camera captureCamera)
     {
-        UnityChatSDK.Instance.ChatPeerRawImage = ChatPeerRawImage;
-        UnityChatSDK.Instance.SelfRawImage = SelfRawImage;
         UnityChatSDK.Instance.SetVideoCaptureType(type, captureCamera);
     }
 
