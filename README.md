@@ -22,15 +22,16 @@ https://www.bilibili.com/video/av56439383
 
 ========================技术支持=========================
 
-
 1.QQ群 211031265
 
 2.教程：https://blog.csdn.net/ShanGuUncle/article/details/81535884
 
-![Image text](https://github.com/ShanguUncle/UnityChatSDK/blob/master/Readme/Pics/01.jpg)
-![Image text](https://github.com/ShanguUncle/UnityChatSDK/blob/master/Readme/Pics/02.jpg)
-![Image text](https://github.com/ShanguUncle/UnityChatSDK/blob/master/Readme/Pics/03.jpg)
+=====================版本更新记录=======================
 
+=====================版本更新5.3=======================
+
+1.增加自定义Video模式，可以传输Texture2D
+2.增加HoloLens holograme capture Demo
 
 =====================版本更新5.2=======================
 
@@ -45,5 +46,12 @@ https://www.bilibili.com/video/av56439383
 1.优化了音频的播放
 
 2.优化了对 Hololens的支持
+
+![Image text](https://github.com/ShanguUncle/UnityChatSDK/blob/master/Readme/Pics/01.jpg)
+![Image text](https://github.com/ShanguUncle/UnityChatSDK/blob/master/Readme/Pics/02.jpg)
+![Image text](https://https://github.com/ShanguUncle/UnityChatSDK/blob/master/Readme/Pics/HoloCapture.jpg.jpg)
+
+
+
 
 
