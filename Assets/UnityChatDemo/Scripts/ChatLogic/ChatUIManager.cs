@@ -126,6 +126,7 @@ public class ChatUIManager : MonoBehaviour {
         ChatManager._instance.Hang();
         SoundManager._instance.PlayEffect("Hang");
 
+        if(StreamDisplay!=null)
         StreamDisplay.texture = DefultBlack;
     }
 }
