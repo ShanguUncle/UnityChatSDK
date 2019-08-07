@@ -48,9 +48,10 @@ https://www.bilibili.com/video/av56439383
 
 2.优化了对 Hololens的支持
 
+调试截图
 ![Image text](https://github.com/ShanguUncle/UnityChatSDK/blob/master/Readme/Pics/01.jpg)
 ![Image text](https://github.com/ShanguUncle/UnityChatSDK/blob/master/Readme/Pics/02.jpg)
-![Image text](https://https://github.com/ShanguUncle/UnityChatSDK/blob/master/Readme/Pics/HoloCapture.jpg.jpg)
+![Image text](https://github.com/ShanguUncle/UnityChatSDK/blob/master/Readme/Pics/HoloCapture.jpg.jpg)
 
 
 
