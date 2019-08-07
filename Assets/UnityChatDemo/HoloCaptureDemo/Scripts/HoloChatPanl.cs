@@ -8,12 +8,12 @@ public class HoloChatPanl : MonoBehaviour {
 
     private void OnEnable()
     {
-        if (ChatDataHandler.Instance.ChatType != ChatType.Audio)
+        if (UnityChatSDK.Instance.VideoType==VideoType.CustomMode && ChatDataHandler.Instance.ChatType != ChatType.Audio)
             HoloCaptureManager.Instance.StartCapture();
     }
     private void OnDisable()
     {
-        if (ChatDataHandler.Instance.ChatType != ChatType.Audio)
+        if (UnityChatSDK.Instance.VideoType == VideoType.CustomMode && ChatDataHandler.Instance.ChatType != ChatType.Audio)
             HoloCaptureManager.Instance.StopCapture();
     }
 
