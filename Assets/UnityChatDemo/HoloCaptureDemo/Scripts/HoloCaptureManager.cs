@@ -45,7 +45,6 @@ public class HoloCaptureManager : MonoBehaviour {
 
     public Texture2D _videoTexture { get; set; }
 
-    public bool SendMatrixData;
     private void Awake()
     {
         Instance = this;
@@ -142,22 +141,6 @@ UnityEngine.XR.WSA.WorldManager.GetNativeISpatialCoordinateSystemPtr(), OnFrameS
         byte[] imageBytes = new byte[sample.dataLength];
 
         sample.CopyRawImageDataIntoBuffer(imageBytes);
-
-
-        if (SendMatrixData)
-        {
-            //空间矩阵数据
-            //If you need to get the cameraToWorld /projection matrix for purposes of compositing you can do it like this
-            float[] cameraToWorldMatrixAsFloat;//16位 
-            float[] projectionMatrixAsFloat;//16位
-            if (sample.TryGetCameraToWorldMatrix(out cameraToWorldMatrixAsFloat) && sample.TryGetProjectionMatrix(out projectionMatrixAsFloat))
-            {
-                List<float> data = new List<float>();
-                data.AddRange(cameraToWorldMatrixAsFloat);
-                data.AddRange(projectionMatrixAsFloat);
-                UnityChatSDK.Instance.AddVideoFloatData(data);
-            }
-        }
 
         sample.Dispose();
 
