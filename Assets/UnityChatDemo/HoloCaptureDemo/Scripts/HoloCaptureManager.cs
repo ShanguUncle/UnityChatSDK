@@ -38,11 +38,14 @@ public class HoloCaptureManager : MonoBehaviour {
     HoloCapture.Resolution resolution;
     public bool EnableHolograms = true;
     public bool HorizontalMirror;
+    [Range(0,1)]
+    public float Opacity=0.9f;
 
     public static HoloCaptureManager Instance;
 
     public Texture2D _videoTexture { get; set; }
 
+    public bool SendMatrixData;
     private void Awake()
     {
         Instance = this;
@@ -113,7 +116,7 @@ public class HoloCaptureManager : MonoBehaviour {
                 frame = 15;
                 break;
         }
-        HoloCaptureHelper.Instance.Init(resolution, frame, true, EnableHolograms, false,
+        HoloCaptureHelper.Instance.Init(resolution, frame, true, EnableHolograms, Opacity, false,
 UnityEngine.XR.WSA.WorldManager.GetNativeISpatialCoordinateSystemPtr(), OnFrameSampleCallback);
 
         _videoTexture = new Texture2D(resolution.width, resolution.height, TextureFormat.BGRA32, false);
@@ -140,6 +143,22 @@ UnityEngine.XR.WSA.WorldManager.GetNativeISpatialCoordinateSystemPtr(), OnFrameS
 
         sample.CopyRawImageDataIntoBuffer(imageBytes);
 
+
+        if (SendMatrixData)
+        {
+            //空间矩阵数据
+            //If you need to get the cameraToWorld /projection matrix for purposes of compositing you can do it like this
+            float[] cameraToWorldMatrixAsFloat;//16位 
+            float[] projectionMatrixAsFloat;//16位
+            if (sample.TryGetCameraToWorldMatrix(out cameraToWorldMatrixAsFloat) && sample.TryGetProjectionMatrix(out projectionMatrixAsFloat))
+            {
+                List<float> data = new List<float>();
+                data.AddRange(cameraToWorldMatrixAsFloat);
+                data.AddRange(projectionMatrixAsFloat);
+                UnityChatSDK.Instance.AddVideoFloatData(data);
+            }
+        }
+
         sample.Dispose();
 
         //图像水平是镜像的！
@@ -152,6 +171,8 @@ UnityEngine.XR.WSA.WorldManager.GetNativeISpatialCoordinateSystemPtr(), OnFrameS
             UnityChatSDK.Instance.UpdateCustomTexture(_videoTexture);
 
         }, false);
+
+
     }
     void ImageMirror(byte[] imageBytes)
     {
