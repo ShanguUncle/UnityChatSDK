@@ -1,10 +1,17 @@
-﻿
+﻿#if UNITY_EDITOR ||UNITY_WSA
 using HoloCapture;
+#endif
+
 using System.Collections.Generic;
 using UnityEngine;
-
 public class HoloCaptureManager : MonoBehaviour {
 
+    public static HoloCaptureManager Instance;
+    private void Awake()
+    {
+        Instance = this;
+    }
+#if UNITY_EDITOR ||UNITY_WSA
     //https://docs.microsoft.com/zh-cn/windows/mixed-reality/locatable-camera
 
     public enum HoloCamFrame
@@ -41,14 +48,9 @@ public class HoloCaptureManager : MonoBehaviour {
     [Range(0,1)]
     public float Opacity=0.9f;
 
-    public static HoloCaptureManager Instance;
 
     public Texture2D _videoTexture { get; set; }
 
-    private void Awake()
-    {
-        Instance = this;
-    }
 
     void Start()
     {
@@ -182,4 +184,12 @@ UnityEngine.XR.WSA.WorldManager.GetNativeISpatialCoordinateSystemPtr(), OnFrameS
         lhs = rhs;
         rhs = temp;
     }
+#else
+    public void StartCapture()
+    {
+    }
+    public void StopCapture()
+    {
+    }
+#endif
 }
