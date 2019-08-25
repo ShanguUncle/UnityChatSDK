@@ -90,7 +90,7 @@ public class ChatDataHandler : MonoBehaviour {
     /// </summary>
     void SendAudio() {
         //获取SDK捕捉的音频数据
-        byte[] audio = UnityChatSDK.GetAudio();
+        byte[] audio = UnityChatSDK.Instance.GetAudio();
 
         //UDP发送数据到服务器（了更改为自己的服务器发送接口）
         if (audio != null)
@@ -103,7 +103,7 @@ public class ChatDataHandler : MonoBehaviour {
     void SendVideo()
     {
         //获取SDK捕捉的视频数据
-        byte[] video = UnityChatSDK.GetVideo();
+        byte[] video = UnityChatSDK.Instance.GetVideo();
 
         if (video != null)
         {
@@ -184,12 +184,12 @@ public class ChatDataHandler : MonoBehaviour {
     public void ReceiveAudio(byte[] data)
     {
         //SDK进行音频数据的解码及音频播放
-        UnityChatSDK.DecodeAudioData((DeCodeChatDataID(data)));
+        UnityChatSDK.Instance.DecodeAudioData((DeCodeChatDataID(data)));
     }
     public void ReceiveVideo(byte[] data)
     {
         //SDK进行视频数据的解码及视频渲染
-        UnityChatSDK.DecodeVideoData(data);
+        UnityChatSDK.Instance.DecodeVideoData(data);
     }
 
     public void OnStartChat()

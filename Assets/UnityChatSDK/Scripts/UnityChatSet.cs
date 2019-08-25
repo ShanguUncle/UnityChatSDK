@@ -21,10 +21,7 @@ public class UnityChatSet: MonoBehaviour {
     [Range(5,20)]
     public int Framerate = 15;
 
-    [Range(5, 10)]
-    public int AudioSample = 5;
     public bool EchoCancellation;
-    public float EchoThreshold=0.1f;
 
     [Tooltip("check video frame static")]
     public bool EnableDetection; //检测通话视频是否静帧
@@ -52,7 +49,8 @@ public class UnityChatSet: MonoBehaviour {
         UnityChatSDK.Instance.AudioVolume=AudioVolume;
         UnityChatSDK.Instance.AudioThreshold=AudioThreshold;
         UnityChatSDK.Instance.AudioFrequency = 8000;
-        UnityChatSDK.Instance.AudioSample = AudioSample;
+        UnityChatSDK.Instance.AudioSample = 2;
+        UnityChatSDK.Instance.AudioLatency = 910;
         UnityChatSDK.Instance.EchoCancellation = EchoCancellation;
         //UnityChatSDK.Instance.EchoThreshold = EchoThreshold;
         //初始化音频
