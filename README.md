@@ -6,6 +6,8 @@ https://www.youtube.com/playlist?list=PLqNc8GThKNiQjA4IaFr1U_KQHYuKuqgus
 
 https://www.bilibili.com/video/av56439383
 
+https://assetstore.unity.com/packages/slug/153662
+
 ====================UnityChatSDK========================
 
 特点：
