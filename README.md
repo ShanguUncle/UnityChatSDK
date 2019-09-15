@@ -10,7 +10,7 @@ https://www.bilibili.com/video/av56439383
 
 https://assetstore.unity.com/packages/slug/153662
 
-====================UnityChatSDK========================
+====================Unity Video Chat SDK========================
 
 特点：
 
