@@ -1,6 +1,8 @@
-# UnityChatSDK
+# Unity Video Chat SDK
 
-Unity video chat SDK, support UnityEditor, Android,IOS,Windows,UWP(Hololens)
+The sdk support UnityEditor,Android,IOS,Windows,UWP(Hololens).<BR>
+Support multiple video types,device camera and Unity Camera and custom Texture, support AR, MR mixed video.<BR>
+The interface is simple, the capture of audio and video and codec is separated separately, you can insert the sdk to your own network easily.
 
 https://www.youtube.com/playlist?list=PLqNc8GThKNiQjA4IaFr1U_KQHYuKuqgus
 
@@ -14,7 +16,7 @@ https://assetstore.unity.com/packages/slug/153662
 
 1.跨平台 Unity编辑器，Android，IOS，Windows,UWP(Hololens & Surface)
 
-2.支持多种视频类型，可传输摄像头画面和Unity Camera渲染画面，支持AR、MR混合视频
+2.支持多种视频类型，可传输摄像头画面和Unity Camera渲染画面，支持AR、MR混合视频，自定义texture
 
 3.接口简单，将音视频的捕捉，编解码单独分离，方便开发者对接自己的网络接口
 
