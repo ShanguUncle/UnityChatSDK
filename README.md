@@ -12,7 +12,7 @@ https://www.bilibili.com/video/av56439383
 
 Email:1786570525@qq.com
 
-pay licence：
+pay for licence：
 https://www.paypal.me/ShanGuUncle
 
 ====================UnityChatSDK========================
