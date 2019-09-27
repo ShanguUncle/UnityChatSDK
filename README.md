@@ -10,6 +10,8 @@ https://www.bilibili.com/video/av56439383
 
 https://assetstore.unity.com/packages/slug/153662
 
+Email:1786570525@qq.com
+
 ====================Unity Video Chat SDK========================
 
 特点：
