@@ -1,6 +1,6 @@
-# UnityChatSDK
+# Unity Video Chat SDK
 
-Unity video chat sdk, support UnityEditor,Android,IOS,Windows,UWP(Hololens).
+Unity Video Chat SDK, support UnityEditor,Android,IOS,Windows,UWP(Hololens).
 
 Support multiple video types,device camera and Unity Camera and custom Texture, support AR, MR mixed video.
 
@@ -15,7 +15,7 @@ Email:1786570525@qq.com
 pay for licence：
 https://www.paypal.me/ShanGuUncle
 
-====================UnityChatSDK========================
+====================Unity Video Chat SDK========================
 
 特点：
 
