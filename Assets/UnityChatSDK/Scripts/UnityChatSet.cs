@@ -13,6 +13,7 @@ public class UnityChatSet: MonoBehaviour {
     //声音采集阈值
     public  float AudioThreshold= 0.01f;
     public VideoType VideoType = VideoType.DeviceCamera;
+
     //音视频分辨率
     public VideoResolution VideoResolution = VideoResolution._360P; 
     //音视频压缩质量
@@ -32,19 +33,20 @@ public class UnityChatSet: MonoBehaviour {
     /// <summary>
     /// 聊天对象的视频画面显示
     /// </summary>
-    public RawImage ChatPeerRawImage;
+    public RawImage[] ChatPeerRawImage;
     /// <summary>
     /// 本地采集画面的回显
     /// </summary>
     public RawImage SelfRawImage;
+
     IEnumerator Start()
     {
         yield return new WaitUntil(() => UnityChatSDK.Instance != null);
-        InitMic();
+        InitAudio();
         InitVideo(); 
     }
     //初始化音频
-    void InitMic() 
+    void InitAudio() 
     {
         UnityChatSDK.Instance.AudioVolume=AudioVolume;
         UnityChatSDK.Instance.AudioThreshold=AudioThreshold;
@@ -52,17 +54,17 @@ public class UnityChatSet: MonoBehaviour {
         UnityChatSDK.Instance.AudioSample = 2;
         UnityChatSDK.Instance.AudioLatency = 910;
         UnityChatSDK.Instance.EchoCancellation = EchoCancellation;
-        //UnityChatSDK.Instance.EchoThreshold = EchoThreshold;
         //初始化音频
         UnityChatSDK.Instance.InitMic();
-        print("初始化音频OK");
+        print("InitAudio OK");
     }
 
     //初始化视频
     void InitVideo() 
     {
-        UnityChatSDK.Instance.VideoRes = VideoResolution;
-        UnityChatSDK.Instance.VideoQuality = VideoQuality;
+        UnityChatSDK.Instance.SetVideoQuality(VideoQuality);
+        UnityChatSDK.Instance.SetResolution(VideoResolution);
+   
         UnityChatSDK.Instance.Framerate = Framerate;
         UnityChatSDK.Instance.EnableDetection = EnableDetection;
     
@@ -77,17 +79,20 @@ public class UnityChatSet: MonoBehaviour {
             case VideoType.UnityCamera:
                 SetVideoCaptureType(VideoType.UnityCamera, CaptureCamera);
                 break;
-            case VideoType.CustomMode:
-                SetVideoCaptureType(VideoType.CustomMode, null);
+            case VideoType.Screen:
+                SetVideoCaptureType(VideoType.Screen, CaptureCamera);
+                break;
+            case VideoType.CustomTexture:
+                SetVideoCaptureType(VideoType.CustomTexture, null);
                 break;
             default:
                 break;
         }
-        UnityChatSDK.Instance.ChatPeerRawImage = ChatPeerRawImage;
-        UnityChatSDK.Instance.SelfRawImage = SelfRawImage;
 
-        print("streamSDK init OK!" + "--videoRes:" + UnityChatSDK.Instance.VideoRes + "--quality:" + UnityChatSDK.Instance.VideoQuality
-            + "--Framerate:" + UnityChatSDK.Instance.Framerate);
+        UnityChatSDK.Instance.SetSelfRawImage(SelfRawImage);
+
+        print("InitVideo OK [" + "VideoRes:" + VideoResolution + ",Quality:" + VideoQuality
+            + ",Framerate:" + Framerate+"]");
     }
     /// <summary>
     /// 选择要采集的视频类型（注：未注册不支持Unity Camera）
@@ -98,37 +103,50 @@ public class UnityChatSet: MonoBehaviour {
     {
         UnityChatSDK.Instance.SetVideoCaptureType(type, captureCamera);
     }
+    public void OnResolutionValueChanged(Dropdown dp) 
+    {
+        SetResolution((VideoResolution)dp.value);
+    }
+    public void SetResolution(VideoResolution r) 
+    {
+        VideoResolution = r;
+        UnityChatSDK.Instance.SetResolution(r);
+    }
+    public void OnVideoQualityValueChanged(Dropdown dp) 
+    {
+        SetVideoQuality((VideoQuality)dp.value);
+    }
+    public void SetVideoQuality(VideoQuality q)  
+    {
+        VideoQuality = q;
+        UnityChatSDK.Instance.SetVideoQuality(q);
+    }
 
-    public void SetResolution180P()
-    {
-        UnityChatSDK.Instance.SetResolution(VideoResolution._180P);
-    }
-    public void SetResolution360P()
-    {
-        UnityChatSDK.Instance.SetResolution(VideoResolution._360P);
-    }
-    public void SetResolution720P()
-    {
-        UnityChatSDK.Instance.SetResolution(VideoResolution._720P);
-    }
     bool audioEnable;
     public void SetAudioEnable()
     {
+        print("audioEnable:"+ audioEnable);
         UnityChatSDK.Instance.SetAudioEnable(audioEnable);
         audioEnable = !audioEnable;
     }
     bool videoEnable; 
     public void SetVideoEnable()
     {
+        print("audioEnable:" + videoEnable);
         UnityChatSDK.Instance.SetVideoEnable(videoEnable);
         videoEnable = !videoEnable;
     }
     /// <summary>
     /// 当外部可用摄像头的数量>2时，如手机端前后摄像头,改变要捕捉的外部摄像头
     /// </summary>
-    public void ChangeDeviceCam()
+    public void SwitchCam() 
     {
-        UnityChatSDK.Instance.ChangeCam();
+        UnityChatSDK.Instance.SwitchCam();
+    }
+    public void SetFrontCam() 
+    {
+        bool result= UnityChatSDK.Instance.SetCamFrontFacing();
+        print("SetFrontCam:"+result);
     }
     /// <summary>
     /// 设置视频采集类型为外部摄像头捕捉的画面
@@ -144,18 +162,8 @@ public class UnityChatSet: MonoBehaviour {
     {
         SetVideoCaptureType(VideoType.UnityCamera, CaptureCamera);
     }
-    private void FixedUpdate()
+    public void SetScreen()
     {
-        if (ChatDataHandler.Instance.IsStartChat)
-        {
-            if (SelfRawImage!=null && SelfRawImage.transform.GetComponent<RectTransform>().rect.size != SelfRawImage.texture.texelSize)
-            {
-                SelfRawImage.GetComponent<AspectRatioFitter>().aspectRatio = (SelfRawImage.texture.width + 0.0f) / SelfRawImage.texture.height;
-            }
-            if (ChatPeerRawImage!=null && ChatPeerRawImage.transform.GetComponent<RectTransform>().rect.size != ChatPeerRawImage.texture.texelSize)
-            {
-                ChatPeerRawImage.GetComponent<AspectRatioFitter>().aspectRatio = (ChatPeerRawImage.texture.width + 0.0f) / ChatPeerRawImage.texture.height;
-            }
-        }
+        SetVideoCaptureType(VideoType.Screen, CaptureCamera);
     }
 }

@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using Google.Protobuf;
 using System;
 using UdpStreamProtocol;
+using ChatProto;
 
 /// <summary>
 /// 网络传输列类型，用户可自定义TCP，UDP，P2P,Webrct，Unet,Photon...案例demo使用的是UDP
@@ -15,30 +16,30 @@ public enum NetType{UdpStream,UdpP2P };
 //public enum ChatType {Audio,Video,AV};
 public class ChatDataHandler : MonoBehaviour {
 
-	public NetType  NetType;
+    public NetType NetType;
     public ChatType ChatType { get; set; }
 
-	public static  ChatDataHandler Instance;
+    public static ChatDataHandler Instance;
     public bool IsStartChat { get; set; }
     int ChunkLength = 65000;
     long udpPacketIndex;
     void Start() {
-		Instance = this;
-	}
+        Instance = this;
+    }
 
-	/// <summary>
+    /// <summary>
     /// 开始聊天
     /// </summary>
-	public void StartChat(  ) {
+    public void StartChat() {
 
-		switch( NetType ) {
-			case NetType.UdpP2P:
-				break;
-			case NetType.UdpStream:               
+        switch (NetType) {
+            case NetType.UdpP2P:
+                break;
+            case NetType.UdpStream:
                 OnStartChat();
                 break;
-		}
-	}
+        }
+    }
     /// <summary>
     /// 停止聊天
     /// </summary>
@@ -48,8 +49,8 @@ public class ChatDataHandler : MonoBehaviour {
         {
             case NetType.UdpP2P:
                 break;
-            case NetType.UdpStream:             
-                OnStopChat();            
+            case NetType.UdpStream:
+                StartCoroutine(OnStopChat());
                 break;
         }
     }
@@ -57,12 +58,12 @@ public class ChatDataHandler : MonoBehaviour {
     //开始聊天后，在FixedUpdate会把捕捉到的音频和视频通过网络传输
     //SDK会判断音视频的刷新率，自动识别声音大小，判断视频画面是否静止，优化数据大小
     //注意：FixedUpdate Time的值需要小于 1/(Framerate+5),一般设置为0.04
-    void FixedUpdate() { 
-		if( !IsStartChat )
-			return;
+    void FixedUpdate() {
+        if (!IsStartChat)
+            return;
 
-        switch ( NetType ) {
-			case NetType.UdpStream:
+        switch (NetType) {
+            case NetType.UdpStream:
                 switch (ChatType)
                 {
                     case ChatType.Audio:
@@ -76,12 +77,12 @@ public class ChatDataHandler : MonoBehaviour {
                         SendVideo();
                         break;
                     default:
-                        break; 
+                        break;
                 }
                 break;
-			case NetType.UdpP2P:
-				break;
-		}
+            case NetType.UdpP2P:
+                break;
+        }
 
     }
 
@@ -90,32 +91,115 @@ public class ChatDataHandler : MonoBehaviour {
     /// </summary>
     void SendAudio() {
         //获取SDK捕捉的音频数据
-        byte[] audio = UnityChatSDK.Instance.GetAudio();
+        AudioPacket packet = UnityChatSDK.Instance.GetAudio();
+        if (packet != null)
+        {
+            packet.Id = ChatManager.Instance.UserID;
+            byte[] audio = GetPbAudioPacket(packet).ToByteArray();
+            //UDP发送数据到服务器（可更改为自己的服务器发送接口）
+            if (audio != null)
+            {
+                UdplDataModel model = new UdplDataModel();
+                model.Request = RequestByte.REQUEST_AUDIO;
 
-        //UDP发送数据到服务器（了更改为自己的服务器发送接口）
-        if (audio != null)
-        UdpSocketManager._instance.Send(EncodeChatDataID(audio, RequestByte.REQUEST_AUDIO));
+                CallInfo info = new CallInfo();
+                info.UserID = ChatManager.Instance.UserID;
+                info.CallID = ChatManager.Instance.CallID;
+                info.PeerList.Add(ChatManager.Instance.ChatPeerID);
+
+                model.ChatInfoData = info.ToByteArray();
+                model.ChatData = audio;
+
+                UdpSocketManager.Instance.Send(UdpMessageCodec.Encode(model));
+            }    
+        }
     }
-
+    PbAudioPacket GetPbAudioPacket(AudioPacket audio)
+    {
+        PbAudioPacket pbPacket = new PbAudioPacket();
+        pbPacket.Id = audio.Id;
+        pbPacket.Position = audio.Position;
+        pbPacket.Length = audio.Length;
+        pbPacket.Data =ByteString.CopyFrom(audio.Data);
+        pbPacket.Timestamp = audio.Timestamp;
+        return pbPacket;
+    }
+    AudioPacket GetAudioPacket(PbAudioPacket packet)
+    {
+        AudioPacket aduio = new AudioPacket();
+        aduio.Position = packet.Position;
+        aduio.Length = packet.Length;
+        aduio.Data = packet.Data.ToByteArray();
+        aduio.Timestamp = packet.Timestamp;
+        return aduio;
+    }
     /// <summary>
     /// 发送视频数据
     /// </summary>
     void SendVideo()
     {
         //获取SDK捕捉的视频数据
-        byte[] video = UnityChatSDK.Instance.GetVideo();
+        VideoPacket packet = UnityChatSDK.Instance.GetVideo();
 
-        if (video != null)
+        if (packet != null)
         {
+            packet.Id = ChatManager.Instance.UserID;
+            byte[] video = GetPbVideoPacket(packet).ToByteArray();
+
             udpPacketIndex++;
             List<UdpPacket> list = UdpPacketSpliter.Split(udpPacketIndex, video, ChunkLength);
             for (int i = 0; i < list.Count; i++)
             {
-                UdpSocketManager._instance.Send(EncodeChatDataID(UdpPacketEncode(list[i]), RequestByte.REQUEST_VIDEO));
+                UdplDataModel model = new UdplDataModel();
+                model.Request = RequestByte.REQUEST_VIDEO;
+
+                CallInfo info = new CallInfo();
+                info.UserID = ChatManager.Instance.UserID;
+                info.CallID = ChatManager.Instance.CallID;
+                info.PeerList.Add(ChatManager.Instance.ChatPeerID);
+
+                model.ChatInfoData = info.ToByteArray();
+                model.ChatData = UdpPacketEncode(list[i]);
+
+                UdpSocketManager.Instance.Send(UdpMessageCodec.Encode(model));
             }
         }
     }
+    PbVideoPacket GetPbVideoPacket(VideoPacket video) 
+    {
+        PbVideoPacket pbPacket = new PbVideoPacket();
 
+        pbPacket.Id = video.Id;
+        pbPacket.Rotate = video.Rotate;
+        pbPacket.Mirrored = video.Mirrored;
+        pbPacket.Width = video.Width;
+        pbPacket.Height = video.Height;
+        pbPacket.Timestamp = video.Timestamp;
+
+        if (video.Data!=null)
+        pbPacket.Data =ByteString.CopyFrom(video.Data);
+
+        if (video.FloatData != null)
+            pbPacket.FloatData.AddRange(video.FloatData);
+        return pbPacket;
+    }
+    VideoPacket GetVideoPacket(PbVideoPacket packet) 
+    {
+        VideoPacket video = new VideoPacket();
+        video.Id = packet.Id;
+        video.Rotate = packet.Rotate;
+        video.Mirrored = packet.Mirrored;
+        video.Width = packet.Width;
+        video.Height = packet.Height;
+        video.Timestamp = packet.Timestamp;
+
+        if (packet.Data != null)
+            video.Data = packet.Data.ToByteArray();
+
+        if(packet.FloatData!=null)
+        video.FloatData.AddRange(packet.FloatData);
+        return video;
+    }
     byte[] UdpPacketEncode(UdpPacket packet)
     {
         byte[] newByte = new byte[packet.Chunk.Length + 20];
@@ -154,49 +238,25 @@ public class ChatDataHandler : MonoBehaviour {
         return packet;
     }
  
-    /// <summary>
-    /// 编码ChatData,添加音视频的ChatPeerID和UserID
-    /// </summary>
-    /// <param name="data">音视频数据</param>
-    /// <param name="res">音视类型</param>
-    /// <returns></returns>
-    byte[] EncodeChatDataID(byte[] data, byte res) 
-    {
-        byte[] newByte = new byte[data.Length + 8];
-        Buffer.BlockCopy(BitConverter.GetBytes(ChatManager._instance.ChatPeerID), 0, newByte, 0, 4);
-        Buffer.BlockCopy(BitConverter.GetBytes(ChatManager._instance.UserID), 0, newByte, 4, 4);
-        Buffer.BlockCopy(data, 0, newByte, 8, data.Length);
 
-        UdplDataModel model = new UdplDataModel(res, newByte);
-        return UdpMessageCodec.encode(model);
-    }
-    /// <summary>
-    /// 解码编码ChatData
-    /// </summary>
-    /// <param name="data"></param>
-    /// <returns>音视频数据</returns>
-    public byte[] DeCodeChatDataID(byte[] data)  
-    { 
-        byte[] newByte = new byte[data.Length - 8];
-        Buffer.BlockCopy(data,8, newByte, 0, data.Length-8);
-        return newByte;
-    }
     public void ReceiveAudio(byte[] data)
     {
         //SDK进行音频数据的解码及音频播放
-        UnityChatSDK.Instance.DecodeAudioData((DeCodeChatDataID(data)));
+        PbAudioPacket packet= PbAudioPacket.Parser.ParseFrom(data);
+        UnityChatSDK.Instance.DecodeAudioData(packet.Id, GetAudioPacket(packet));
     }
     public void ReceiveVideo(byte[] data)
     {
         //SDK进行视频数据的解码及视频渲染
-        UnityChatSDK.Instance.DecodeVideoData(data);
+        PbVideoPacket packet= PbVideoPacket.Parser.ParseFrom(data);
+        UnityChatSDK.Instance.DecodeVideoData(packet.Id, GetVideoPacket(packet));
     }
 
     public void OnStartChat()
     {
         try
         {
-            UdpSocketManager._instance.StartListening();
+            UdpSocketManager.Instance.StartListening();
             UnityChatSDK.Instance.ChatType = ChatType;
 
             CaptureResult result= UnityChatSDK.Instance.StartCapture();
@@ -209,16 +269,15 @@ public class ChatDataHandler : MonoBehaviour {
         {
             print("OnStartChat error:" + e.Message);
         }
-
     }
 
-    public void OnStopChat()
+    IEnumerator OnStopChat()
     {
+        yield return new WaitForEndOfFrame();
         try
         {
-            UdpSocketManager._instance.StopListening();
- 
             UnityChatSDK.Instance.StopCpture();
+            UdpSocketManager.Instance.StopListening();
             IsStartChat = false;
             print("OnStopChat");
         }
