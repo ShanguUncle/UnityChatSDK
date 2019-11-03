@@ -59,8 +59,8 @@ PlayerSettings:
   iosAllowHTTPDownload: 1
   allowedAutorotateToPortrait: 1
   allowedAutorotateToPortraitUpsideDown: 1
-  allowedAutorotateToLandscapeRight: 0
-  allowedAutorotateToLandscapeLeft: 0
+  allowedAutorotateToLandscapeRight: 1
+  allowedAutorotateToLandscapeLeft: 1
   useOSAutorotation: 1
   use32BitDisplayBuffer: 1
   preserveFramebufferAlpha: 0
@@ -804,7 +804,7 @@ PlayerSettings:
   metroCertificatePassword: 
   metroCertificateSubject: SG
   metroCertificateIssuer: SG
-  metroCertificateNotAfter: 8093df156c3fd601
+  metroCertificateNotAfter: 001b42f6177bd601
   metroApplicationDescription: UnityChatDemo
   wsaImages:
     65636: Assets/Icon/StoreLogo.png
