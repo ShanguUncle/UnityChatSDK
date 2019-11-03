@@ -36,7 +36,9 @@ https://www.paypal.me/ShanGuUncle
 2.教程：https://blog.csdn.net/ShanGuUncle/article/details/81535884
 
 =====================版本更新记录=======================
+
 =====================版本更新6.1=======================
+
 1.修复ios平台横屏状态下摄像头画面旋转问题
 
 2.sdk编解码移除protobuf，可以使用任何序列化工具，案例中仍使用protobuf
