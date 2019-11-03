@@ -9,7 +9,7 @@ using UnityEngine.UI;
 /// </summary>
 public class Config : MonoBehaviour {
 
-    public static Config _instance;
+    public static Config Instance;
 
     //TCP信令服务器地址及端口
     public string SipServerIP;
@@ -27,7 +27,7 @@ public class Config : MonoBehaviour {
 
     private void Awake()
     {
-        _instance=this;
+        Instance=this;
 
     }
     void Start ()
@@ -47,7 +47,7 @@ public class Config : MonoBehaviour {
         catch (System.Exception e)
         {
             print("config error:"+e.Message);
-            MessageManager._instance.ShowMessage("输入有误！");
+            MessageManager._instance.ShowMessage("Input error！");
             return;
         }
 

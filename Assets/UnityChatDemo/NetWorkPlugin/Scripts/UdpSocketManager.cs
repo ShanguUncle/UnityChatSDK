@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ChatProto;
+using Google.Protobuf;
+using System;
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -14,7 +16,7 @@ using UnityEngine;
 public class UdpSocketManager : MonoBehaviour
 {
 
-    public static UdpSocketManager _instance;
+    public static UdpSocketManager Instance;
  
     public Queue<byte[]> ReceivedAudioDataQueue = new Queue<byte[]>(); 
     public Queue<byte[]> ReceivedVideoDataQueue = new Queue<byte[]>();
@@ -33,7 +35,7 @@ public class UdpSocketManager : MonoBehaviour
 
     private void Awake()
     {
-        _instance = this;
+        Instance = this;
     }
     void Start()
     {
@@ -54,8 +56,8 @@ public class UdpSocketManager : MonoBehaviour
     {
         if (isRunning && (DateTime.Now - udpHeratTime).TotalSeconds > udpOutTime)
         {
-            print("udp心跳超时！！！");
-            ChatUIManager._instance.Hang();
+            print("udp heart out time!!!");
+            ChatUIManager.Instance.Hang();
         }
         lock (ReceivedAudioDataQueue)
         {
@@ -83,7 +85,7 @@ public class UdpSocketManager : MonoBehaviour
 
     private void VideoHandler(byte[] message)
     {
-        UdpPacket packet = ChatDataHandler.Instance.UdpPacketDecode(ChatDataHandler.Instance.DeCodeChatDataID(message));
+        UdpPacket packet = ChatDataHandler.Instance.UdpPacketDecode(message);
 
         if (packet.Total ==1)
         {
@@ -143,17 +145,17 @@ public class UdpSocketManager : MonoBehaviour
     {
         try
         {
-            UdplDataModel model = UdpMessageCodec.decode(data);
+            UdplDataModel model = UdpMessageCodec.Decode(data);
             switch (model.Request)
             {
                 case RequestByte.REQUEST_HEART:
                     udpHeratTime = DateTime.Now;
                     break;
                 case RequestByte.REQUEST_AUDIO:
-                    ReceivedAudioDataQueue.Enqueue(model.Message);
+                    ReceivedAudioDataQueue.Enqueue(model.ChatData);
                     break;
                 case RequestByte.REQUEST_VIDEO:
-                    ReceivedVideoDataQueue.Enqueue(model.Message);
+                    ReceivedVideoDataQueue.Enqueue(model.ChatData);
                     break;
             }
         }
@@ -177,8 +179,8 @@ public class UdpSocketManager : MonoBehaviour
         upClient.OnReceiveData += OnReceiveData;
 #else
         socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-        udpSendSocket.IniSocket(socket,Config._instance.ChatStreamServerIP, Config._instance.ChatStreamServerPort);
-        udpReceiveSocket.InitSocket(socket, Config._instance.ChatStreamServerIP, Config._instance.ChatStreamServerPort);
+        udpSendSocket.IniSocket(socket,Config.Instance.ChatStreamServerIP, Config.Instance.ChatStreamServerPort);
+        udpReceiveSocket.InitSocket(socket, Config.Instance.ChatStreamServerIP, Config.Instance.ChatStreamServerPort);
         udpReceiveSocket.OnReceiveData += OnReceiveData;
 #endif
         print("Start listening");
@@ -193,9 +195,14 @@ public class UdpSocketManager : MonoBehaviour
         while (isRunning)
         {
             yield return new WaitForSeconds(2);
+            CallInfo callInfo = new CallInfo();
+            callInfo.UserID = ChatManager.Instance.UserID;
 
-            UdplDataModel model = new UdplDataModel(RequestByte.REQUEST_HEART, BitConverter.GetBytes(ChatManager._instance.UserID));
-            byte[] data = UdpMessageCodec.encode(model); 
+            UdplDataModel model = new UdplDataModel();
+            model.ChatInfoData = callInfo.ToByteArray();
+            model.Request = RequestByte.REQUEST_HEART;
+
+            byte[] data = UdpMessageCodec.Encode(model); 
             Send(data);
         }
         print("stop heart...");

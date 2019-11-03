@@ -25,26 +25,26 @@ public class NetManager : MonoBehaviour {
     //注册服务器连接回调
     private void OnServerConnect(bool res)
     {
-        print("服务器连接:" + res);
+        print("Server Connect:" + res);
         if (res)
         {
-            MessageManager._instance.ShowMessage("服务器连接成功！");
-            Config._instance.NetPanl.SetActive(false);
+            MessageManager._instance.ShowMessage("Server connect success!");
+            Config.Instance.NetPanl.SetActive(false);
 
             //登录
-            ChatManager._instance.Login(SystemInfo.deviceName, SystemInfo.deviceName);
+            ChatManager.Instance.Login(SystemInfo.deviceName);
         }
         else
         {
-            MessageManager._instance.ShowMessage("服务器连接失败！", 3);
-            Config._instance.NetPanl.SetActive(true);
+            MessageManager._instance.ShowMessage("Server connect fail!", 3);
+            Config.Instance.NetPanl.SetActive(true);
         }
     }
     //注册服务器断开连接回调
     private void OnServerDisconnect()
     {
         onDisconnected = true;
-        print("服务器断开连接！");
+        print("Server Disconnect!");
     }
     bool onDisconnected;
     private void FixedUpdate()
@@ -52,8 +52,8 @@ public class NetManager : MonoBehaviour {
         if (onDisconnected)
         {
             onDisconnected = false;
-            MessageManager._instance.ShowMessage("服务器断开连接！");
-            Config._instance.NetPanl.SetActive(true);
+            MessageManager._instance.ShowMessage("Server Disconnect!");
+            Config.Instance.NetPanl.SetActive(true);
         }
     }
     void Start () {
@@ -63,21 +63,21 @@ public class NetManager : MonoBehaviour {
 
     public void Connect() 
     {
-        if (CheckLegal(Config._instance.SipServerIP, Config._instance.SipServerPort))
-            connectToServer(Config._instance.SipServerIP, Config._instance.SipServerPort);
+        if (CheckLegal(Config.Instance.SipServerIP, Config.Instance.SipServerPort))
+            connectToServer(Config.Instance.SipServerIP, Config.Instance.SipServerPort);
     }
     bool CheckLegal(string ip,int port)
     {
         IPAddress ipaddress;
         if (!IPAddress.TryParse(ip, out ipaddress))
         {
-            MessageManager._instance.ShowMessage("IP["+ip+"]不合法");
+            MessageManager._instance.ShowMessage("IP["+ip+"]is not leagle");
             return false;
         }
       
         if ((port > 65535) || (port < 0))
         {
-            MessageManager._instance.ShowMessage("端口号["+ port+"]超出（0-65535)");
+            MessageManager._instance.ShowMessage("port["+ port+"]is over（0-65535)");
             return false;
         }
         return true;

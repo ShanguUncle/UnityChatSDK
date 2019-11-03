@@ -1,4 +1,4 @@
-﻿using ChatProto.Proto;
+﻿using ChatProto;
 using NetWorkPlugin;
 using Protocol;
 using System;
@@ -20,14 +20,10 @@ public class MySqlHandler : MonoBehaviour, IHandler
             case MySqlDataProtocol.MYSQL_LOGIN_SRES:
                 Login(pdm);
                 break;
-            case MySqlDataProtocol.MYSQL_REG_SRES:
-                Register(pdm);
-                break;
             case MySqlDataProtocol.MYSQL_ONLINEUSE_SRES:
                 GetOnlineUser(pdm);
                 break;
             default:
-                print("非法MySqlHandler:" + pdm.Request);
                 break;
         }
     }
@@ -44,38 +40,32 @@ public class MySqlHandler : MonoBehaviour, IHandler
         else
         {
             UserInfo user = UserInfo.Parser.ParseFrom(pdm.Message);
-            ChatManager._instance.UserID = user.UserID;
-            ChatManager._instance.UserName = user.UserName;
-            ChatManager._instance.UserPortrait = user.UserPortrait;
+            ChatManager.Instance.UserID = user.UserID;
+            ChatManager.Instance.UserName = user.UserName;
         }
       
     }
-    private void Register(ProtocolDataModel pdm)
-    {
-        ResultCode result = (ResultCode)(BitConverter.ToInt32(pdm.Message, 0));
-        print("Register result:" + result.ToString());
 
-    }
     private void GetOnlineUser(ProtocolDataModel pdm) 
     {
         OnlineUserInfo info = OnlineUserInfo.Parser.ParseFrom(pdm.Message);
         if (info != null)
         {
-            ChatManager._instance.OnlineUserList.Clear();
-            for (int i = 0; i < info.OnlineUserLiset.Count; i++)
+            ChatManager.Instance.OnlineUserList.Clear();
+            for (int i = 0; i < info.UserList.Count; i++)
             {
-                ChatManager._instance.OnlineUserList.Add(int.Parse(info.OnlineUserLiset[i].Split(',')[0]), info.OnlineUserLiset[i].Split(',')[1]);
+                ChatManager.Instance.OnlineUserList.Add(info.UserList[i].UserID, info.UserList[i].UserName);
             }
         }
         else
         {
-            ChatManager._instance.OnlineUserList = new Dictionary<int, string>();
+            ChatManager.Instance.OnlineUserList = new Dictionary<int, string>();
         }
       
 
-        ChatManager._instance.UserlistUpdate = true;
+        ChatManager.Instance.UserlistUpdate = true;
 
-        int count = info == null ? 0 : info.OnlineUserLiset.Count;
+        int count = info == null ? 0 : info.UserList.Count;
         print("GetOnlineUser:"+ count);
     }
 }

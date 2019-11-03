@@ -1,4 +1,4 @@
-﻿using ChatProto.Proto;
+﻿using ChatProto;
 using NetWorkPlugin;
 using Protocol;
 using System;
@@ -16,63 +16,61 @@ public class IMHandler : MonoBehaviour, IHandler
             case IMProtocol.IM_NONE:
                 break;
             case IMProtocol.IM_CALL_SRE:
-                peerCall(pdm);
+                PeerCall(pdm);
                 break;
             case IMProtocol.IM_STATE:
-                callResult(pdm);
+                CallResult(pdm);
                 break;
             case IMProtocol.IM_ACCEPT_SRES:
-                peerAccept(pdm);
+                PeerAccept(pdm);
                 break;
             case IMProtocol.IM_HANG_SRES:
-                peerHang(pdm);
+                PeerHang(pdm);
                 break;
             case IMProtocol.IM_SENMESSAGE_SRES:
-                peerMessage(pdm);
+                PeerMessage(pdm);
                 break;
             default:
-                print("非法IMProtocol:" + pdm.Request);
                 break;
         }
     }
 
-    private void peerCall(ProtocolDataModel pdm)
+    private void PeerCall(ProtocolDataModel pdm)
     {
         IMInfo info = IMInfo.Parser.ParseFrom(pdm.Message);
-        ChatManager._instance.InviteCome = true;
-        ChatManager._instance.ChatPeerName = info.UserName;
-        ChatManager._instance.ChatPeerID= info.UserID;
-        ChatManager._instance.CallID = info.CallID;
+        ChatManager.Instance.InviteCome = true;
+        ChatManager.Instance.ChatPeerName = info.UserName;
+        ChatManager.Instance.ChatPeerID= info.UserID;
+        ChatManager.Instance.CallID = info.CallID;
 
         int type = info.CallType;
         ChatDataHandler.Instance.ChatType = (ChatType)type;
 
-        print("收到通话邀请：" + info.UserName+",CallID:" + info.CallID);
+        print("Receive call：" + info.UserName+",CallID:" + info.CallID);
     }
 
-    private void peerMessage(ProtocolDataModel pdm)
+    private void PeerMessage(ProtocolDataModel pdm)
     {
-        print("收到消息："+pdm.Message.Length);
+        print("Receive message：" + pdm.Message.Length);
     }
 
-    private void peerHang(ProtocolDataModel pdm)
+    private void PeerHang(ProtocolDataModel pdm)
     {
-        print("对方挂断");
-        ChatUIManager._instance.Hang();
+        print("Peer Hang");
+        ChatUIManager.Instance.Hang();
     }
 
-    private void peerAccept(ProtocolDataModel pdm)
+    private void PeerAccept(ProtocolDataModel pdm)
     {
-        print("对方接听");
-        ChatManager._instance.UserComeIn = true;
-        //开始udp传输
+        print("Peer Accept");
+        ChatManager.Instance.UserComeIn = true;
     }
 
-    private void callResult(ProtocolDataModel pdm)
+    private void CallResult(ProtocolDataModel pdm)
     {
         ResultCode code = (ResultCode)(BitConverter.ToInt32(pdm.Message, 0));
-        print("呼叫结果："+ code.ToString());
-        MessageManager._instance.ShowMessage("呼叫结果：" + code.ToString());
-        ChatUIManager._instance.CallResult(code== ResultCode.RESULT_ONLINE);
+        print("Call Result：" + code.ToString());
+        MessageManager._instance.ShowMessage("Call Result：" + code.ToString());
+        ChatUIManager.Instance.CallResult(code== ResultCode.RESULT_ONLINE);
     }
 }
