@@ -6309,7 +6309,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1869994737}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1233856011, guid: 236422716acdc524dae165d11545a183, type: 3}
+  m_Script: {fileID: 1233856011, guid: ecd4a47feabb395498e4477b400927c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1869994740
@@ -6329,12 +6329,11 @@ MonoBehaviour:
   VideoResolution: 2
   VideoQuality: 2
   Framerate: 15
-  AudioSample: 5
   EchoCancellation: 0
-  EchoThreshold: 0.1
   EnableDetection: 0
   CaptureCamera: {fileID: 0}
-  ChatPeerRawImage: {fileID: 1690060813}
+  ChatPeerRawImage:
+  - {fileID: 0}
   SelfRawImage: {fileID: 1043811784}
 --- !u!114 &1869994741
 MonoBehaviour:
@@ -7040,7 +7039,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 2102343039}
-  - component: {fileID: 2102343040}
   m_Layer: 0
   m_Name: CaptureCameraScene
   m_TagString: Untagged
@@ -7063,23 +7061,6 @@ Transform:
   m_Father: {fileID: 1468329509}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2102343040
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2102343038}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d5a0a60fbe897549ad0bfe2039f12b6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  HostTransform: {fileID: 0}
-  DistanceScale: 2
-  RotationMode: 3
-  PositionLerpSpeed: 0.2
-  RotationLerpSpeed: 0.2
-  IsDraggingEnabled: 1
 --- !u!1 &2125288335
 GameObject:
   m_ObjectHideFlags: 0
@@ -7109,9 +7090,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 181ad11e12e9de04f94b05a39e6aa4fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SipServerIP: 192.168.2.103
+  SipServerIP: 192.168.10.91
   SipServerPort: 6650
-  ChatStreamServerIP: 192.168.2.103
+  ChatStreamServerIP: 192.168.10.91
   ChatStreamServerPort: 6680
   NetPanl: {fileID: 47060843}
   SipServerIPInputField: {fileID: 819478864}
