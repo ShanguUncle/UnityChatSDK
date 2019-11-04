@@ -28,9 +28,9 @@ public class MainUIManager : MonoBehaviour {
 	}
     private void FixedUpdate()
     {
-        if (ChatManager._instance.UserlistUpdate)
+        if (ChatManager.Instance.UserlistUpdate)
         {
-            ChatManager._instance.UserlistUpdate = false;
+            ChatManager.Instance.UserlistUpdate = false;
             //更新通讯录
             UpdateUserList();
         }
@@ -41,14 +41,14 @@ public class MainUIManager : MonoBehaviour {
     /// </summary>
     public void Login()
     {
-        ChatManager._instance.Login("用户名", "密码");
+        ChatManager.Instance.Login(SystemInfo.deviceName);
     }
     /// <summary>
     /// 请求在线用户
     /// </summary>
     public void  GetOnlineUserList()
     {
-        ChatManager._instance.GetOnlineUserList();
+        ChatManager.Instance.GetOnlineUserList();
     }
     //更新在线用户列表
     void UpdateUserList()
@@ -57,7 +57,7 @@ public class MainUIManager : MonoBehaviour {
         {
             DestroyImmediate(child.gameObject); 
         }
-        foreach (var list in ChatManager._instance.OnlineUserList) 
+        foreach (var list in ChatManager.Instance.OnlineUserList) 
         { 
             GameObject go = Instantiate(FriendItemPrefab, AddressContent);
             FriendItem item = go.GetComponent<FriendItem>();
@@ -74,19 +74,19 @@ public class MainUIManager : MonoBehaviour {
     {
         if (result)
         {
-            MessageManager._instance.ShowMessage("登录成功！");
+            MessageManager._instance.ShowMessage("login successful!");
         
             //更新用户信息
-            print("UserID:" + ChatManager._instance.UserID+
-          ",UserName:" +  ChatManager._instance.UserName +
-           ",UserPortrait:" + ChatManager._instance.UserPortrait);
+            print("UserID:" + ChatManager.Instance.UserID+
+          ",UserName:" +  ChatManager.Instance.UserName +
+           ",UserPortrait:" + ChatManager.Instance.UserPortrait);
 
             //刷新列表
             GetOnlineUserList();
         }
         else
         {
-            MessageManager._instance.ShowMessage("登录失败！");
+            MessageManager._instance.ShowMessage("Login failed！");
         }
     }
 

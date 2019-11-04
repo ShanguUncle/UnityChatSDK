@@ -9,7 +9,7 @@ using UnityEngine.UI;
 /// </summary>
 public class ChatUIManager : MonoBehaviour {
 
-    public static ChatUIManager _instance;
+    public static ChatUIManager Instance;
     public GameObject InvitePanl;
     public GameObject CallPanl;
 
@@ -35,22 +35,22 @@ public class ChatUIManager : MonoBehaviour {
 
     private void Awake()
     {
-        _instance = this;
+        Instance = this;
     }
     void Start () {
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
 	}
 	
 	void Update () {
-        if (ChatManager._instance.InviteCome)
+        if (ChatManager.Instance.InviteCome)
         {
-            ChatManager._instance.InviteCome = false;
+            ChatManager.Instance.InviteCome = false;
             //收到通话邀请
             peerInvite();
         }
-        if (ChatManager._instance.UserComeIn)
+        if (ChatManager.Instance.UserComeIn)
         {
-            ChatManager._instance.UserComeIn = false;
+            ChatManager.Instance.UserComeIn = false;
             //接通，开始传输、计时
             peerAccept();
         }
@@ -69,28 +69,31 @@ public class ChatUIManager : MonoBehaviour {
     {
         CallPanl.SetActive(false);
         InvitePanl.SetActive(true);
-        InviteFriendTetx.text = ChatManager._instance.ChatPeerName;
+        InviteFriendTetx.text = ChatManager.Instance.ChatPeerName;
         SoundManager._instance.PlayEffect("Call");
     }
     public void VoiceCall()
     {
         Call(ChatType.Audio, SelectFriendID);
-        print("语音通话");
+        print("VoiceCall");
     }
     public void VideoCall() 
     {
-        print("视频通话");
+        print("VideoCall");
         Call(ChatType.AV, SelectFriendID);
     }
 
     void Call(ChatType type, int peer)
     {
-        string callID = Guid.NewGuid().ToString();
+        long callID = BitConverter.ToInt64(Guid.NewGuid().ToByteArray(), 0);
         print("callID:" + callID);
-        ChatManager._instance.Call(callID,type, ChatManager._instance.UserID,peer);
+        ChatManager.Instance.Call(callID,type, ChatManager.Instance.UserID,peer);
+
+        UnityChatSDK.Instance.AddChatPeer(peer,FindObjectOfType<UnityChatSet>().ChatPeerRawImage[0]);
     }
     public void CallResult(bool online)
     {
+        print("CallResult online:"+ online);
         if (online)
         {
             SoundManager._instance.PlayEffect("Call");
@@ -99,8 +102,8 @@ public class ChatUIManager : MonoBehaviour {
         }
         else
         {
-            ChatManager._instance.CallID = "";
-            MessageManager._instance.ShowMessage("用户不在线！");
+            ChatManager.Instance.CallID = 0;
+            MessageManager._instance.ShowMessage("user is not on line!");
         }
     }
     /// <summary>
@@ -108,9 +111,10 @@ public class ChatUIManager : MonoBehaviour {
     /// </summary>
     public void Accept()
     {
+        UnityChatSDK.Instance.AddChatPeer(ChatManager.Instance.ChatPeerID, FindObjectOfType<UnityChatSet>().ChatPeerRawImage[0]);
         InvitePanl.SetActive(false);
         ChatPanl.SetActive(true);
-        ChatManager._instance.Accept();
+        ChatManager.Instance.Accept();
         TimeKeeping._instance.StartTime();
     }
     /// <summary>
@@ -123,10 +127,12 @@ public class ChatUIManager : MonoBehaviour {
         ChatPanl.SetActive(false);
 
         TimeKeeping._instance.StopTime();
-        ChatManager._instance.Hang();
+        ChatManager.Instance.Hang();
         SoundManager._instance.PlayEffect("Hang");
 
         if(StreamDisplay!=null)
         StreamDisplay.texture = DefultBlack;
+
+        UnityChatSDK.Instance.ClearChatPeer();
     }
 }

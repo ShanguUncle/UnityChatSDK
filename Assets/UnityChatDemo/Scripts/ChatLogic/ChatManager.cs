@@ -1,10 +1,11 @@
-﻿using ChatProto.Proto;
+﻿using ChatProto;
 using Google.Protobuf;
 using NetWorkPlugin;
 using Protocol;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using UdpStreamProtocol;
 using UnityEngine;
 
 /// <summary>
@@ -12,7 +13,7 @@ using UnityEngine;
 /// </summary>
 public class ChatManager : MonoBehaviour {
 
-    public static ChatManager _instance;
+    public static ChatManager Instance;
 
     //用户ID
     public int UserID { get; set; } 
@@ -21,7 +22,7 @@ public class ChatManager : MonoBehaviour {
     //用户头像url地址
     public string UserPortrait { get; set; } 
     //呼叫ID
-    public string CallID { get; set; }
+    public long CallID { get; set; }
     //呼叫请求
     public bool InviteCome { get; set; }
     //聊天对象名字
@@ -38,10 +39,10 @@ public class ChatManager : MonoBehaviour {
 
     private void Awake()
     {
-        _instance = this;
+        Instance = this;
     }
     void Start () {
-        CallID = "";
+        CallID = 0;
         OnlineUserList =new Dictionary<int, string>();
     }
     /// <summary>
@@ -49,21 +50,17 @@ public class ChatManager : MonoBehaviour {
     /// </summary>
     /// <param name="account">账号</param>
     /// <param name="password">密码</param>
-    public void Login(string account,string password)
+    public void Login(string userName,int userId=0)
     {
         ProtocolDataModel pd = new ProtocolDataModel();
         pd.Type = ProtocolType.TYPE_MYSQL;
         pd.Request = MySqlDataProtocol.MYSQL_LOGIN_CRES;
 
         LoginInfo info = new LoginInfo();
-        info.Account = account;
-        info.Password = password;
-        using (MemoryStream stream = new MemoryStream())
-        {
-            info.WriteTo(stream);
-            pd.Message = stream.ToArray();
-        }
-      
+        info.UserName = userName;
+        info.UserID = userId;
+        pd.Message = info.ToByteArray();
+
         NetWorkManager.Instance.Send(pd);
 
     }
@@ -85,9 +82,9 @@ public class ChatManager : MonoBehaviour {
     /// <param name="type">呼叫类型 1：音频 2：视频</param>
     /// <param name="from">呼叫者 ID</param>
     /// <param name="to">被呼叫者ID </param>
-    public void Call(string callID, ChatType type,int from,int to)
+    public void Call(long callID, ChatType type,int from,int to)
     {
-        if (CallID == "")
+        if (CallID == 0)
         {
             CallID = callID;
             ProtocolDataModel pd = new ProtocolDataModel();
@@ -104,12 +101,7 @@ public class ChatManager : MonoBehaviour {
 
             info.PeerID = to;
             ChatPeerID = to;
-
-            using (MemoryStream stream = new MemoryStream())
-            {
-                info.WriteTo(stream);
-                pd.Message = stream.ToArray();
-            }
+            pd.Message = info.ToByteArray();
             NetWorkManager.Instance.Send(pd);       
         }
     
@@ -119,23 +111,33 @@ public class ChatManager : MonoBehaviour {
     /// </summary>
     public void Hang() 
     {
-        if (CallID != "")
+        if (CallID != 0)
         {
-            CallID = "";
             ProtocolDataModel pd = new ProtocolDataModel();
             pd.Type = ProtocolType.TYPE_IM;
             pd.Request = IMProtocol.IM_HANG_CRES;
 
             IMInfo info = new IMInfo();
             info.PeerID = ChatPeerID;
-            using (MemoryStream stream = new MemoryStream())
-            {
-                info.WriteTo(stream);
-                pd.Message = stream.ToArray();
-            }
+            pd.Message = info.ToByteArray();
+
             NetWorkManager.Instance.Send(pd);
+
+            //send udp hang
+            CallInfo callInfo = new CallInfo();
+            callInfo.CallID = CallID;
+
+            UdplDataModel model = new UdplDataModel();
+            model.Request = RequestByte.REQUEST_HANG;
+            model.ChatInfoData = callInfo.ToByteArray();
+            byte[] data = UdpMessageCodec.Encode(model);
+
+            UdpSocketManager.Instance.Send(UdpMessageCodec.Encode(model));
+
             //结束udp传输
             ChatDataHandler.Instance.StopChat();
+
+            CallID = 0;
         }
     }
     /// <summary>
@@ -152,11 +154,7 @@ public class ChatManager : MonoBehaviour {
         info.UserID = UserID;
         info.PeerID = ChatPeerID;
         //info.CallType = type;
-        using (MemoryStream stream = new MemoryStream())
-        {
-            info.WriteTo(stream);
-            pd.Message = stream.ToArray();
-        }
+        pd.Message = info.ToByteArray();
         NetWorkManager.Instance.Send(pd);
 
         //开始udp传输

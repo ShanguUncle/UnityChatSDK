@@ -14,6 +14,6 @@ public class FriendItem : MonoBehaviour {
 	}
     public void Onclick()
     {
-        ChatUIManager._instance.ShowSelectFriend(FriendName, FriendID);
+        ChatUIManager.Instance.ShowSelectFriend(FriendName, FriendID);
     }
 }
