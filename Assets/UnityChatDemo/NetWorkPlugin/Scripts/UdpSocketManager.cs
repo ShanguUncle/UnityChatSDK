@@ -175,7 +175,7 @@ public class UdpSocketManager : MonoBehaviour
         isRunning = true;
 
 #if !UNITY_EDITOR && UNITY_WSA
-        upClient.Connect(Config._instance.ChatStreamServerIP, Config._instance.ChatStreamServerPort);
+        upClient.Connect(Config.Instance.ChatStreamServerIP, Config.Instance.ChatStreamServerPort);
         upClient.OnReceiveData += OnReceiveData;
 #else
         socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
