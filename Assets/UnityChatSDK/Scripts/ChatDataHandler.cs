@@ -133,6 +133,7 @@ public class ChatDataHandler : MonoBehaviour {
         aduio.Timestamp = packet.Timestamp;
         return aduio;
     }
+    Queue<VideoPacket> videoPacketQueue = new Queue<VideoPacket>();
     /// <summary>
     /// 发送视频数据
     /// </summary>
@@ -140,6 +141,19 @@ public class ChatDataHandler : MonoBehaviour {
     {
         //获取SDK捕捉的视频数据
         VideoPacket packet = UnityChatSDK.Instance.GetVideo();
+
+        if (UnityChatSDK.Instance.EnableSync)
+        {
+            videoPacketQueue.Enqueue(packet);
+            if (videoPacketQueue.Count >= UnityChatSDK.Instance.Framerate / UnityChatSDK.Instance.AudioSample)
+            {
+                packet = videoPacketQueue.Dequeue();
+            }
+            else
+            {
+                return;
+            }
+        }
 
         if (packet != null)
         {
@@ -278,6 +292,7 @@ public class ChatDataHandler : MonoBehaviour {
         {
             UnityChatSDK.Instance.StopCpture();
             UdpSocketManager.Instance.StopListening();
+            videoPacketQueue.Clear();
             IsStartChat = false;
             print("OnStopChat");
         }
