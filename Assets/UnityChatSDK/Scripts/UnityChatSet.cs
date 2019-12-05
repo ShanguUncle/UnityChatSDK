@@ -26,6 +26,8 @@ public class UnityChatSet: MonoBehaviour {
 
     [Tooltip("check video frame static")]
     public bool EnableDetection; //检测通话视频是否静帧
+    //视频和音频帧同步
+    public bool EnableSync;
     /// <summary>
     /// 当选择采集Unity Camera的画面时，选择要采集的unity的摄像机
     /// </summary>
@@ -67,7 +69,8 @@ public class UnityChatSet: MonoBehaviour {
    
         UnityChatSDK.Instance.Framerate = Framerate;
         UnityChatSDK.Instance.EnableDetection = EnableDetection;
-    
+        UnityChatSDK.Instance.EnableSync = EnableSync;
+
         //初始化视频
         UnityChatSDK.Instance.InitVideo();
 
