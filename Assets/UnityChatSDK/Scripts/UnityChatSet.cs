@@ -65,15 +65,14 @@ public class UnityChatSet: MonoBehaviour {
     //初始化视频
     void InitVideo() 
     {
-        UnityChatSDK.Instance.SetVideoQuality(VideoQuality);
-        UnityChatSDK.Instance.SetResolution(VideoResolution);
-   
         UnityChatSDK.Instance.Framerate = Framerate;
         UnityChatSDK.Instance.EnableDetection = EnableDetection;
         UnityChatSDK.Instance.EnableSync = EnableSync;
 
         //初始化视频
         UnityChatSDK.Instance.InitVideo();
+        UnityChatSDK.Instance.SetVideoQuality(VideoQuality);
+        UnityChatSDK.Instance.SetResolution(VideoResolution);
 
         switch (VideoType)
         {
