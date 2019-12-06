@@ -128,12 +128,17 @@ UnityEngine.XR.WSA.WorldManager.GetNativeISpatialCoordinateSystemPtr(), OnFrameS
         HoloCaptureHelper.Instance.Destroy();
     }
 
+    bool isStartCaputure;
     public void StartCapture()
     {
+        if (isStartCaputure) return;
+        isStartCaputure = true;
         HoloCaptureHelper.Instance.StartCapture();
     }
     public void StopCapture()
     {
+        if (!isStartCaputure) return;
+        isStartCaputure = false;
         HoloCaptureHelper.Instance.StopCapture();
     }
 

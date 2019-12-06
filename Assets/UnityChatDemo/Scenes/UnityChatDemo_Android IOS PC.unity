@@ -1162,7 +1162,7 @@ Canvas:
   m_GameObject: {fileID: 116622477}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 26561707}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -4669,7 +4669,6 @@ GameObject:
   - component: {fileID: 1043811784}
   - component: {fileID: 1043811786}
   - component: {fileID: 1043811788}
-  - component: {fileID: 1043811787}
   m_Layer: 5
   m_Name: Self
   m_TagString: Untagged
@@ -4735,58 +4734,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1043811782}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -1254083943, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: 5833ba155e35c034fba34bab08c9705d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_AspectMode: 1
-  m_AspectRatio: 1
---- !u!114 &1043811787
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1043811782}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 5
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1043811788}
-          m_MethodName: OnDrag
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
-        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  - eventID: 13
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1043811788}
-          m_MethodName: BeginDrag
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
-        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  delegates: []
 --- !u!114 &1043811788
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4798,6 +4748,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a821956cbe1f3994799843340031e7a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Transform: {fileID: 0}
 --- !u!1 &1055033998
 GameObject:
   m_ObjectHideFlags: 0
@@ -4952,7 +4903,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000015258789}
+  m_AnchoredPosition: {x: 0, y: -0.000020079116}
   m_SizeDelta: {x: 0, y: 439.7}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1080824776
@@ -7808,11 +7759,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1690060811}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -1254083943, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: 5833ba155e35c034fba34bab08c9705d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_AspectMode: 1
-  m_AspectRatio: 1
 --- !u!1 &1690158652
 GameObject:
   m_ObjectHideFlags: 0
@@ -8387,9 +8336,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1869994738}
+  - component: {fileID: 1869994739}
   - component: {fileID: 1869994740}
   - component: {fileID: 1869994741}
-  - component: {fileID: 1869994739}
   m_Layer: 0
   m_Name: UnityChatSDKManager
   m_TagString: Untagged
@@ -8437,10 +8386,11 @@ MonoBehaviour:
   AudioThreshold: 0.01
   VideoType: 0
   VideoResolution: 1
-  VideoQuality: 1
+  VideoQuality: 2
   Framerate: 15
   EchoCancellation: 0
   EnableDetection: 0
+  EnableSync: 0
   CaptureCamera: {fileID: 535887094}
   ChatPeerRawImage:
   - {fileID: 1690060813}

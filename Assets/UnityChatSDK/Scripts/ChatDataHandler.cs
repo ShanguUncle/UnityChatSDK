@@ -184,8 +184,6 @@ public class ChatDataHandler : MonoBehaviour {
         PbVideoPacket pbPacket = new PbVideoPacket();
 
         pbPacket.Id = video.Id;
-        pbPacket.Rotate = video.Rotate;
-        pbPacket.Mirrored = video.Mirrored;
         pbPacket.Width = video.Width;
         pbPacket.Height = video.Height;
         pbPacket.Timestamp = video.Timestamp;
@@ -201,8 +199,6 @@ public class ChatDataHandler : MonoBehaviour {
     {
         VideoPacket video = new VideoPacket();
         video.Id = packet.Id;
-        video.Rotate = packet.Rotate;
-        video.Mirrored = packet.Mirrored;
         video.Width = packet.Width;
         video.Height = packet.Height;
         video.Timestamp = packet.Timestamp;

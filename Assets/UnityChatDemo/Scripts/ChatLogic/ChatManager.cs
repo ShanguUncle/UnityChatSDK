@@ -125,6 +125,7 @@ public class ChatManager : MonoBehaviour {
 
             //send udp hang
             CallInfo callInfo = new CallInfo();
+            callInfo.UserID = UserID;
             callInfo.CallID = CallID;
 
             UdplDataModel model = new UdplDataModel();

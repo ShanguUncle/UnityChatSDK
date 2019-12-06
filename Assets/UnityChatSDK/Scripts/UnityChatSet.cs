@@ -43,6 +43,7 @@ public class UnityChatSet: MonoBehaviour {
 
     IEnumerator Start()
     {
+        if (UnityChatSDK.Instance == null) gameObject.AddComponent<UnityChatSDK>();
         yield return new WaitUntil(() => UnityChatSDK.Instance != null);
         InitAudio();
         InitVideo(); 
