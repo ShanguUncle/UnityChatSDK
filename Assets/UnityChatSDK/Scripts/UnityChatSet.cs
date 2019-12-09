@@ -10,8 +10,6 @@ public class UnityChatSet: MonoBehaviour {
 
     //声音音量衰减参数
     public  float AudioVolume= 1f;
-    //声音采集阈值
-    public  float AudioThreshold= 0.01f;
     public VideoType VideoType = VideoType.DeviceCamera;
 
     //音视频分辨率
@@ -52,10 +50,10 @@ public class UnityChatSet: MonoBehaviour {
     void InitAudio() 
     {
         UnityChatSDK.Instance.AudioVolume=AudioVolume;
-        UnityChatSDK.Instance.AudioThreshold=AudioThreshold;
+        UnityChatSDK.Instance.AudioThreshold= 0.002f;
         UnityChatSDK.Instance.AudioFrequency = 8000;
-        UnityChatSDK.Instance.AudioSample = 2;
-        UnityChatSDK.Instance.AudioLatency = 910;
+        UnityChatSDK.Instance.AudioSample = 4;
+        UnityChatSDK.Instance.AudioLatency = 500;
         UnityChatSDK.Instance.EchoCancellation = EchoCancellation;
         //初始化音频
         UnityChatSDK.Instance.InitMic();

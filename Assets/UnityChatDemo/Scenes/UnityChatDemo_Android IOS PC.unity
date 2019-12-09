@@ -4903,7 +4903,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000020079116}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 439.7}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1080824776
@@ -8383,12 +8383,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AudioVolume: 1
-  AudioThreshold: 0.01
   VideoType: 0
   VideoResolution: 1
   VideoQuality: 2
   Framerate: 15
-  EchoCancellation: 0
+  EchoCancellation: 1
   EnableDetection: 0
   EnableSync: 0
   CaptureCamera: {fileID: 535887094}
@@ -9731,9 +9730,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 181ad11e12e9de04f94b05a39e6aa4fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SipServerIP: 192.168.10.91
+  SipServerIP: 192.168.2.100
   SipServerPort: 6650
-  ChatStreamServerIP: 192.168.10.91
+  ChatStreamServerIP: 192.168.2.100
   ChatStreamServerPort: 6680
   NetPanl: {fileID: 47060843}
   SipServerIPInputField: {fileID: 819478864}
