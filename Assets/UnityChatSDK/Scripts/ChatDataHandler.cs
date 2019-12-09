@@ -57,7 +57,7 @@ public class ChatDataHandler : MonoBehaviour {
 
     //开始聊天后，在FixedUpdate会把捕捉到的音频和视频通过网络传输
     //SDK会判断音视频的刷新率，自动识别声音大小，判断视频画面是否静止，优化数据大小
-    //注意：FixedUpdate Time的值需要小于 1/(Framerate+5),一般设置为0.04
+    //注意：FixedUpdate Time的值需要小于 1/(Framerate+5),可设置为0.02
     void FixedUpdate() {
         if (!IsStartChat)
             return;
@@ -144,7 +144,9 @@ public class ChatDataHandler : MonoBehaviour {
 
         if (UnityChatSDK.Instance.EnableSync)
         {
-            videoPacketQueue.Enqueue(packet);
+            if (packet != null)
+                videoPacketQueue.Enqueue(packet);
+
             if (videoPacketQueue.Count >= UnityChatSDK.Instance.Framerate / UnityChatSDK.Instance.AudioSample)
             {
                 packet = videoPacketQueue.Dequeue();
