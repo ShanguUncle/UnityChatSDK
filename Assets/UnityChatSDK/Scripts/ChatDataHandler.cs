@@ -57,7 +57,7 @@ public class ChatDataHandler : MonoBehaviour {
 
     //开始聊天后，在FixedUpdate会把捕捉到的音频和视频通过网络传输
     //SDK会判断音视频的刷新率，自动识别声音大小，判断视频画面是否静止，优化数据大小
-    //注意：FixedUpdate Time的值需要小于 1/(Framerate+5),可设置为0.02
+    //注意：FixedUpdate Time的值需要小于 1/(Framerate+5),可设置为0.02或更小
     void FixedUpdate() {
         if (!IsStartChat)
             return;
