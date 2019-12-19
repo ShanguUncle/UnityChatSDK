@@ -12,6 +12,8 @@ The interface is simple, the capture of audio and video and codec is separated s
 
 https://www.youtube.com/playlist?list=PLqNc8GThKNiQjA4IaFr1U_KQHYuKuqgus
 
+https://www.bilibili.com/video/av78607683
+
 https://www.bilibili.com/video/av56439383
 
 Email:1786570525@qq.com
