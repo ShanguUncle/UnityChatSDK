@@ -180,11 +180,11 @@ QualitySettings:
     Nintendo Switch: 5
     PS4: 5
     PSP2: 2
-    Standalone: 4
+    Standalone: 3
     Tizen: 2
     WebGL: 2
     WiiU: 5
-    Windows Store Apps: 1
+    Windows Store Apps: 2
     XboxOne: 5
     iPhone: 2
     tvOS: 2
