@@ -4903,7 +4903,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000030517578}
+  m_AnchoredPosition: {x: 0, y: -0.000025183148}
   m_SizeDelta: {x: 0, y: 439.7}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1080824776
@@ -8387,9 +8387,9 @@ MonoBehaviour:
   VideoResolution: 1
   VideoQuality: 2
   Framerate: 15
-  EchoCancellation: 1
+  EchoCancellation: 0
   EnableDetection: 0
-  EnableSync: 1
+  EnableSync: 0
   CaptureCamera: {fileID: 535887094}
   ChatPeerRawImage:
   - {fileID: 1690060813}
