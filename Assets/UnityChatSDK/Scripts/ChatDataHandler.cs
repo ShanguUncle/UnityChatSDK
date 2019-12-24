@@ -21,7 +21,7 @@ public class ChatDataHandler : MonoBehaviour {
 
     public static ChatDataHandler Instance;
     public bool IsStartChat { get; set; }
-    int ChunkLength = 65000;
+    int ChunkLength = 10000;
     long udpPacketIndex;
     void Start() {
         Instance = this;
