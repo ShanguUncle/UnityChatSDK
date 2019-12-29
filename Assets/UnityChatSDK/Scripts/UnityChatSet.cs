@@ -70,7 +70,6 @@ public class UnityChatSet: MonoBehaviour {
         //初始化视频
         UnityChatSDK.Instance.InitVideo();
         UnityChatSDK.Instance.SetVideoQuality(VideoQuality);
-        UnityChatSDK.Instance.SetResolution(VideoResolution);
 
         switch (VideoType)
         {
@@ -89,7 +88,7 @@ public class UnityChatSet: MonoBehaviour {
             default:
                 break;
         }
-
+        UnityChatSDK.Instance.SetResolution(VideoResolution);
         UnityChatSDK.Instance.SetSelfRawImage(SelfRawImage);
 
         print("InitVideo OK [" + "VideoRes:" + VideoResolution + ",Quality:" + VideoQuality
