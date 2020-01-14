@@ -8,7 +8,7 @@ Support group audio and video calls,server call video record.
 
 Support Unity2017 and above.
 
-The interface is simple, the capture of audio and video and codec is separated separately, you can insert the sdk to your own network easily
+The interface is simple, the capture of audio and video and codec is separated separately, you can insert the sdk to your own network easily.
 
 UnityChatSDK 
 
