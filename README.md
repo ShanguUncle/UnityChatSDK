@@ -18,6 +18,10 @@ https://www.bilibili.com/video/av78607683
 
 https://www.bilibili.com/video/av56439383
 
+Hololens Demo
+
+https://github.com/ShanguUncle/UnityChatHololens
+
 Nreal Glass
 
 https://www.bilibili.com/video/av79084374/
