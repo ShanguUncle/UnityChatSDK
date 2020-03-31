@@ -48,6 +48,7 @@ public class ChatDataHandler : MonoBehaviour {
         switch (NetType)
         {
             case NetType.UdpP2P:
+                //TODO P2P
                 break;
             case NetType.UdpStream:
                 StartCoroutine(OnStopChat());

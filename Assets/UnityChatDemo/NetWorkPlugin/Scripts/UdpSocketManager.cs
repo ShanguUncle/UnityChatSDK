@@ -51,10 +51,10 @@ public class UdpSocketManager : MonoBehaviour
 
     DateTime udpHeratTime;
 
-    private int udpOutTime = 10;
+    public int UdpOutTime = 20;
     private void Update() //FixedUpdate()  
     {
-        if (isRunning && (DateTime.Now - udpHeratTime).TotalSeconds > udpOutTime)
+        if (isRunning && (DateTime.Now - udpHeratTime).TotalSeconds > UdpOutTime)
         {
             print("udp heart out time!!!");
             ChatUIManager.Instance.Hang();
