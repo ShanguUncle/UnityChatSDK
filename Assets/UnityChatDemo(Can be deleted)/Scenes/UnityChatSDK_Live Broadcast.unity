@@ -3221,9 +3221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CamRawImage: {fileID: 936590103}
-  LiveCam: {fileID: 26561707}
   LiveImage: {fileID: 203063837}
-  ReceiveVideo: 1
   Living: 0
 --- !u!4 &1448247801
 Transform:
@@ -3926,8 +3924,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1869994738}
   - component: {fileID: 1869994740}
-  - component: {fileID: 1869994741}
   - component: {fileID: 1869994739}
+  - component: {fileID: 1869994741}
   m_Layer: 0
   m_Name: UnityChatSDKManager
   m_TagString: Untagged
@@ -3972,13 +3970,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AudioVolume: 1
-  AudioThreshold: 0.01
   VideoType: 3
   VideoResolution: 2
   VideoQuality: 2
   Framerate: 20
   EchoCancellation: 0
   EnableDetection: 0
+  EnableSync: 0
   CaptureCamera: {fileID: 26561707}
   ChatPeerRawImage: []
   SelfRawImage: {fileID: 0}
@@ -3990,10 +3988,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1869994737}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f847461d5e6b4e488bf75527dced9fe, type: 3}
+  m_Script: {fileID: 11500000, guid: c3ecf9492f8da9b4dabb22f140ee24a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NetType: 0
 --- !u!1 &1885787372
 GameObject:
   m_ObjectHideFlags: 0

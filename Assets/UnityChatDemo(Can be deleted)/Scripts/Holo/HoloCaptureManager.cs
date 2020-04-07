@@ -151,10 +151,10 @@ UnityEngine.XR.WSA.WorldManager.GetNativeISpatialCoordinateSystemPtr(), OnFrameS
 
         sample.Dispose();
 
-        //图像水平是镜像的！
+        //Holo1图像水平是镜像的！
         UnityEngine.WSA.Application.InvokeOnAppThread(() =>
         {
-            if (HorizontalMirror) {ImageMirror(imageBytes); }
+            if (HorizontalMirror) {ImageHorizontalMirror(imageBytes); }
             _videoTexture.LoadRawTextureData(imageBytes);
             _videoTexture.wrapMode = TextureWrapMode.Clamp;
             _videoTexture.Apply();
@@ -164,7 +164,7 @@ UnityEngine.XR.WSA.WorldManager.GetNativeISpatialCoordinateSystemPtr(), OnFrameS
 
 
     }
-    void ImageMirror(byte[] imageBytes)
+    void ImageHorizontalMirror(byte[] imageBytes)
     {
         int PixelSize = 4;
         int width = resolution.width;

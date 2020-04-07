@@ -5103,6 +5103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80eb8e0300db5c2418c87e85f6fdaf9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UdpOutTime: 20
 --- !u!114 &1434350918
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7479,9 +7480,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 181ad11e12e9de04f94b05a39e6aa4fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SipServerIP: 192.168.3.3
+  SipServerIP: 192.168.2.100
   SipServerPort: 6650
-  ChatStreamServerIP: 192.168.3.3
+  ChatStreamServerIP: 192.168.2.100
   ChatStreamServerPort: 6680
   NetPanl: {fileID: 47060843}
   SipServerIPInputField: {fileID: 819478864}
