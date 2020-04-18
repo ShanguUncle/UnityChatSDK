@@ -52,7 +52,7 @@ public class IMHandler : MonoBehaviour, IHandler
     private void PeerMessage(ProtocolDataModel pdm)
     {
         print("Receive message：" + pdm.Message.Length);
-        ChatSendMessageManager.Instance.OnReceivePeerMessage(pdm);
+        ChatSendMessageManager.Instance?.OnReceivePeerMessage(pdm);
     }
 
     private void PeerHang(ProtocolDataModel pdm)
