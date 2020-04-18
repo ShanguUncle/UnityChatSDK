@@ -65,7 +65,7 @@ https://www.paypal.me/ShanGuUncle
 
 1.修复打包Holoens打包出错
 
-2.新增语音录制功能及Demo
+2.新增语音录制、发送文字、图片、语音功能及Demo
 
 3.适配Hololens2
 
@@ -107,6 +107,7 @@ https://github.com/ShanguUncle/UnityChatHololens
 -------------------------------------------------------------------------------------------
 ![Image text](https://github.com/ShanguUncle/UnityChatSDK/blob/master/Readme/Pics/01.jpg)
 ![Image text](https://github.com/ShanguUncle/UnityChatSDK/blob/master/Readme/Pics/02.jpg)
+![Image text](https://github.com/ShanguUncle/UnityChatSDK/blob/master/Readme/Pics/03.jpg)
 ![Image text](https://github.com/ShanguUncle/UnityChatSDK/blob/master/Readme/Pics/HoloCapture.jpg)
 
 
