@@ -19,11 +19,10 @@ public class UnityChatSet: MonoBehaviour {
     //视频刷新率
     [Range(5,20)]
     public int Framerate = 15;
-
+    //回音消除
     public bool EchoCancellation;
-
     [Tooltip("check video frame static")]
-    public bool EnableDetection; //检测通话视频是否静帧
+    public bool EnableDetection; //检测通话视频是否静帧，适用于监控场景
     //视频和音频帧同步
     public bool EnableSync;
     /// <summary>
@@ -95,9 +94,9 @@ public class UnityChatSet: MonoBehaviour {
             + ",Framerate:" + Framerate+"]");
     }
     /// <summary>
-    /// 选择要采集的视频类型（注：未注册不支持Unity Camera）
+    /// 选择要采集的视频类型
     /// </summary>
-    /// <param name="type">  DeviceCamera是外表摄像头的画面 UnityCamera是Unity Camera渲染的画面</param>
+    /// <param name="type">  DeviceCamera是设备摄像头的画面 UnityCamera是Unity Camera渲染的画面</param>
     /// <param name="captureCamera"></param>
     public void SetVideoCaptureType(VideoType type, Camera captureCamera)
     {
@@ -125,7 +124,7 @@ public class UnityChatSet: MonoBehaviour {
     bool audioEnable;
     public void SetAudioEnable()
     {
-        print("audioEnable:"+ audioEnable);
+        print("SetAudioEnable:" + audioEnable);
         UnityChatSDK.Instance.SetAudioEnable(audioEnable);
         audioEnable = !audioEnable;
     }
