@@ -132,7 +132,7 @@ public class UnityChatSet: MonoBehaviour {
     bool videoEnable; 
     public void SetVideoEnable()
     {
-        print("audioEnable:" + videoEnable);
+        print("SetVideoEnable:" + videoEnable);
         UnityChatSDK.Instance.SetVideoEnable(videoEnable);
         videoEnable = !videoEnable;
     }
