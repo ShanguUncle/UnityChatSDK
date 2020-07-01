@@ -39,7 +39,7 @@ https://www.paypal.me/ShanGuUncle
 
 特点：
 
-1.跨平台 Unity编辑器，Android，IOS，Windows,UWP(Hololens & Surface)，支持Unity2017及以上
+1.跨平台 Unity编辑器，Android，IOS，Windows,UWP(Hololens & Surface)，支持Unity2018及以上
 
 2.支持多种视频类型，可传输摄像头画面和Unity Camera渲染画面，屏幕画面，支持AR、MR混合视频
 
