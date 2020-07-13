@@ -8,8 +8,12 @@ using UnityEngine.UI;
 /// </summary>
 public class UnityChatSet: MonoBehaviour {
 
-    //声音音量衰减参数
+    //声音音量播放大小
     public  float AudioVolume= 1f;
+	
+	//麦克风音量大小
+	public  float MicVolumeScale= 1f;
+	   
     public VideoType VideoType = VideoType.DeviceCamera;
 
     //音视频分辨率
@@ -19,10 +23,11 @@ public class UnityChatSet: MonoBehaviour {
     //视频刷新率
     [Range(5,20)]
     public int Framerate = 15;
-    //回音消除
+
     public bool EchoCancellation;
+
     [Tooltip("check video frame static")]
-    public bool EnableDetection; //检测通话视频是否静帧，适用于监控场景
+    public bool EnableDetection; //检测通话视频是否静帧
     //视频和音频帧同步
     public bool EnableSync;
     /// <summary>
@@ -49,6 +54,7 @@ public class UnityChatSet: MonoBehaviour {
     void InitAudio() 
     {
         UnityChatSDK.Instance.AudioVolume=AudioVolume;
+		UnityChatSDK.Instance.MicVolumeScale= MicVolumeScale;
         UnityChatSDK.Instance.AudioThreshold= 0.002f;
         UnityChatSDK.Instance.AudioFrequency = 8000;
         UnityChatSDK.Instance.AudioSample = 2;
@@ -88,14 +94,14 @@ public class UnityChatSet: MonoBehaviour {
                 break;
         }
         UnityChatSDK.Instance.SetSelfRawImage(SelfRawImage);
-		
+
         print("InitVideo OK [" + "VideoRes:" + VideoResolution + ",Quality:" + VideoQuality
             + ",Framerate:" + Framerate+"]");
     }
     /// <summary>
-    /// 选择要采集的视频类型
+    /// 选择要采集的视频类型（注：未注册不支持Unity Camera）
     /// </summary>
-    /// <param name="type">  DeviceCamera是设备摄像头的画面 UnityCamera是Unity Camera渲染的画面</param>
+    /// <param name="type">  DeviceCamera是外表摄像头的画面 UnityCamera是Unity Camera渲染的画面</param>
     /// <param name="captureCamera"></param>
     public void SetVideoCaptureType(VideoType type, Camera captureCamera)
     {
@@ -123,14 +129,14 @@ public class UnityChatSet: MonoBehaviour {
     bool audioEnable;
     public void SetAudioEnable()
     {
-        print("SetAudioEnable:" + audioEnable);
+        print("audioEnable:"+ audioEnable);
         UnityChatSDK.Instance.SetAudioEnable(audioEnable);
         audioEnable = !audioEnable;
     }
     bool videoEnable; 
     public void SetVideoEnable()
     {
-        print("SetVideoEnable:" + videoEnable);
+        print("audioEnable:" + videoEnable);
         UnityChatSDK.Instance.SetVideoEnable(videoEnable);
         videoEnable = !videoEnable;
     }
