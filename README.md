@@ -33,7 +33,7 @@ https://www.bilibili.com/video/av81873111
 Email:1786570525@qq.com
 
 pay for licence：
-https://www.paypal.me/ShanGuUncle
+<a href="https://www.paypal.com/cgi-bin/webscr?&cmd=_xclick&business=1786570525@qq.com&currency_code=USD&amount=254&item_name=Licence" target="_blank"><img src="http://www.paypal.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="Make payments with PayPal - it's fast, free and secure!"></a>
 
 ====================Unity Video Chat SDK========================
 
