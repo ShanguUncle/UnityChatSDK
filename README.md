@@ -34,6 +34,7 @@ Email:1786570525@qq.com
 
 pay for licence：
 <a href="https://www.paypal.com/cgi-bin/webscr?&cmd=_xclick&business=1786570525@qq.com&currency_code=USD&amount=254&item_name=UnityChatSDK Licence" target="_blank"><img src="https://github.com/ShanguUncle/UnityChatSDK/blob/master/Readme/Pics/pay.gif" border="0" name="submit" alt="Click to pay with PayPal!"></a>
+
 send your registration code to 1786570525@qq.com after payment.
 
 ====================Unity Video Chat SDK========================
