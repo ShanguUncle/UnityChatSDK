@@ -60,8 +60,8 @@ public class UnityChatSet: MonoBehaviour {
         UnityChatSDK.Instance.AudioSample = 2;
         UnityChatSDK.Instance.AudioLatency = 500;
         UnityChatSDK.Instance.EchoCancellation = EchoCancellation;
-        //初始化音频
-        UnityChatSDK.Instance.InitMic();
+        //初始化音频(麦克风Index)
+        UnityChatSDK.Instance.InitMic(0);
         print("InitAudio OK");
     }
 
@@ -72,8 +72,8 @@ public class UnityChatSet: MonoBehaviour {
         UnityChatSDK.Instance.EnableDetection = EnableDetection;
         UnityChatSDK.Instance.EnableSync = EnableSync;
 
-        //初始化视频
-        UnityChatSDK.Instance.InitVideo();
+        //初始化视频(摄像头Index)
+        UnityChatSDK.Instance.InitVideo(0);
         UnityChatSDK.Instance.SetVideoQuality(VideoQuality);
         UnityChatSDK.Instance.SetResolution(VideoResolution);
         switch (VideoType)

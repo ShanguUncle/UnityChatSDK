@@ -6,7 +6,7 @@ Support multiple video types:device camera/unity Camera/screen video/custom Text
 
 Support group audio and video calls,server call video record.
 
-Support Unity2017 and above.
+Support Unity2018 and above.
 
 The interface is simple, the capture of audio and video and codec is separated separately, you can insert the sdk to your own network easily
 
@@ -17,7 +17,9 @@ https://www.bilibili.com/video/av56439383
 Email:1786570525@qq.com
 
 pay for licence：
-https://www.paypal.me/ShanGuUncle
+https://www.paypal.com/cgi-bin/webscr?&cmd=_xclick&business=1786570525@qq.com&currency_code=USD&amount=254&item_name=UnityChatSDK Licence
+
+send your registration code to 1786570525@qq.com after payment.
 
 ====================Unity Video Chat SDK========================
 
