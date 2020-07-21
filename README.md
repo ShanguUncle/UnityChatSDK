@@ -32,8 +32,11 @@ https://www.bilibili.com/video/av81873111
 
 Email:1786570525@qq.com
 
-pay for licence：
+pay for licence with PayPal：
 <a href="https://www.paypal.com/cgi-bin/webscr?&cmd=_xclick&business=1786570525@qq.com&currency_code=USD&amount=254&item_name=UnityChatSDK Licence" target="_blank"><img src="https://github.com/ShanguUncle/UnityChatSDK/blob/master/Readme/Pics/pay.gif" border="0" name="submit" alt="Click to pay with PayPal!"></a>
+
+pay for licence with Taobao：
+<a href="https://item.taobao.com/item.htm?id=574700900943" target="_blank"><img src="https://github.com/ShanguUncle/UnityChatSDK/blob/master/Readme/Pics/pay.gif" border="0" name="submit" alt="Click to pay with Taobao!"></a>
 
 send your registration code to 1786570525@qq.com after payment.
 
