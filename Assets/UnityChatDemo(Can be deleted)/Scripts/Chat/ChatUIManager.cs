@@ -19,16 +19,14 @@ public class ChatUIManager : MonoBehaviour {
     public Text SelectFriendTetx;
     public Text CallFriendTetx;
     public Text InviteFriendTetx;
-    public string SelectFriendName { get; set; }
-    public int SelectFriendID{ get; set; }
 
     public Texture2D DefultBlack;
     public RawImage StreamDisplay;
 
     public void ShowSelectFriend(string username,int userID) 
     {
-        SelectFriendName = username;
-        SelectFriendID = userID;
+        ChatManager.Instance.ChatPeerName = username;
+        ChatManager.Instance.ChatPeerID= userID;
         SelectFriendTetx.text = username;
         SelectFrendPanl.SetActive(true);
     }
@@ -74,13 +72,13 @@ public class ChatUIManager : MonoBehaviour {
     }
     public void VoiceCall()
     {
-        Call(ChatType.Audio, SelectFriendID);
+        Call(ChatType.Audio, ChatManager.Instance.ChatPeerID);
         print("VoiceCall");
     }
     public void VideoCall() 
     {
         print("VideoCall");
-        Call(ChatType.AV, SelectFriendID);
+        Call(ChatType.AV, ChatManager.Instance.ChatPeerID);
     }
 
     void Call(ChatType type, int peer)
@@ -97,7 +95,7 @@ public class ChatUIManager : MonoBehaviour {
         if (online)
         {
             SoundManager._instance.PlayEffect("Call");
-            CallFriendTetx.text = SelectFriendName;
+            CallFriendTetx.text = ChatManager.Instance.ChatPeerName;
             CallPanl.SetActive(true);
         }
         else

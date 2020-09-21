@@ -669,7 +669,7 @@ Canvas:
   m_GameObject: {fileID: 116622477}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 26561707}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -3970,14 +3970,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AudioVolume: 1
-  VideoType: 3
+  MicVolumeScale: 1
+  VideoType: 2
   VideoResolution: 2
-  VideoQuality: 2
+  VideoQuality: 3
   Framerate: 20
   EchoCancellation: 0
   EnableDetection: 0
   EnableSync: 0
-  CaptureCamera: {fileID: 26561707}
+  CaptureCamera: {fileID: 0}
   ChatPeerRawImage: []
   SelfRawImage: {fileID: 0}
 --- !u!114 &1869994741

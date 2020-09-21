@@ -61,8 +61,8 @@ public class ChatSendMessageManager : MonoBehaviour {
 
         IMInfo info = new IMInfo();
         info.UserID = ChatManager.Instance.UserID;
-        info.PeerID = ChatUIManager.Instance.SelectFriendID;
-        info.UserName=ChatManager.Instance.UserName;
+        info.UserName = ChatManager.Instance.UserName;
+        info.PeerID = ChatManager.Instance.ChatPeerID;
 
         info.MessageData = ByteString.CopyFrom(data);
 

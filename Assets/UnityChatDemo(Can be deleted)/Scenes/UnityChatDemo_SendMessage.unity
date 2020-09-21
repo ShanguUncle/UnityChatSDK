@@ -374,7 +374,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294966271
+    m_Bits: 4294967295
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -3808,74 +3808,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 523341788}
---- !u!1 &535887093
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 1565746348981914, guid: 48d512021e38e2245856d414c70e274e,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 535887095}
-  - component: {fileID: 535887094}
-  m_Layer: 10
-  m_Name: CaptureCamera
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!20 &535887094
-Camera:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 20761546725244870, guid: 48d512021e38e2245856d414c70e274e,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 535887093}
-  m_Enabled: 0
-  serializedVersion: 2
-  m_ClearFlags: 2
-  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
-  m_NormalizedViewPortRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
-  near clip plane: 0.01
-  far clip plane: 100
-  field of view: 60
-  orthographic: 0
-  orthographic size: 5
-  m_Depth: 0
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 1280
-  m_RenderingPath: -1
-  m_TargetTexture: {fileID: 0}
-  m_TargetDisplay: 0
-  m_TargetEye: 3
-  m_HDR: 0
-  m_AllowMSAA: 0
-  m_AllowDynamicResolution: 0
-  m_ForceIntoRT: 0
-  m_OcclusionCulling: 1
-  m_StereoConvergence: 0
-  m_StereoSeparation: 0
---- !u!4 &535887095
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 4148342547608750, guid: 48d512021e38e2245856d414c70e274e,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 535887093}
-  m_LocalRotation: {x: 0.10342088, y: -0, z: -0, w: 0.9946377}
-  m_LocalPosition: {x: -0.409, y: 1.01, z: -2.94}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1468329509}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 11.872001, y: 0, z: 0}
 --- !u!1 &579700496
 GameObject:
   m_ObjectHideFlags: 0
@@ -7091,7 +7023,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000057185243}
+  m_AnchoredPosition: {x: 0, y: 0.00006645337}
   m_SizeDelta: {x: 0, y: 439.7}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1080824776
@@ -9738,7 +9670,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1869994738}
-  - {fileID: 535887095}
   - {fileID: 2102343039}
   m_Father: {fileID: 0}
   m_RootOrder: 8
@@ -12300,6 +12231,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AudioVolume: 1
+  MicVolumeScale: 1
   VideoType: 0
   VideoResolution: 1
   VideoQuality: 2
@@ -12307,7 +12239,7 @@ MonoBehaviour:
   EchoCancellation: 0
   EnableDetection: 0
   EnableSync: 0
-  CaptureCamera: {fileID: 535887094}
+  CaptureCamera: {fileID: 26561707}
   ChatPeerRawImage:
   - {fileID: 1690060813}
   SelfRawImage: {fileID: 1043811784}
@@ -13961,13 +13893,13 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2102343038}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1307157295}
   - {fileID: 957956923}
   m_Father: {fileID: 1468329509}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &2102343040
 Animator:
@@ -14172,9 +14104,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 181ad11e12e9de04f94b05a39e6aa4fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SipServerIP: 192.168.2.100
+  SipServerIP: 192.168.8.102
   SipServerPort: 6650
-  ChatStreamServerIP: 192.168.2.100
+  ChatStreamServerIP: 192.168.8.102
   ChatStreamServerPort: 6680
   NetPanl: {fileID: 47060843}
   SipServerIPInputField: {fileID: 819478864}

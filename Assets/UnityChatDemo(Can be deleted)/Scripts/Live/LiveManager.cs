@@ -13,7 +13,11 @@ public class LiveManager : MonoBehaviour {
 
     public RawImage LiveImage;
 
+    Texture2D TextureLocal;
+
     public bool Living;
+
+
     private void Awake()
     {
         Instance = this;
@@ -24,11 +28,25 @@ public class LiveManager : MonoBehaviour {
         UnityChatSDK.Instance.StartCapture();
 
         Living = true;
+
+        TextureLocal = new Texture2D(Screen.width, Screen.height, TextureFormat.ARGB32, false);
+        StartCoroutine(RecordScreen());
     }
     public void StopLive()
     {
         UnityChatSDK.Instance.StopCpture();
         Living = false;
+    }
+    IEnumerator RecordScreen() 
+    {
+        while (Living) 
+        {
+            yield return new WaitForEndOfFrame();
+            TextureLocal.ReadPixels(new Rect(0.0f, 0.0f, Screen.width, Screen.height), 0, 0, false);
+            TextureLocal.Apply();
+            UnityChatSDK.Instance.UpdateCustomTexture(TextureLocal);
+            yield return new WaitForSeconds(1f / UnityChatSDK.Instance.Framerate);
+        }
     }
     public void OpenCam()
     {
@@ -54,7 +72,7 @@ public class LiveManager : MonoBehaviour {
     public void DecodeVideoData(VideoPacket videoPacket)
     {
         if (LiveImage != null)
-            LiveImage.texture= UnityChatSDK.Instance.DecodeVideoData(videoPacket);
+            LiveImage.texture = UnityChatSDK.Instance.DecodeVideoData(videoPacket);
     }
     public void DecodeAudiooData(AudioPacket audioPacket)  
     {
@@ -76,7 +94,7 @@ public class LiveManager : MonoBehaviour {
         if (Living)
         {
             VideoPacket packet = UnityChatSDK.Instance.GetVideo();
-            if (packet != null)
+            if (packet!= null && packet.Data != null)
             {
                 DecodeVideoData(packet);
             }
