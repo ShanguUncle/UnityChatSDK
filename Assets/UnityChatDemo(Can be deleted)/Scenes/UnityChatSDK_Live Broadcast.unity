@@ -2281,7 +2281,7 @@ GameObject:
   - component: {fileID: 957956926}
   - component: {fileID: 957956925}
   - component: {fileID: 957956924}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3051,7 +3051,7 @@ GameObject:
   - component: {fileID: 1307157298}
   - component: {fileID: 1307157297}
   - component: {fileID: 1307157296}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4523,7 +4523,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2102343039}
   - component: {fileID: 2102343040}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: LiveScene
   m_TagString: Untagged
   m_Icon: {fileID: 0}

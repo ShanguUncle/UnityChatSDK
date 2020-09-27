@@ -21,7 +21,8 @@ public class ChatDataHandler : MonoBehaviour {
 
     public static ChatDataHandler Instance;
     public bool IsStartChat { get; set; }
-    int ChunkLength = 10000;
+    //udp分包长度<66500，对于个别平台对长度有限制，适当降低长度(10000)
+    public int ChunkLength = 50000;
     long udpPacketIndex;
     void Start() {
         Instance = this;

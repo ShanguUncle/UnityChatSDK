@@ -169,11 +169,11 @@ public class UnityChatDataHandler : MonoBehaviour {
     {
         //获取SDK捕捉的视频数据
         VideoPacket packet = UnityChatSDK.Instance.GetVideo();
+        if (packet == null || packet.Data == null || packet.Data.Length == 0) return;
 
         if (UnityChatSDK.Instance.EnableSync)
         {
-            if (packet != null)
-                videoPacketQueue.Enqueue(packet);
+            videoPacketQueue.Enqueue(packet);
 
             if (videoPacketQueue.Count >= UnityChatSDK.Instance.Framerate / UnityChatSDK.Instance.AudioSample)
             {
@@ -185,8 +185,7 @@ public class UnityChatDataHandler : MonoBehaviour {
             }
 
         }
-
-        if (packet != null)
+        else 
         {
             packet.Id = 1001;//use your userID
             byte[] video = GetPbVideoPacket(packet);

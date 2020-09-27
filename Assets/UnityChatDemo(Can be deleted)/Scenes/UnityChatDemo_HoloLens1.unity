@@ -2520,74 +2520,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 523341788}
---- !u!1 &535887093
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 1565746348981914, guid: 48d512021e38e2245856d414c70e274e,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 535887095}
-  - component: {fileID: 535887094}
-  m_Layer: 10
-  m_Name: CaptureCamera
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!20 &535887094
-Camera:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 20761546725244870, guid: 48d512021e38e2245856d414c70e274e,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 535887093}
-  m_Enabled: 1
-  serializedVersion: 2
-  m_ClearFlags: 2
-  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
-  m_NormalizedViewPortRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
-  near clip plane: 0.01
-  far clip plane: 100
-  field of view: 60
-  orthographic: 0
-  orthographic size: 5
-  m_Depth: -2
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 1280
-  m_RenderingPath: -1
-  m_TargetTexture: {fileID: 0}
-  m_TargetDisplay: 0
-  m_TargetEye: 3
-  m_HDR: 0
-  m_AllowMSAA: 0
-  m_AllowDynamicResolution: 0
-  m_ForceIntoRT: 0
-  m_OcclusionCulling: 1
-  m_StereoConvergence: 0
-  m_StereoSeparation: 0
---- !u!4 &535887095
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 4148342547608750, guid: 48d512021e38e2245856d414c70e274e,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 535887093}
-  m_LocalRotation: {x: 0.10342088, y: -0, z: -0, w: 0.9946377}
-  m_LocalPosition: {x: -0.409, y: 1.01, z: -2.94}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1468329509}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 11.872001, y: 0, z: 0}
 --- !u!1 &579700496
 GameObject:
   m_ObjectHideFlags: 0
@@ -4208,7 +4140,7 @@ GameObject:
   - component: {fileID: 957956926}
   - component: {fileID: 957956925}
   - component: {fileID: 957956924}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5721,7 +5653,7 @@ GameObject:
   - component: {fileID: 1307157298}
   - component: {fileID: 1307157297}
   - component: {fileID: 1307157296}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6385,7 +6317,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1869994738}
-  - {fileID: 535887095}
   - {fileID: 2102343039}
   m_Father: {fileID: 0}
   m_RootOrder: 9
@@ -8169,6 +8100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AudioVolume: 1
+  MicVolumeScale: 1
   VideoType: 0
   VideoResolution: 1
   VideoQuality: 2
@@ -8176,7 +8108,7 @@ MonoBehaviour:
   EchoCancellation: 0
   EnableDetection: 0
   EnableSync: 0
-  CaptureCamera: {fileID: 535887094}
+  CaptureCamera: {fileID: 0}
   ChatPeerRawImage:
   - {fileID: 1690060813}
   SelfRawImage: {fileID: 1043811784}
@@ -8192,6 +8124,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetType: 0
+  ChunkLength: 50000
 --- !u!1 &1875980133
 GameObject:
   m_ObjectHideFlags: 0
@@ -9183,7 +9116,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2102343039}
   - component: {fileID: 2102343040}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: CaptureCameraScene
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9203,7 +9136,7 @@ Transform:
   - {fileID: 1307157295}
   - {fileID: 957956923}
   m_Father: {fileID: 1468329509}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &2102343040
 Animator:
