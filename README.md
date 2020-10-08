@@ -38,6 +38,10 @@ pay for licence with PayPal：
 pay for licence with Taobao：
 <a href="https://item.taobao.com/item.htm?id=574700900943" target="_blank"><img src="https://github.com/ShanguUncle/UnityChatSDK/blob/master/Readme/Pics/pay.gif" border="0" name="submit" alt="Click to pay with Taobao!"></a>
 
+pay for licence and  source code(NetWorkPlugin & TCP/UDP server) with PayPal：
+<a href="https://www.paypal.com/cgi-bin/webscr?&cmd=_xclick&business=1786570525@qq.com&currency_code=USD&amount=1980&item_name=UnityChatSDK Licence & Code" target="_blank"><img src="https://github.com/ShanguUncle/UnityChatSDK/blob/master/Readme/Pics/pay.gif" border="0" name="submit" alt="Click to pay with PayPal!"></a>
+
+
 send your registration code to 1786570525@qq.com after payment.
 
 ====================Unity Video Chat SDK========================
