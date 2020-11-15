@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+#if UNITY_ANDROID
+using UnityEngine.Android;
+#endif
 /// <summary>
 /// UnityChatSDK参数设置
 /// </summary>
@@ -21,8 +23,8 @@ public class UnityChatSet: MonoBehaviour {
     //音视频压缩质量
     public VideoQuality VideoQuality = VideoQuality.Middle;
     //视频刷新率
-    [Range(5,20)]
-    public int Framerate = 15;
+    [Range(5,25)]
+    public int Framerate = 20;
 
     public bool EchoCancellation;
 
@@ -47,12 +49,19 @@ public class UnityChatSet: MonoBehaviour {
     {
         if (UnityChatSDK.Instance == null) gameObject.AddComponent<UnityChatSDK>();
         yield return new WaitUntil(() => UnityChatSDK.Instance != null);
+        Application.targetFrameRate = 60;
         InitAudio();
         InitVideo(); 
     }
     //初始化音频
     void InitAudio() 
     {
+#if UNITY_ANDROID
+        if (!Permission.HasUserAuthorizedPermission(Permission.Microphone))
+        {
+            Permission.RequestUserPermission(Permission.Microphone);
+        }
+#endif
         UnityChatSDK.Instance.AudioVolume=AudioVolume;
 		UnityChatSDK.Instance.MicVolumeScale= MicVolumeScale;
         UnityChatSDK.Instance.AudioThreshold= 0.002f;
@@ -71,7 +80,12 @@ public class UnityChatSet: MonoBehaviour {
         UnityChatSDK.Instance.Framerate = Framerate;
         UnityChatSDK.Instance.EnableDetection = EnableDetection;
         UnityChatSDK.Instance.EnableSync = EnableSync;
-
+#if UNITY_ANDROID
+        if (!Permission.HasUserAuthorizedPermission(Permission.Camera)) 
+        {
+            Permission.RequestUserPermission(Permission.Camera);
+        }
+#endif
         //初始化视频(摄像头Index)
         UnityChatSDK.Instance.InitVideo(0);
         UnityChatSDK.Instance.SetVideoQuality(VideoQuality);
