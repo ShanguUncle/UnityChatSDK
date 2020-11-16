@@ -35,3 +35,5 @@ sysinfo.txt
 *.apk
 *.unitypackage
 /Packages/manifest.json
+/Assets/UnityChatSDK/Resources/Register.meta
+/Assets/UnityChatSDK/Resources/Register
