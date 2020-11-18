@@ -13,11 +13,6 @@ public class HoloCaptureManager : MonoBehaviour {
     }
 #if UNITY_EDITOR || UNITY_WSA
     //https://docs.microsoft.com/zh-cn/windows/mixed-reality/locatable-camera
-    public enum HoloType 
-    { 
-        Holo1,
-        Holo2,
-    }
 
     public enum HoloCamFrame
     {
@@ -29,7 +24,7 @@ public class HoloCaptureManager : MonoBehaviour {
         Holo_896x504,
         Holo_1280x720,
     }
-    public HoloType holoType;
+    //public HoloType holoType;
     public HoloResolution holoResolution; 
     public HoloCamFrame holoFrame;
     HoloCapture.Resolution resolution;
@@ -106,16 +101,15 @@ UnityEngine.XR.WSA.WorldManager.GetNativeISpatialCoordinateSystemPtr(), OnFrameS
 
         UnityEngine.WSA.Application.InvokeOnAppThread(() =>
         {
-            if (holoType==HoloType.Holo1)
+            if (Application.platform==RuntimePlatform.WSAPlayerX86)
             {
                 ImageHorizontalMirror(imageBytes);
             }
-            else if (holoType == HoloType.Holo2)
+            else if (Application.platform == RuntimePlatform.WSAPlayerARM)
             {
                 ImageVerticalMirror(imageBytes);
             }
             _videoTexture.LoadRawTextureData(imageBytes);
-            _videoTexture.wrapMode = TextureWrapMode.Clamp;
             _videoTexture.Apply();
             UnityChatSDK.Instance.UpdateCustomTexture(_videoTexture);
 
