@@ -2481,7 +2481,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24287cd4550476f46835d9abba3689e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  holoType: 0
   holoResolution: 0
   holoFrame: 0
   EnableHolograms: 1
@@ -7061,7 +7060,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AudioVolume: 1
-  MicVolumeScale: 1
+  MicVolumeScale: 5
   VideoType: 2
   VideoResolution: 1
   VideoQuality: 1
