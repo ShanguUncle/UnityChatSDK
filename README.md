@@ -118,6 +118,8 @@ https://github.com/ShanguUncle/UnityChatHololens
 ![Image text](https://github.com/ShanguUncle/UnityChatSDK/blob/master/Readme/Pics/03.jpg)
 ![Image text](https://github.com/ShanguUncle/UnityChatSDK/blob/master/Readme/Pics/04.jpg)
 ![Image text](https://github.com/ShanguUncle/UnityChatSDK/blob/master/Readme/Pics/HoloCapture.jpg)
+![Image text](https://github.com/ShanguUncle/UnityChatHololens/blob/master/Screenshot/untitled5.jpg)
+![Image text](https://github.com/ShanguUncle/UnityChatHololens/blob/master/Screenshot/untitled6.jpg)
 
 
 
