@@ -22,6 +22,12 @@ Hololens Demo
 
 https://github.com/ShanguUncle/UnityChatHololens
 
+HoloLens MR Mark
+
+https://www.bilibili.com/video/BV1Jg4y1B7Ts
+
+https://www.bilibili.com/video/BV1yr4y1c7MN
+
 Nreal Glass
 
 https://www.bilibili.com/video/av79084374/
@@ -71,6 +77,12 @@ send your registration code to 1786570525@qq.com after payment.
 
 =====================版本更新v6.2=======================
 
+1.更新工程到Unity2019.4.11f1
+
+2.优化视频编解码
+
+=====================版本更新v6.2=======================
+
 1.修复打包Holoens打包出错
 
 2.新增语音录制、发送文字、图片、语音功能及Demo
@@ -81,7 +93,7 @@ https://github.com/ShanguUncle/UnityChatHololens
 
 =====================版本更新v6.1=======================
 
-1.支持群组音视频通话
+1.SDK支持群组音视频通话
 
 2.修复ios平台横屏状态下摄像头画面旋转问题，可设置前置摄像头
 

@@ -1,6 +1,6 @@
 Notes for Mac OSX users:
 
-As the turbojpeg.bundle is compiled by frozenmist, some security warning may popup in macOS Catalina or above version.
+Some security warning may popup in macOS Catalina or above version.
 
 In case that there is any warning message in system, please follow this instruction.
 
