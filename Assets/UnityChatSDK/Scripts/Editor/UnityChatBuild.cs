@@ -19,7 +19,7 @@ public class UnityChatBuild
             string filePath = PBXProject.GetPBXProjectPath(path);
             project.ReadFromFile(filePath);
 
-            //GetUnityMainTargetGuid()用于app获取Guid,GetUnityFrameworkTargetGuid()用于插件获取Guid
+            //GetUnityMainTargetGuid get app Guid,GetUnityFrameworkTargetGuid() get plugins Guid
             string guid = project.GetUnityFrameworkTargetGuid();
 #if !UNITY_2019_3_OR_NEWER
       guid = project.TargetGuidByName(project.GetUnityTargetName());

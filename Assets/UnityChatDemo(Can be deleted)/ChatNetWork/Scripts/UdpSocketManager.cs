@@ -1,15 +1,17 @@
-﻿using ChatProto;
+﻿using ChatNetWork;
+using ChatProto;
+using ChatProtocol;
 using Google.Protobuf;
 using System;
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Sockets;
-using UdpStreamProtocol;
 using UnityEngine;
-
+#if !UNITY_EDITOR && UNITY_WSA
+   using ChatNetworkUwp;
+#endif
 /// <summary>
 /// udp通讯管理类
 /// </summary>
@@ -25,12 +27,9 @@ public class UdpSocketManager : MonoBehaviour
     private DateTime packetStartTime;
 
 #if !UNITY_EDITOR && UNITY_WSA
-    private UdpClient upClient;
+    private ChatUdpClientUwp udpClient;
 #else
-    private Socket socket;
-    private UdpSendSocket udpSendSocket;
-    private UdpReceiveSocket udpReceiveSocket;
-
+    private ChatUdpClient udpClient; 
 #endif
 
     private void Awake()
@@ -41,17 +40,16 @@ public class UdpSocketManager : MonoBehaviour
     {
 
 #if !UNITY_EDITOR && UNITY_WSA
-        upClient = new UdpClient();
+        udpClient = new ChatUdpClientUwp();
 #else
-        udpSendSocket =new UdpSendSocket();
-        udpReceiveSocket = new UdpReceiveSocket();
+        udpClient = new ChatUdpClient();
 #endif
 
     }
 
     DateTime udpHeratTime;
 
-    public int UdpOutTime = 20;
+    public int UdpOutTime = 10;
     private void Update() //FixedUpdate()  
     {
         if (isRunning && (DateTime.Now - udpHeratTime).TotalSeconds > UdpOutTime)
@@ -93,15 +91,11 @@ public class UdpSocketManager : MonoBehaviour
         }
         else if (packet.Total>1)//需要组包
         {
-            //超时未收到完整包，清理
-            lock (packetCache)
-            {
-                if (packetCache.Count > 15 && packet.Index == 0) packetCache.Clear();
-            }
-
             byte[] data= AddPacket(packet);
             if(data!=null) ChatDataHandler.Instance.ReceiveVideo(data);
-        }   
+        }
+
+        if (packetCache.Count > 100) packetCache.Clear();
     }
 
     byte[] AddPacket(UdpPacket udpPacket)
@@ -148,13 +142,13 @@ public class UdpSocketManager : MonoBehaviour
             UdplDataModel model = UdpMessageCodec.Decode(data);
             switch (model.Request)
             {
-                case RequestByte.REQUEST_HEART:
+                case UdpRequest.REQUEST_HEART:
                     udpHeratTime = DateTime.Now;
                     break;
-                case RequestByte.REQUEST_AUDIO:
+                case UdpRequest.REQUEST_AUDIO:
                     ReceivedAudioDataQueue.Enqueue(model.ChatData);
                     break;
-                case RequestByte.REQUEST_VIDEO:
+                case UdpRequest.REQUEST_VIDEO:
                     ReceivedVideoDataQueue.Enqueue(model.ChatData);
                     break;
             }
@@ -174,33 +168,28 @@ public class UdpSocketManager : MonoBehaviour
         if (isRunning) return;
         isRunning = true;
 
-#if !UNITY_EDITOR && UNITY_WSA
-        upClient.Connect(Config.Instance.ChatStreamServerIP, Config.Instance.ChatStreamServerPort);
-        upClient.OnReceiveData += OnReceiveData;
-#else
-        socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-        udpSendSocket.IniSocket(socket,Config.Instance.ChatStreamServerIP, Config.Instance.ChatStreamServerPort);
-        udpReceiveSocket.InitSocket(socket, Config.Instance.ChatStreamServerIP, Config.Instance.ChatStreamServerPort);
-        udpReceiveSocket.OnReceiveData += OnReceiveData;
-#endif
+        udpClient.Start(Config.Instance.ServerIP, Config.Instance.UdpPort);
+        udpClient.OnReceiveData += OnReceiveData;
+
         print("Start listening");
-        StartCoroutine(sendHeart());
+        StartCoroutine(SendHeart());
 
         udpHeratTime = DateTime.Now;
     }
     //发送udp心跳包
-    IEnumerator sendHeart()
+    IEnumerator SendHeart()
     {
         print("start heart...");
         while (isRunning)
         {
-            yield return new WaitForSeconds(2);
-            CallInfo callInfo = new CallInfo();
-            callInfo.UserID = ChatManager.Instance.UserID;
+            yield return new WaitForSeconds(0.5f);
+            IMInfo info = new IMInfo();
+            info.UserID = ChatManager.Instance.UserID;
+            info.CallID = ChatManager.Instance.CallID;
 
             UdplDataModel model = new UdplDataModel();
-            model.ChatInfoData = callInfo.ToByteArray();
-            model.Request = RequestByte.REQUEST_HEART;
+            model.ChatInfoData = info.ToByteArray();
+            model.Request = UdpRequest.REQUEST_HEART;
 
             byte[] data = UdpMessageCodec.Encode(model); 
             Send(data);
@@ -215,24 +204,9 @@ public class UdpSocketManager : MonoBehaviour
         if (!isRunning) return;
         isRunning = false;
 
-#if !UNITY_EDITOR && UNITY_WSA
-        upClient.StopListening();
-        upClient.OnReceiveData -= OnReceiveData;
-#else
-        try
-        {
-            socket.Dispose();
-            socket = null;
+        udpClient.Stop();
 
-            udpSendSocket.UnInit();
-            udpReceiveSocket.OnReceiveData -= OnReceiveData;
-        }
-        catch (Exception e)
-        {
-            print("!UnInitUdpNet error: " + e.Message + ", " + e.StackTrace);
-        }
-#endif
-        print("UnInitUdpNet OK!");
+        packetCache.Clear();
     }
     /// <summary>
     /// 发送udp数据
@@ -240,12 +214,7 @@ public class UdpSocketManager : MonoBehaviour
     /// <param name="buff"></param>
     public void Send(byte[] buff)
     {
-#if !UNITY_EDITOR && UNITY_WSA 
-        upClient.SendUdpMessage(buff);
-#else
-        udpSendSocket.SendToAsyncByUDP(buff);
-#endif
-     
+        udpClient.Send(buff);
     }
 
     private void OnDestroy()

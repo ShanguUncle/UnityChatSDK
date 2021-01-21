@@ -32,7 +32,7 @@ public class UIDrag : MonoBehaviour, IBeginDragHandler, IDragHandler
 
     public void OnDrag(PointerEventData eventData)
     {
-        Transform.position = new Vector3(offsetX + Input.mousePosition.x, offsetY + Input.mousePosition.y,0);
+        Transform.position = new Vector3(offsetX + Input.mousePosition.x, offsetY + Input.mousePosition.y, 0);
     }
 
 }

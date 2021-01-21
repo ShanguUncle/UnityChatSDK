@@ -1,165 +1,205 @@
-﻿using ChatProto;
+﻿using ChatNetWork;
+using ChatProto;
+using ChatProtocol;
 using Google.Protobuf;
-using NetWorkPlugin;
-using Protocol;
-using System.Collections;
+using System;
 using System.Collections.Generic;
-using System.IO;
-using UdpStreamProtocol;
 using UnityEngine;
 
 /// <summary>
-/// 音视频通讯数据接口
+/// Audio and video chat logic manager
 /// </summary>
 public class ChatManager : MonoBehaviour {
 
     public static ChatManager Instance;
 
-    //用户ID
     public int UserID { get; set; } 
-    //用户名
     public string UserName { get; set; }
-    //用户头像url地址
-    public string UserPortrait { get; set; } 
-    //呼叫ID
+    //CallID unique every time
     public long CallID { get; set; }
-    //呼叫请求
-    public bool InviteCome { get; set; }
-    //聊天对象名字
-    public string ChatPeerName { get; set; } 
-    //聊天对象ID
-    public int ChatPeerID { get; set; }
-    //用户列表刷新
-    public bool UserlistUpdate { get; set; }
-    //聊天对象接听
-    public bool UserComeIn { get; set; } 
-    //在线用户列表(用户名，用户ID)
-    public Dictionary<int,string>  OnlineUserList { get; set; }
 
+    //Online UserInfo list
+    public List<UserInfo> OnlineUserList { get; set; } = new List<UserInfo>();
+    //Chat Users 
+    public List<UserInfo> ChatPeers { get; set; } = new List<UserInfo>();
 
+    bool isChatting;
     private void Awake()
     {
         Instance = this;
     }
     void Start () {
         CallID = 0;
-        OnlineUserList =new Dictionary<int, string>();
     }
+
     /// <summary>
-    /// /登录
+    /// Update username and uid
     /// </summary>
-    /// <param name="account">账号</param>
-    /// <param name="password">密码</param>
+    /// <param name="userName"></param>
+    /// <param name="userId"></param>
     public void Login(string userName,int userId=0)
     {
-        ProtocolDataModel pd = new ProtocolDataModel();
-        pd.Type = ProtocolType.TYPE_MYSQL;
-        pd.Request = MySqlDataProtocol.MYSQL_LOGIN_CRES;
-
         LoginInfo info = new LoginInfo();
         info.UserName = userName;
         info.UserID = userId;
-        pd.Message = info.ToByteArray();
-
-        NetWorkManager.Instance.Send(pd);
-
+        byte[] data = info.ToByteArray();
+        DataModel model = new DataModel(ChatProtocolType.TYPE_MYSQL, MySqlDataProtocol.MYSQL_LOGIN, data);
+        ChatNetworkManager.Instance.Send(model);
     }
     /// <summary>
-    /// 获取在线列表
+    /// Get online userlist
     /// </summary>
     public void GetOnlineUserList()
     {
-        ProtocolDataModel pd = new ProtocolDataModel();
-        pd.Type = ProtocolType.TYPE_MYSQL;
-        pd.Request = MySqlDataProtocol.MYSQL_ONLINEUSER_CREQ;
+        DataModel pd = new DataModel();
+        pd.Type = ChatProtocolType.TYPE_MYSQL;
+        pd.Request = MySqlDataProtocol.MYSQL_ONLINEUSER;
 
-        NetWorkManager.Instance.Send(pd);
+        ChatNetworkManager.Instance.Send(pd);
     }
-    /// <summary>
-    /// 呼叫
-    /// </summary>
-    /// <param name="callID">呼叫ID</param>
-    /// <param name="type">呼叫类型 1：音频 2：视频</param>
-    /// <param name="from">呼叫者 ID</param>
-    /// <param name="to">被呼叫者ID </param>
-    public void Call(long callID, ChatType type,int from,int to)
+    internal void OnlineUserChanged()
+    {
+        for (int i = 0; i < ChatPeers.Count; i++)
+        {
+            UserInfo info= OnlineUserList.Find((UserInfo user)=> { return user.UserID == ChatPeers[i].UserID; });
+            if (info == null) 
+            {
+                Debug.Log("OnPeerOffline: uid = " + ChatPeers[i].UserID);
+                IMInfo im = new IMInfo();
+                im.UserID = ChatPeers[i].UserID;
+                //User offline, hang up
+                OnHang(im);
+            }
+        }
+    }
+
+    public void Call(long callID, ChatType type, int userId, List<UserInfo> peerId)
     {
         if (CallID == 0)
         {
+            isChatting = true;
             CallID = callID;
-            ProtocolDataModel pd = new ProtocolDataModel();
-            pd.Type = ProtocolType.TYPE_IM;
-            pd.Request = IMProtocol.IM_CALL_CRE;
+            DataModel model = new DataModel();
+            model.Type = ChatProtocolType.TYPE_IM;
+            model.Request = IMProtocol.IM_CALL;
 
             IMInfo info = new IMInfo();
-            info.UserName = UserName;
-            info.UserID = UserID;
             info.CallID = callID;
-            info.CallType = (int)type;
+            info.Type = (int)type;
+            info.UserID = userId;
+            info.UserList.AddRange(peerId);
 
-            ChatDataHandler.Instance.ChatType = type;
-
-            info.PeerID = to;
-            ChatPeerID = to;
-            pd.Message = info.ToByteArray();
-            NetWorkManager.Instance.Send(pd);       
+            model.Message = info.ToByteArray();
+            ChatNetworkManager.Instance.Send(model);
         }
-    
+    }
+
+    public void OnCall(IMInfo info)
+    {
+        isChatting = false;
+        ChatPeers.Clear();
+        ChatPeers.AddRange(info.UserList);
+        CallID = info.CallID;
+        ChatUIManager.Instance.OnPeerCall((ChatType)info.Type);
     }
     /// <summary>
-    /// 挂断
+    /// Accept call invitation
     /// </summary>
-    public void Hang() 
+    public void Accept(int userId, List<UserInfo> peerId)
+    {
+        DataModel model = new DataModel();
+        model.Type = ChatProtocolType.TYPE_IM;
+        model.Request = IMProtocol.IM_ACCEPT;
+
+        IMInfo info = new IMInfo();
+        info.UserID = userId;
+        info.UserList.AddRange(peerId);
+
+        model.Message = info.ToByteArray();
+
+        ChatNetworkManager.Instance.Send(model);
+
+        //Start udp transmission
+        ChatDataHandler.Instance.StartChat();
+    }
+
+    //on user accept the call
+    public void OnAccpet(IMInfo info)
+    {
+        if (isChatting)
+        {
+            ChatUIManager.Instance.OnPeerAccept();
+            ChatUIManager.Instance.OnPeerJoin(info.UserID);
+        }
+    }
+
+    /// <summary>
+    /// Hang up call
+    /// </summary>
+    public void Hang()
     {
         if (CallID != 0)
         {
-            ProtocolDataModel pd = new ProtocolDataModel();
-            pd.Type = ProtocolType.TYPE_IM;
-            pd.Request = IMProtocol.IM_HANG_CRES;
+            DataModel model = new DataModel();
+            model.Type = ChatProtocolType.TYPE_IM;
+            model.Request = IMProtocol.IM_HANG;
 
             IMInfo info = new IMInfo();
-            info.PeerID = ChatPeerID;
-            pd.Message = info.ToByteArray();
+            info.UserID = UserID;
+            info.CallID = CallID;
+            info.UserList.AddRange(ChatPeers);
 
-            NetWorkManager.Instance.Send(pd);
+            model.Message = info.ToByteArray();
+
+            ChatNetworkManager.Instance.Send(model);
 
             //send udp hang
-            CallInfo callInfo = new CallInfo();
-            callInfo.UserID = UserID;
-            callInfo.CallID = CallID;
+            UdplDataModel udp = new UdplDataModel();
+            udp.Request = UdpRequest.REQUEST_HANG;
+            udp.ChatInfoData = model.Message;
+            byte[] udpData = UdpMessageCodec.Encode(udp);
 
-            UdplDataModel model = new UdplDataModel();
-            model.Request = RequestByte.REQUEST_HANG;
-            model.ChatInfoData = callInfo.ToByteArray();
-            byte[] data = UdpMessageCodec.Encode(model);
+            UdpSocketManager.Instance.Send(udpData);
 
-            UdpSocketManager.Instance.Send(UdpMessageCodec.Encode(model));
-
-            //结束udp传输
+            //stop udp
             ChatDataHandler.Instance.StopChat();
 
             CallID = 0;
+            ChatPeers.Clear();
+            isChatting = false;
         }
     }
-    /// <summary>
-    /// 接听
-    /// </summary>
-    public void Accept()
+
+    internal void OnHang(IMInfo info)
     {
-        ProtocolDataModel pd = new ProtocolDataModel();
-        pd.Type = ProtocolType.TYPE_IM;
-        pd.Request = IMProtocol.IM_ACCEPT_CRES;
+        //on user hangs up, remove the video panel
+        UserInfo user = ChatPeers.Find((UserInfo u) => { return u.UserID == info.UserID; });
+        if (user != null)
+        {
+            print("user leave:" + user.UserID + "," + user.UserName);
+            ChatPeers.Remove(user);
+            ChatUIManager.Instance.OnUserLeave(user.UserID);
+        }
+        //if the current number of calls ==1,just left yourself
+        if (ChatPeers.Count == 1)
+        {
+            ChatUIManager.Instance.Hang();
+        }
+    }
 
-        IMInfo info = new IMInfo();
-        info.UserName = UserName;
-        info.UserID = UserID;
-        info.PeerID = ChatPeerID;
-        //info.CallType = type;
-        pd.Message = info.ToByteArray();
-        NetWorkManager.Instance.Send(pd);
+    public void SendMessageToPeers(int userId, int type, byte[] data, List<int> peerId)
+    {
+        DataModel model = new DataModel();
+        model.Type = ChatProtocolType.TYPE_MESSAGE;
+        model.Request = SendMessageProtocol.MESSAGE_SEND_SOME;
 
-        //开始udp传输
-        ChatDataHandler.Instance.StartChat();
+        MessageInfo info = new MessageInfo();
+        info.UserID = userId;
+        info.Type = type;
+        info.PeerList.AddRange(peerId);
+        info.MessageData = ByteString.CopyFrom(data);
+        model.Message = info.ToByteArray();
+        ChatNetworkManager.Instance.Send(model);
     }
 
 }

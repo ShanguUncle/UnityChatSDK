@@ -1,93 +1,124 @@
-﻿using System.Collections;
+﻿using ChatProto;
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// Demo界面
+/// Demo UI manager
 /// </summary>
-public class MainUIManager : MonoBehaviour {
+public class MainUIManager : MonoBehaviour
+{
 
-    public static MainUIManager _instance;
+    public static MainUIManager Instance;
 
-    public Transform AddressContent;
+    public Transform FriendContent;
     public GameObject FriendItemPrefab;
+    public InputField UsernamInputField;
+
+
+    public UserInfo UserInfo { get; internal set; }
+    public List<UserInfo> SelectedFriendList = new List<UserInfo>();
+
+    public Toggle AllFriendToggle;
+    List<Toggle> FriendToggleList = new List<Toggle>();
 
     private void Awake()
     {
-        _instance = this;
+        Instance = this;
+    }
+    void Start()
+    {
+        UpdateUserList();
+        ChatNetworkManager.Instance.OnDisconnectAction += OnDisconnectAction;
+        ChatNetworkManager.Instance.OnConnectResultAction += OnConnectResultAction;
+        UsernamInputField.text = SystemInfo.deviceName;
     }
 
-    void Start () {
-		
-	}
-	
-	void Update () {
-		
-
-	}
-    private void FixedUpdate()
+    private void OnConnectResultAction(bool result)
     {
-        if (ChatManager.Instance.UserlistUpdate)
-        {
-            ChatManager.Instance.UserlistUpdate = false;
-            //更新通讯录
-            UpdateUserList();
-        }
+        MessageManager.Instance.ShowMessage("Connect server:" + result);
+        Config.Instance.NetPanl.SetActive(!result);
+    }
+
+    private void OnDisconnectAction()
+    {
+        MessageManager.Instance.ShowMessage("Server disconnect!");
+        ChatManager.Instance.OnlineUserList.Clear();
+        UpdateUserList();
+        Config.Instance.NetPanl.SetActive(false);
+    }
+    void Update()
+    {
+
 
     }
     /// <summary>
-    /// 登陆(deom登录随便设置用户名和密码即可，此版本服务器不做数据库验证)
+    /// deom login just upload the user name and uid(If you don’t set uid, the server will set automatically)
     /// </summary>
     public void Login()
     {
-        ChatManager.Instance.Login(SystemInfo.deviceName);
+        if (string.IsNullOrEmpty(UsernamInputField.text))
+        {
+            MessageManager.Instance.ShowMessage("please input username!");
+            return;
+        }
+        ChatManager.Instance.Login(UsernamInputField.text);
     }
     /// <summary>
-    /// 请求在线用户
+    /// Get the list of online users
     /// </summary>
-    public void  GetOnlineUserList()
+    public void GetOnlineUserList()
     {
         ChatManager.Instance.GetOnlineUserList();
     }
-    //更新在线用户列表
-    void UpdateUserList()
+    //Update online user list
+    public void UpdateUserList()
     {
-        foreach (var child in AddressContent.GetComponentsInChildren<FriendItem>())  
+        foreach (var child in FriendContent.GetComponentsInChildren<FriendItem>())
         {
-            DestroyImmediate(child.gameObject); 
+            DestroyImmediate(child.gameObject);
         }
-        foreach (var list in ChatManager.Instance.OnlineUserList) 
-        { 
-            GameObject go = Instantiate(FriendItemPrefab, AddressContent);
+        FriendToggleList.Clear();
+        SelectedFriendList.Clear();
+        for (int i = 0; i < ChatManager.Instance.OnlineUserList.Count; i++)
+        {
+            if (ChatManager.Instance.OnlineUserList[i].UserID == UserInfo.UserID) continue;
+            GameObject go = Instantiate(FriendItemPrefab, FriendContent);
+            FriendToggleList.Add(go.GetComponent<Toggle>());
             FriendItem item = go.GetComponent<FriendItem>();
-            item.FriendName = list.Value;
-            go.transform.Find("Text").GetComponent<Text>().text= list.Value;
-            item.FriendID = list.Key;
+            item.UserInfo = ChatManager.Instance.OnlineUserList[i];
+            item.FriendID = ChatManager.Instance.OnlineUserList[i].UserID;
+            item.FriendName = ChatManager.Instance.OnlineUserList[i].UserName;
+            go.transform.Find("Text").GetComponent<Text>().text = item.FriendName;
         }
+        AllFriendToggle.isOn = false;
     }
-    /// <summary>
-    /// 登录结果
-    /// </summary>
-    /// <param name="result"></param>
-    public void LoginResult(bool result)
+
+    public void OnAllFriendToggleChanged()
     {
-        if (result)
+        for (int i = 0; i < FriendToggleList.Count; i++)
         {
-            MessageManager._instance.ShowMessage("login successful!");
-        
-            //更新用户信息
-            print("UserID:" + ChatManager.Instance.UserID+
-          ",UserName:" +  ChatManager.Instance.UserName +
-           ",UserPortrait:" + ChatManager.Instance.UserPortrait);
-
-            //刷新列表
-            GetOnlineUserList();
-        }
-        else
-        {
-            MessageManager._instance.ShowMessage("Login failed！");
+            FriendToggleList[i].isOn = AllFriendToggle.isOn;
         }
     }
 
+    public void SendMessage(int type,byte[]data)
+    {
+        if (SelectedFriendList.Count == 0)
+        {
+            MessageManager.Instance.ShowMessage("please select a user!");
+            return;
+        }
+        List<int> ids = new List<int>();
+        ids.Add(UserInfo.UserID);
+        for (int i = 0; i < SelectedFriendList.Count; i++)
+        {
+            ids.Add(SelectedFriendList[i].UserID);
+        }
+        ChatManager.Instance.SendMessageToPeers(ChatManager.Instance.UserID,type, data, ids);
+    }
+    
 }

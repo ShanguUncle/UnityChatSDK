@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/UnityChatDemo(Can be deleted)/Scenes/UnityChatDemo_SendMessage.unity
+    path: Assets/UnityChatDemo(Can be deleted)/Scenes/UnityChatDemo_Android IOS PC.unity
     guid: 864f88351db915b4e8da82a6c92b79aa
   m_configObjects: {}

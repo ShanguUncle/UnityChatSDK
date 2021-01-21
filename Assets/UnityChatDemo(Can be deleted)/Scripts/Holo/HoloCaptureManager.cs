@@ -1,8 +1,8 @@
 ﻿#if UNITY_EDITOR ||UNITY_WSA
 using HoloCapture;
 #endif
-
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 public class HoloCaptureManager : MonoBehaviour {
 
@@ -77,12 +77,18 @@ UnityEngine.XR.WSA.WorldManager.GetNativeISpatialCoordinateSystemPtr(), OnFrameS
     }
 
     bool isStartCaputure;
+    /// <summary>
+    ///Enable hololens camera capture
+    /// </summary>
     public void StartCapture()
     {
         if (isStartCaputure) return;
         isStartCaputure = true;
         HoloCaptureHelper.Instance.StartCapture();
     }
+    /// <summary>
+    /// Disable hololens camera capture
+    /// </summary>
     public void StopCapture()
     {
         if (!isStartCaputure) return;
@@ -90,6 +96,10 @@ UnityEngine.XR.WSA.WorldManager.GetNativeISpatialCoordinateSystemPtr(), OnFrameS
         HoloCaptureHelper.Instance.StopCapture();
     }
 
+    /// <summary>
+    /// Callback on getting video data
+    /// </summary>
+    /// <param name="sample"></param>
     void OnFrameSampleCallback(VideoCaptureSample sample)
     {
 

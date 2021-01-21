@@ -5,11 +5,11 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// 消息提示管理
+/// Message show manager
 /// </summary>
 public class MessageManager : MonoBehaviour
 {
-    public static MessageManager _instance;
+    public static MessageManager Instance;
     public GameObject MessgageIamge;
     public Text MessgageText;
     public GameObject SelectBox;
@@ -18,17 +18,16 @@ public class MessageManager : MonoBehaviour
     Action noAction;
     private void Awake()
     {
-        _instance = this;
+        Instance = this;
     }
     void Start()
     {
 
     }
     /// <summary>
-    /// 显示提示消息
+    /// Show message
     /// </summary>
-    /// <param name="mes">提示语</param>
-    /// <param name="showTime">显示时间</param>
+
     public void ShowMessage(string mes, float showTime = 2)
     {
         MessgageIamge.gameObject.SetActive(true);
@@ -42,11 +41,11 @@ public class MessageManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 显示提示选择框
+    /// Show selection box
     /// </summary>
-    /// <param name="warn">提示语</param>
-    /// <param name="yes">选择YES时回调的方法</param>
-    /// <param name="no">选择NO时回调的方法</param>
+    /// <param name="warn">warn</param>
+    /// <param name="yes">Callback method when YES is selected</param>
+    /// <param name="no">Callback method when No is selected</param>
     public void ShowSelectBox(string warn, Action yes, Action no)
     {
         SelectBox.SetActive(true);

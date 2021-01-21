@@ -1,19 +1,31 @@
-﻿using System.Collections;
+﻿using ChatProto;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-/// <summary>
-/// 在线用户类
-/// </summary>
-public class FriendItem : MonoBehaviour {
+
+public class FriendItem : MonoBehaviour
+{
 
     public string FriendName;
     public int FriendID;
-    void Start () {
-		
-	}
-    public void Onclick()
+    public UserInfo UserInfo;
+    private Toggle.ToggleEvent onValueChanged;
+
+    void Start()
     {
-        ChatUIManager.Instance.ShowSelectFriend(FriendName, FriendID);
+        gameObject.GetComponent<Toggle>().onValueChanged.AddListener(OnValueChanged);
+    }
+    void OnValueChanged(bool isOn)
+    {
+        if (isOn)
+        {
+            MainUIManager.Instance.SelectedFriendList.Add(UserInfo);
+        }
+        else
+        {
+            MainUIManager.Instance.SelectedFriendList.Remove(UserInfo);
+        }
     }
 }

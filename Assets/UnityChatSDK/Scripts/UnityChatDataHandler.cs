@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.IO;
-using System.Xml.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
+/// <summary>
+/// Processing audio and video codec logic
+/// </summary>
 public class UnityChatDataHandler : MonoBehaviour {
 
+    //this uid used for testing, set your uid in specific application
+    public int TestUid = 1001;
     public bool IsStartChat { get; set; }
 
     Queue<VideoPacket> videoPacketQueue = new Queue<VideoPacket>();
@@ -24,9 +29,7 @@ public class UnityChatDataHandler : MonoBehaviour {
     /// </summary>
     public void StartVideoChat()
     {
-       OnStartChat(ChatType.AV);
-       //note:link rawimage by id
-       UnityChatSDK.Instance.AddChatPeer(1001, FindObjectOfType<UnityChatSet>().ChatPeerRawImage[0]);
+       OnStartChat(ChatType.Video);
     }
     /// <summary>
     /// start audio chat
@@ -41,7 +44,7 @@ public class UnityChatDataHandler : MonoBehaviour {
         try
         {
             UnityChatSDK.Instance.ChatType = type;
-    
+
             CaptureResult result = UnityChatSDK.Instance.StartCapture();
             print("StartChat:" + result);
             IsStartChat = true;
@@ -68,7 +71,6 @@ public class UnityChatDataHandler : MonoBehaviour {
         {
             UnityChatSDK.Instance.StopCpture();
             videoPacketQueue.Clear();
-            UnityChatSDK.Instance.ClearChatPeer();
             IsStartChat = false;
             print("OnStopChat");
         }
@@ -80,7 +82,7 @@ public class UnityChatDataHandler : MonoBehaviour {
 
 
     // after starting chat, in FixedUpdate the capture of audio and video will be transmitted via your own network
-    // note: The value of FixedUpdate Time needs to be less than 1 / (Framerate + 5), which can be set to 0.02 or less
+    // note: The value of FixedUpdate Time needs to be less than 1 / (Framerate + 5), which can be set to 0.025 or less
     void FixedUpdate()
     {
         if (!IsStartChat)
@@ -92,9 +94,6 @@ public class UnityChatDataHandler : MonoBehaviour {
                 SendAudio();
                 break;
             case ChatType.Video:
-                SendVideo();
-                break;
-            case ChatType.AV:
                 SendAudio();
                 SendVideo();
                 break;
@@ -129,37 +128,23 @@ public class UnityChatDataHandler : MonoBehaviour {
         AudioPacket packet = UnityChatSDK.Instance.GetAudio();
         if (packet != null)
         {
-            packet.Id = 1001;//use your userID
-            byte[] audio = GetPbAudioPacket(packet);
+            packet.Id = TestUid;//use your userID
+            byte[] audio = GetAudioPacketData(packet);
 
             if (audio != null)
             {
-                //send data through your own network,such as TCP，UDP，P2P,Webrct，Unet,Photon...,the demo uses UDP.
+                //send data through your own network,such as TCP，UDP，P2P,Webrct，Unet,Photon...,the demo uses UDP for testing.
                 SendDataByYourNetwork(audio);
 
-                //just for testing
+                //On receiving audio data,just for testing
                 ReceivedAudioDataQueue.Enqueue(audio);
             }
         }
     }
-    byte[] GetPbAudioPacket(AudioPacket packet)
+    byte[] GetAudioPacketData(AudioPacket packet)
     {
-        //you need to do
-        //coding packet to bytes by google.protobuf/protobufNet...
-
-        //use XmlSerializer for testing,not a good choice
-        using (MemoryStream memorry = new MemoryStream())
-        {
-            try
-            {
-                new XmlSerializer(typeof(AudioPacket)).Serialize(memorry, packet);
-                return memorry.ToArray();
-            }
-            catch (Exception e)
-            {
-                return null;
-            }
-        }
+        //you can codec packet by google.protobuf/protobufNet...(the demo used google.protobuf)
+        return ObjectToBytes(packet);
     }
 
     /// <summary>
@@ -167,7 +152,7 @@ public class UnityChatDataHandler : MonoBehaviour {
     /// </summary>
     void SendVideo()
     {
-        //获取SDK捕捉的视频数据
+        //capture video data by SDK
         VideoPacket packet = UnityChatSDK.Instance.GetVideo();
         if (packet == null || packet.Data == null || packet.Data.Length == 0) return;
 
@@ -183,42 +168,25 @@ public class UnityChatDataHandler : MonoBehaviour {
             {
                 return;
             }
-
         }
-        else 
-        {
-            packet.Id = 1001;//use your userID
-            byte[] video = GetPbVideoPacket(packet);
-            SendDataByYourNetwork(video);
 
-            //just for testing
-            ReceivedVideoDataQueue.Enqueue(video);
-        }
+        packet.Id = TestUid;//use your userID
+        byte[] video = GetVideoPacketData(packet);
+        SendDataByYourNetwork(video);
+
+        //On receiving video data,just for testing
+        ReceivedVideoDataQueue.Enqueue(video);
     }
-    byte[] GetPbVideoPacket(VideoPacket packet) 
+    byte[] GetVideoPacketData(VideoPacket packet) 
     {
-        //you need to do
-        //coding packet to bytes by google.protobuf/protobufNet...
-
-        //use XmlSerializer for testing,not a good choice
-        using (MemoryStream memorry = new MemoryStream())
-        {
-            try
-            {
-                new XmlSerializer(typeof(VideoPacket)).Serialize(memorry, packet);
-                return memorry.ToArray();
-            }
-            catch (Exception e)
-            {
-                return null;
-            }
-        }
+        //you can codec packet by google.protobuf/protobufNet...(the demo used google.protobuf)
+        return ObjectToBytes(packet);
     }
     void SendDataByYourNetwork(byte[] data)
     {
         //you need to do
     }
-    //==================receive data========================
+    //==================onReceive data========================
     /// <summary>
     /// called when audio data is received
     /// </summary>
@@ -227,25 +195,12 @@ public class UnityChatDataHandler : MonoBehaviour {
     {
         //decode audio data and playback
         AudioPacket packet = DecodeAudioPacket(data);
-        UnityChatSDK.Instance.DecodeAudioData(packet.Id, packet);
+        UnityChatSDK.Instance.DecodeAudioData(packet);
     }
     AudioPacket DecodeAudioPacket(byte[] data)
     {
-        //you need to do
         //decode bytes to packet
-
-        //use XmlSerializer for testing,not a good choice
-        using (MemoryStream memorry = new MemoryStream(data))
-        {
-            try
-            {
-                return (AudioPacket)(new XmlSerializer(typeof(AudioPacket)).Deserialize(memorry));
-            }
-            catch (Exception e)
-            {
-                return default(AudioPacket);
-            }
-        }
+        return BytesToObject<AudioPacket>(data);
     }
 
     /// <summary>
@@ -256,26 +211,40 @@ public class UnityChatDataHandler : MonoBehaviour {
     {
         //decode video data and render video
         VideoPacket packet = DecodeVideoPacket(data);
-        UnityChatSDK.Instance.DecodeVideoData(packet.Id, packet);
+        UnityChatSDK.Instance.DecodeVideoData(packet);
     }
     VideoPacket DecodeVideoPacket(byte[] data)
     {
-        //you need to do
         //decode bytes to packet
-
-        //use XmlSerializer for testing,not a good choice
-        using (MemoryStream memorry = new MemoryStream(data))
-        {
-            try
-            {
-                return (VideoPacket)(new XmlSerializer(typeof(VideoPacket)).Deserialize(memorry));
-            }
-            catch (Exception e)
-            {
-                return default(VideoPacket);
-            }
-        }
+        return BytesToObject<VideoPacket>(data);
     }
 
+    /// <summary>
+    /// data serialization
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="t"></param>
+    /// <returns></returns>
+    public static byte[] ObjectToBytes<T>(T t)
+    {
+        if (t == null) return null;
+        BinaryFormatter formatter = new BinaryFormatter();
+        MemoryStream stream = new MemoryStream();
+        formatter.Serialize(stream, t);
+        return stream.ToArray();
+    }
+    /// <summary>
+    /// data deserialization
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    public static T BytesToObject<T>(byte[] data)
+    {
+        if (data == null) return default(T);
+        BinaryFormatter formatter = new BinaryFormatter();
+        MemoryStream stream = new MemoryStream(data);
+        return (T)formatter.Deserialize(stream);
+    }
 
 }

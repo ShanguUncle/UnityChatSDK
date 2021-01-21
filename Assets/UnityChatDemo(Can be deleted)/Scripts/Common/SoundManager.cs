@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// 播放音效管理
+/// Play sound manager
 /// </summary>
 public class SoundManager : MonoBehaviour
 {
@@ -11,10 +11,10 @@ public class SoundManager : MonoBehaviour
     AudioSource m_bgSound;
     AudioSource m_effectSound;
     /// <summary>
-    /// 所有音效存放在Resources文件夹下的Sounds文件夹下
+    /// All sound effects are stored in the folder under the Resources folder
     /// </summary>
     private string ResourceDir="Sounds";
-    private bool isPlayBg = true;
+
     void Awake()
     {
         _instance = this;
@@ -28,10 +28,8 @@ public class SoundManager : MonoBehaviour
      
     }
     /// <summary>
-    /// 播放背景音乐
+    /// Play background music
     /// </summary>
-    /// <param name="audioName">音乐名字</param>
-    /// <param name="volume">音量</param>
     public void PlayBg(string audioName, float volume)
     {
 
@@ -49,7 +47,6 @@ public class SoundManager : MonoBehaviour
             else
                 path = ResourceDir + "/" + audioName;
             AudioClip clip = Resources.Load<AudioClip>(path);
-            //播放
             if (clip != null)
             {
                 m_bgSound.clip = clip;
@@ -61,7 +58,7 @@ public class SoundManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 停止播放背景音乐
+    /// Stop playing background music
     /// </summary>
     public void StopBg()
     {
@@ -70,9 +67,8 @@ public class SoundManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 播放音效（一次）
+    /// Play sound effect OneShot
     /// </summary>
-    /// <param name="audioName">音效名字</param>
     public void PlayEffect(string audioName)
     {
         string path;
@@ -85,7 +81,7 @@ public class SoundManager : MonoBehaviour
         m_effectSound.PlayOneShot(clip);
     }
     /// <summary>
-    /// 停止播放音效
+    /// Stop playing sound effect
     /// </summary>
     public void StopEffect()
     {

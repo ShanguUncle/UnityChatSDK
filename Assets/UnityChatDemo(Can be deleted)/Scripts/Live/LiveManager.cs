@@ -24,7 +24,7 @@ public class LiveManager : MonoBehaviour {
     }
     public void StartLive()
     {
-        UnityChatSDK.Instance.ChatType = ChatType.AV;
+        UnityChatSDK.Instance.ChatType = ChatType.Video;
         UnityChatSDK.Instance.StartCapture();
 
         Living = true;
@@ -76,7 +76,7 @@ public class LiveManager : MonoBehaviour {
     }
     public void DecodeAudiooData(AudioPacket audioPacket)  
     {
-            UnityChatSDK.Instance.DecodeAudioData(audioPacket.Id,audioPacket);
+            UnityChatSDK.Instance.DecodeAudioData(audioPacket);
     }
 
     //todo send audio and video via your network refer to chatDataHandler.cs

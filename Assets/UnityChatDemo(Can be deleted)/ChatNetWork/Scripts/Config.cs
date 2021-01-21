@@ -1,4 +1,4 @@
-﻿using NetWorkPlugin;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,46 +11,43 @@ public class Config : MonoBehaviour {
 
     public static Config Instance;
 
-    //TCP信令服务器地址及端口
-    public string SipServerIP;
-    public int SipServerPort; 
-    //UDP视音频流服务器地址及端口
-    public string ChatStreamServerIP; 
-    public int ChatStreamServerPort;
+    //服务器地址及端口
+    public string ServerIP;
+    public int TcpPort; 
+    public int UdpPort;
      
     public GameObject NetPanl;
+    public InputField ServerIPInputField;
 
-    public InputField SipServerIPInputField;
-    public InputField SipServerPortInputField;
-    public InputField ChatStreamServeIPInputField;
-    public InputField ChatStreamServerPortInputField;
-
+    public string IpKey = "IpKey";
     private void Awake()
     {
         Instance=this;
-
+        if (PlayerPrefs.HasKey(IpKey))
+        {
+            ServerIP = PlayerPrefs.GetString(IpKey);
+            print("PlayerPrefs get ip:" + ServerIP);
+        }
     }
     void Start ()
-    {     
-     
+    {
+        ServerIPInputField.text= ServerIP;
+        ChatNetworkManager.Instance.OnConnectResultAction += OnConnect;
+        Connect();
     }
+
+    private void OnConnect(bool result)
+    {
+        if (result) 
+        {
+            PlayerPrefs.SetString(IpKey, ServerIP);
+            PlayerPrefs.Save();
+        }
+    }
+
     public void Connect()
     {
-        try
-        {
-            SipServerIP = SipServerIPInputField.text;
-            SipServerPort = int.Parse(SipServerPortInputField.text);
-
-            ChatStreamServerIP = ChatStreamServeIPInputField.text;
-            ChatStreamServerPort = int.Parse(ChatStreamServerPortInputField.text);
-        }
-        catch (System.Exception e)
-        {
-            print("config error:"+e.Message);
-            MessageManager._instance.ShowMessage("Input error！");
-            return;
-        }
-
-        NetManager._instance.Connect();
+        ServerIP = ServerIPInputField.text;
+        ChatNetworkManager.Instance.ConnectServer();
     }
 }
