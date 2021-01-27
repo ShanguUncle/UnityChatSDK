@@ -7,11 +7,8 @@ using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Sockets;
 using UnityEngine;
-#if !UNITY_EDITOR && UNITY_WSA
-   using ChatNetworkUwp;
-#endif
+
 /// <summary>
 /// udp通讯管理类
 /// </summary>
@@ -24,13 +21,8 @@ public class UdpSocketManager : MonoBehaviour
     public Queue<byte[]> ReceivedVideoDataQueue = new Queue<byte[]>();
 
     ConcurrentDictionary<long, List<UdpPacket>> packetCache=new ConcurrentDictionary<long, List<UdpPacket>>();
-    private DateTime packetStartTime;
 
-#if !UNITY_EDITOR && UNITY_WSA
-    private ChatUdpClientUwp udpClient;
-#else
     private ChatUdpClient udpClient; 
-#endif
 
     private void Awake()
     {
@@ -38,13 +30,7 @@ public class UdpSocketManager : MonoBehaviour
     }
     void Start()
     {
-
-#if !UNITY_EDITOR && UNITY_WSA
-        udpClient = new ChatUdpClientUwp();
-#else
         udpClient = new ChatUdpClient();
-#endif
-
     }
 
     DateTime udpHeratTime;
