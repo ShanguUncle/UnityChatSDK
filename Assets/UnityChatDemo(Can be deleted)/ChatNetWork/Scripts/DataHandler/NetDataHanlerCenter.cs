@@ -7,7 +7,7 @@ using ChatProtocol;
 using System.Text;
 
 /// <summary>
-/// TCP网络数据处理管理
+/// TCP network handler center
 /// </summary>
 public class NetDataHanlerCenter : MonoBehaviour {
 

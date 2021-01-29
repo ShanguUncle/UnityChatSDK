@@ -5,7 +5,7 @@ using System;
 using UnityEngine;
 
 /// <summary>
-/// 通讯数据处理类
+/// chat send message handler
 /// </summary>
 public class MessageHandler : MonoBehaviour, IHandler
 {

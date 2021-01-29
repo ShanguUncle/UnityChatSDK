@@ -41,6 +41,8 @@ public class MainUIManager : MonoBehaviour
     {
         MessageManager.Instance.ShowMessage("Connect server:" + result);
         Config.Instance.NetPanl.SetActive(!result);
+        //login info
+        ChatManager.Instance.Login(SystemInfo.deviceName);
     }
 
     private void OnDisconnectAction()

@@ -5,13 +5,13 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// 服务器地址配置
+/// Server ip configuration
 /// </summary>
 public class Config : MonoBehaviour {
 
     public static Config Instance;
 
-    //服务器地址及端口
+    //Server ip and port
     public string ServerIP;
     public int TcpPort; 
     public int UdpPort;

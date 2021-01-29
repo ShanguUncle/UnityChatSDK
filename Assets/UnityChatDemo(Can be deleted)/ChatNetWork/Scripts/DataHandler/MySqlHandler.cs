@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// 数据库操作处理类
+/// chat mysql handler
 /// </summary>
 public class MySqlHandler : MonoBehaviour, IHandler
 {

@@ -121,12 +121,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!4 &3805013 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1141850491143745692, guid: f6511fe07b2d805478799a9830eb472b,
-    type: 3}
-  m_PrefabInstance: {fileID: 7785702897647975886}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &18313915
 GameObject:
   m_ObjectHideFlags: 0
@@ -7045,12 +7039,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0.000038146973}
   m_SizeDelta: {x: 0, y: 40}
   m_Pivot: {x: 0.5, y: 1}
---- !u!4 &1005138249 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1141850491143745692, guid: f6511fe07b2d805478799a9830eb472b,
-    type: 3}
-  m_PrefabInstance: {fileID: 7785702895853877561}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1008301089
 GameObject:
   m_ObjectHideFlags: 0
@@ -13089,7 +13077,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetType: 0
-  ChunkLength: 50000
+  ChunkLength: 60000
 --- !u!1 &1876789431
 GameObject:
   m_ObjectHideFlags: 0
@@ -15655,7 +15643,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 252657532575605816}
-  - {fileID: 3805013}
+  - {fileID: 7785702897647975887}
   m_Father: {fileID: 7779420037891876652}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -15671,7 +15659,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 252657531014226127}
-  - {fileID: 1005138249}
+  - {fileID: 7785702895853877562}
   m_Father: {fileID: 7779420038511535067}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -18368,6 +18356,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f6511fe07b2d805478799a9830eb472b, type: 3}
+--- !u!4 &7785702895853877562 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 7785702895853877561}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7785702897647975886
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18442,6 +18435,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f6511fe07b2d805478799a9830eb472b, type: 3}
+--- !u!4 &7785702897647975887 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 7785702897647975886}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &8026540816460323297
 GameObject:
   m_ObjectHideFlags: 0

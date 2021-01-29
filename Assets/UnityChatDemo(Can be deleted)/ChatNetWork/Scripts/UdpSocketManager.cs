@@ -4,13 +4,13 @@ using ChatProtocol;
 using Google.Protobuf;
 using System;
 using System.Collections;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 /// <summary>
-/// udp通讯管理类
+/// udp manager
+/// https://github.com/ShanguUncle/UnityChatSDK
 /// </summary>
 public class UdpSocketManager : MonoBehaviour
 {
@@ -20,7 +20,7 @@ public class UdpSocketManager : MonoBehaviour
     public Queue<byte[]> ReceivedAudioDataQueue = new Queue<byte[]>(); 
     public Queue<byte[]> ReceivedVideoDataQueue = new Queue<byte[]>();
 
-    ConcurrentDictionary<long, List<UdpPacket>> packetCache=new ConcurrentDictionary<long, List<UdpPacket>>();
+    Dictionary<long, List<UdpPacket>> packetCache=new Dictionary<long, List<UdpPacket>>();
 
     private ChatUdpClient udpClient; 
 
@@ -36,7 +36,7 @@ public class UdpSocketManager : MonoBehaviour
     DateTime udpHeratTime;
 
     public int UdpOutTime = 10;
-    private void Update() //FixedUpdate()  
+    private void Update() 
     {
         if (isRunning && (DateTime.Now - udpHeratTime).TotalSeconds > UdpOutTime)
         {
@@ -60,7 +60,7 @@ public class UdpSocketManager : MonoBehaviour
             {
                 VideoHandler(ReceivedVideoDataQueue.Dequeue());
             }
-            if (ReceivedVideoDataQueue.Count > 15)
+            if (ReceivedVideoDataQueue.Count > 30)
             {
                 ReceivedVideoDataQueue.Clear();
             }
@@ -75,13 +75,13 @@ public class UdpSocketManager : MonoBehaviour
         {
             ChatDataHandler.Instance.ReceiveVideo(packet.Chunk);
         }
-        else if (packet.Total>1)//需要组包
+        else if (packet.Total>1)//need to pack
         {
             byte[] data= AddPacket(packet);
             if(data!=null) ChatDataHandler.Instance.ReceiveVideo(data);
         }
 
-        if (packetCache.Count > 100) packetCache.Clear();
+        if (packetCache.Count > 200) packetCache.Clear();
     }
 
     byte[] AddPacket(UdpPacket udpPacket)
@@ -92,20 +92,15 @@ public class UdpSocketManager : MonoBehaviour
             if (packetCache.TryGetValue(udpPacket.Sequence, out udpPackets))
             {
                 udpPackets.Add(udpPacket);
-
                 if (udpPackets.Count == udpPacket.Total)
                 {
-                    packetCache.TryRemove(udpPacket.Sequence, out udpPackets);
-
+                    packetCache.Remove(udpPacket.Sequence);
                     udpPackets = udpPackets.OrderBy(u => u.Index).ToList();
                     int allLength = udpPackets.Sum(u => u.Chunk.Length);
-
-                    //int maxPacketLength = udpPackets.Select(u => u.Chunk.Length).Max();
-
                     byte[] wholePacket = new byte[allLength];
                     foreach (var item in udpPackets)
                     {
-                        Buffer.BlockCopy(item.Chunk, 0, wholePacket, item.Index * udpPacket.ChunkLength, item.Chunk.Length);
+                      Buffer.BlockCopy(item.Chunk, 0, wholePacket, item.Index * udpPacket.ChunkLength, item.Chunk.Length);       
                     }
                     return wholePacket;
                 }
@@ -116,7 +111,7 @@ public class UdpSocketManager : MonoBehaviour
         {
             List<UdpPacket> udpPackets = new List<UdpPacket>();
             udpPackets.Add(udpPacket);
-            packetCache.AddOrUpdate(udpPacket.Sequence,udpPackets, (k, v) => { return udpPackets; });
+            packetCache.Add(udpPacket.Sequence, udpPackets);
             return null;
         }
     }
@@ -147,7 +142,7 @@ public class UdpSocketManager : MonoBehaviour
 
     bool isRunning=false;
     /// <summary>
-    /// 开始udp监听
+    ///Start udp listening
     /// </summary>
     public void StartListening()
     {
@@ -158,14 +153,14 @@ public class UdpSocketManager : MonoBehaviour
         udpClient.OnReceiveData += OnReceiveData;
 
         print("Start listening");
-        StartCoroutine(SendHeart());
+        StartCoroutine(SendHeartbeat());
 
         udpHeratTime = DateTime.Now;
     }
-    //发送udp心跳包
-    IEnumerator SendHeart()
+    //Send udp heartbeat packet
+    IEnumerator SendHeartbeat()
     {
-        print("start heart...");
+        print("start heartbeat...");
         while (isRunning)
         {
             yield return new WaitForSeconds(0.5f);
@@ -180,10 +175,10 @@ public class UdpSocketManager : MonoBehaviour
             byte[] data = UdpMessageCodec.Encode(model); 
             Send(data);
         }
-        print("stop heart...");
+        print("stop heartbeat...");
     }
     /// <summary>
-    /// 停止udp监听
+    /// Stop udp listening
     /// </summary>
     public void StopListening()
     {
@@ -191,11 +186,14 @@ public class UdpSocketManager : MonoBehaviour
         isRunning = false;
 
         udpClient.Stop();
+        udpClient.OnReceiveData -= OnReceiveData;
 
         packetCache.Clear();
+        ReceivedAudioDataQueue.Clear();
+        ReceivedVideoDataQueue.Clear();
     }
     /// <summary>
-    /// 发送udp数据
+    /// Send udp data
     /// </summary>
     /// <param name="buff"></param>
     public void Send(byte[] buff)

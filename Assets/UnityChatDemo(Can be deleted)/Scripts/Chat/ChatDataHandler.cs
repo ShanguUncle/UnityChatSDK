@@ -67,7 +67,7 @@ public class ChatDataHandler : MonoBehaviour {
                         break;
                     case ChatType.Video:
                         SendAudio();
-                        SendVideo();
+                        StartCoroutine(SendVideo());
                         break;
                     default:
                         break;
@@ -133,7 +133,7 @@ public class ChatDataHandler : MonoBehaviour {
     /// <summary>
     /// Send video data
     /// </summary>
-    void SendVideo()
+    IEnumerator SendVideo()
     {
         //Get video data by SDK
         VideoPacket packet = UnityChatSDK.Instance.GetVideo();
@@ -149,7 +149,7 @@ public class ChatDataHandler : MonoBehaviour {
             }
             else
             {
-                return;
+                yield return null;
             }
         }
 
@@ -160,20 +160,20 @@ public class ChatDataHandler : MonoBehaviour {
 
             udpPacketIndex++;
             List<UdpPacket> list = UdpPacketSpliter.Split(udpPacketIndex, video, ChunkLength);
+
+            UdplDataModel model = new UdplDataModel();
+            model.Request = UdpRequest.REQUEST_VIDEO;
+            IMInfo info = new IMInfo();
+            info.UserID = ChatManager.Instance.UserID;
+            info.CallID = ChatManager.Instance.CallID;
+            info.UserList.Add(ChatManager.Instance.ChatPeers);
+            model.ChatInfoData = info.ToByteArray();
+
             for (int i = 0; i < list.Count; i++)
             {
-                UdplDataModel model = new UdplDataModel();
-                model.Request = UdpRequest.REQUEST_VIDEO;
-
-                IMInfo info = new IMInfo();
-                info.UserID = ChatManager.Instance.UserID;
-                info.CallID = ChatManager.Instance.CallID;
-                info.UserList.Add(ChatManager.Instance.ChatPeers);
-
-                model.ChatInfoData = info.ToByteArray();
                 model.ChatData = UdpPacketEncode(list[i]);
-
                 UdpSocketManager.Instance.Send(UdpMessageCodec.Encode(model));
+                yield return new WaitForSeconds(0.01f);
             }
         }
     }
@@ -256,10 +256,17 @@ public class ChatDataHandler : MonoBehaviour {
     }
     public void ReceiveVideo(byte[] data)
     {
-        //decoded video data by google.protobuf
-        PbVideoPacket packet = PbVideoPacket.Parser.ParseFrom(data);
-        //decode video data by UnityChatSDK
-        UnityChatSDK.Instance.DecodeVideoData(GetVideoPacket(packet));
+        try
+        {
+            //decoded video data by google.protobuf
+            PbVideoPacket packet = PbVideoPacket.Parser.ParseFrom(data);
+            //decode video data by UnityChatSDK
+            if(packet!=null)
+            UnityChatSDK.Instance.DecodeVideoData(GetVideoPacket(packet));
+        }
+        catch (Exception)
+        {
+        }
     }
 
     public void OnStartChat()
@@ -271,7 +278,7 @@ public class ChatDataHandler : MonoBehaviour {
             CaptureResult result= UnityChatSDK.Instance.StartCapture();
             print("StartChat:" + result);
             IsStartChat = true;
-            udpPacketIndex = 0;
+            udpPacketIndex = ChatManager.Instance.UserID*1000000;
             print("OnStartChat");
         }
         catch (Exception e)
@@ -289,6 +296,7 @@ public class ChatDataHandler : MonoBehaviour {
             UdpSocketManager.Instance.StopListening();
             videoPacketQueue.Clear();
             IsStartChat = false;
+            udpPacketIndex = ChatManager.Instance.UserID * 1000000;
             print("OnStopChat");
         }
         catch (Exception e)

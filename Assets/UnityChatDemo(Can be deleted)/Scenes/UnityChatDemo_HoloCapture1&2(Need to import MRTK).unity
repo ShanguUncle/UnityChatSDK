@@ -12215,7 +12215,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetType: 0
-  ChunkLength: 50000
+  ChunkLength: 60000
 --- !u!1 &1885787372
 GameObject:
   m_ObjectHideFlags: 0

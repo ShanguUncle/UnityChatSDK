@@ -71,6 +71,8 @@ public class UnityChatDataHandler : MonoBehaviour {
         {
             UnityChatSDK.Instance.StopCpture();
             videoPacketQueue.Clear();
+            ReceivedAudioDataQueue.Clear();
+            ReceivedVideoDataQueue.Clear();
             IsStartChat = false;
             print("OnStopChat");
         }

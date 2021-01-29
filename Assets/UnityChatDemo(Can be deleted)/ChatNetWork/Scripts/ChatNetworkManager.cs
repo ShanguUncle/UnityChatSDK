@@ -7,7 +7,8 @@ using UnityEngine;
 
 
 /// <summary>
-/// TCP通讯管理类
+/// TCP chat network manager
+/// https://github.com/ShanguUncle/UnityChatSDK
 /// </summary>
 public class ChatNetworkManager : MonoBehaviour {
 
@@ -32,7 +33,7 @@ public class ChatNetworkManager : MonoBehaviour {
         client.OnReceiveData += OnReceiveData;
     }
     /// <summary>
-    /// 连接服务器
+    /// connect to the server
     /// </summary>
     public void ConnectServer()
     {
@@ -45,7 +46,7 @@ public class ChatNetworkManager : MonoBehaviour {
         client.ConnectServer(Config.Instance.ServerIP, Config.Instance.TcpPort);
     }
     /// <summary>
-    /// 断开连接
+    /// disconnect to the server
     /// </summary>
     public void DisconnectServer()
     {
@@ -54,7 +55,7 @@ public class ChatNetworkManager : MonoBehaviour {
 
 
     /// <summary>
-    /// 向服务器发送数据
+    /// Send data to the server
     /// </summary>
     /// <param name="model"></param>
     internal void Send(DataModel model)
@@ -70,7 +71,7 @@ public class ChatNetworkManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// 收到消息回调
+    /// Receive server message callback
     /// </summary>
     /// <param name="data"></param>
     private void OnReceiveData(byte[] data)
@@ -99,7 +100,7 @@ public class ChatNetworkManager : MonoBehaviour {
 
 
     /// <summary>
-    /// 连接结果回调
+    /// Connection result callback
     /// </summary>
     /// <param name="result"></param>
     private void OnConnect(bool result)
@@ -123,24 +124,4 @@ public class ChatNetworkManager : MonoBehaviour {
             OnConnectResultAction?.Invoke(connectResult);
         }
     }
-
-    //注册服务器连接回调
-    private void OnServerConnect(bool res)
-    {
-        print("Server Connect:" + res);
-        if (res)
-        {
-            MessageManager.Instance.ShowMessage("Server connect success!");
-            Config.Instance.NetPanl.SetActive(false);
-
-            //登录
-            ChatManager.Instance.Login(SystemInfo.deviceName);
-        }
-        else
-        {
-            MessageManager.Instance.ShowMessage("Server connect fail!", 3);
-            Config.Instance.NetPanl.SetActive(true);
-        }
-    }
-
 }
