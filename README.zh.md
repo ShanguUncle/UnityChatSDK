@@ -34,9 +34,11 @@
 
 | 视频教程                                              | 地址                                                 |
 | ----------------------------------------------------- | ---------------------------------------------------- |
-| UnityChatSDK v7.1                                     | [观看](https://www.bilibili.com/video/BV1ZK4y1H7dM/) | [观看]()|                                                     
+| UnityChatSDK v7.1                                     | [观看](https://www.bilibili.com/video/BV1ZK4y1H7dM/) |
+|                                                       | [观看]()   |
 | UnityChatSDK WeChat                                   | [观看](https://www.bilibili.com/video/BV1TJ411X79T)  |
-| HoloLens MR Mark                                      | [观看](https://www.bilibili.com/video/BV1Jg4y1B7Ts)  |[观看](https://www.bilibili.com/video/BV1yr4y1c7MN)  |                                                     
+| HoloLens MR Mark                                      | [观看](https://www.bilibili.com/video/BV1Jg4y1B7Ts)  |
+|                                                       | [观看](https://www.bilibili.com/video/BV1yr4y1c7MN)  |
 | Vuforia AR Mark                                       | [观看](https://www.bilibili.com/video/av81873111)    |
 | Nreal Glass                                           | [观看](https://www.bilibili.com/video/av79084374/)   |
 
