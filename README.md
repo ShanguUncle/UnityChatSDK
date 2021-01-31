@@ -32,12 +32,15 @@
 
 ## Video Tutorials
 
-| Tutorials                                             | Location                                            |
-| ----------------------------------------------------- | ----------------------------------------------------|
-| UnityChatSDK                                          | [View](https://www.bilibili.com/video/av78607683)   |
-| HoloLens MR Mark                                      | [View](https://www.bilibili.com/video/BV1Jg4y1B7Ts) |
-| Vuforia AR Mark                                       | [View](https://www.bilibili.com/video/av81873111)   |
-| Nreal Glass                                           | [View](https://www.bilibili.com/video/av79084374/)  |
+| Tutorials                                             | Location                                             |
+| ----------------------------------------------------- | ---------------------------------------------------- |
+| UnityChatSDK v7.1                                     | [View](https://www.bilibili.com/video/BV1ZK4y1H7dM/) |
+|                                                       | [View]()   |
+| UnityChatSDK WeChat                                   | [View](https://www.bilibili.com/video/BV1TJ411X79T)  |
+| HoloLens MR Mark                                      | [View](https://www.bilibili.com/video/BV1Jg4y1B7Ts)  |
+|                                                       | [View](https://www.bilibili.com/video/BV1yr4y1c7MN)  |
+| Vuforia AR Mark                                       | [View](https://www.bilibili.com/video/av81873111)    |
+| Nreal Glass                                           | [View](https://www.bilibili.com/video/av79084374/)   |
 
 ## Hololens Demo
 
@@ -69,6 +72,8 @@ Please send your bill and Request KEY to 1786570525@qq.com after payment.
 ![Image text](Readme/Images/Screenshoots/02.jpg)
 ![Image text](Readme/Images/Screenshoots/03.jpg)
 ![Image text](Readme/Images/Screenshoots/04.jpg)
+![Image text](Readme/Images/Screenshoots/05.jpg)
+![Image text](Readme/Images/Screenshoots/06.jpg)
 
 
 

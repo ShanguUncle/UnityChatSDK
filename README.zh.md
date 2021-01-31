@@ -32,12 +32,15 @@
 
 ## 视频教程
 
-| 视频教程                                              | 地址                                                |
-| ----------------------------------------------------- | ----------------------------------------------------|
-| UnityChatSDK                                          | [观看](https://www.bilibili.com/video/av78607683)   |
-| HoloLens MR Mark                                      | [观看](https://www.bilibili.com/video/BV1Jg4y1B7Ts) |
-| Vuforia AR Mark                                       | [观看](https://www.bilibili.com/video/av81873111)   |
-| Nreal Glass                                           | [观看](https://www.bilibili.com/video/av79084374/)  |
+| 视频教程                                              | 地址                                                 |
+| ----------------------------------------------------- | ---------------------------------------------------- |
+| UnityChatSDK v7.1                                     | [观看](https://www.bilibili.com/video/BV1ZK4y1H7dM/) |
+|                                                       | [观看]()   |
+| UnityChatSDK WeChat                                   | [观看](https://www.bilibili.com/video/BV1TJ411X79T)  |
+| HoloLens MR Mark                                      | [观看](https://www.bilibili.com/video/BV1Jg4y1B7Ts)  |
+|                                                       | [观看](https://www.bilibili.com/video/BV1yr4y1c7MN)  |
+| Vuforia AR Mark                                       | [观看](https://www.bilibili.com/video/av81873111)    |
+| Nreal Glass                                           | [观看](https://www.bilibili.com/video/av79084374/)   |
 
 ## Hololens例子
 
@@ -49,13 +52,13 @@ https://github.com/ShanguUncle/UnityChatHololens
 
 ## 支付
 
-<a href="https://www.paypal.com/cgi-bin/webscr?&cmd=_xclick&business=1786570525@qq.com&currency_code=USD&amount=254&item_name=UnityChatSDK_Licence" target="_blank"><img src="Readme/Images/SDK/pay.gif" border="0" name="submit" alt="Click to pay with PayPal!"></a>
+<a href="https://www.paypal.com/cgi-bin/webscr?&cmd=_xclick&business=1786570525@qq.com&currency_code=USD&amount=254&item_name=UnityChatSDK_Licence" target="_blank"><img src="Readme/Images/SDK/pay.zh.png" border="0" name="submit" alt="Click to pay with PayPal!"></a>
 通过PayPal购买许可证
 
-<a href="https://www.paypal.com/cgi-bin/webscr?&cmd=_xclick&business=1786570525@qq.com&currency_code=USD&amount=1980&item_name=UnityChatSDK_Licence&SourceCode" target="_blank"><img src="Readme/Images/SDK/pay.gif" border="0" name="submit" alt="Click to pay with PayPal!"></a>
+<a href="https://www.paypal.com/cgi-bin/webscr?&cmd=_xclick&business=1786570525@qq.com&currency_code=USD&amount=1980&item_name=UnityChatSDK_Licence&SourceCode" target="_blank"><img src="Readme/Images/SDK/pay.zh.png" border="0" name="submit" alt="Click to pay with PayPal!"></a>
 通过PayPal购买许可证及源码(NetWorkPlugin及服务器源码)
 
-<a href="https://item.taobao.com/item.htm?id=574700900943" target="_blank"><img src="Readme/Images/SDK/pay.gif" border="0" name="submit" alt="Click to pay with Taobao!"></a>
+<a href="https://item.taobao.com/item.htm?id=574700900943" target="_blank"><img src="Readme/Images/SDK/pay.zh.png" border="0" name="submit" alt="Click to pay with Taobao!"></a>
 通过淘宝购买许可证
 
 ## 注册
@@ -69,6 +72,8 @@ https://github.com/ShanguUncle/UnityChatHololens
 ![Image text](Readme/Images/Screenshoots/02.jpg)
 ![Image text](Readme/Images/Screenshoots/03.jpg)
 ![Image text](Readme/Images/Screenshoots/04.jpg)
+![Image text](Readme/Images/Screenshoots/05.jpg)
+![Image text](Readme/Images/Screenshoots/06.jpg)
 
 
 

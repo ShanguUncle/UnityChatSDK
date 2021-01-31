@@ -1,46 +1,35 @@
 ﻿Unity Video Chat SDK
+https://github.com/ShanguUncle/UnityChatSDK
 
-Unity Video Chat SDK, support UnityEditor,Android,IOS,Windows,UWP(Hololens).
+Unity Video Chat SDK  supports UnityEditor,Android,iOS,Windows,UWP(Hololens1&2),MR/AR/VR Glasses...
+Multiple video types:device camera/unity camera/custom texture.
+The interface is simple, the video/audio capture and codec are separated, you can insert the sdk to your own network easily.
 
-Support multiple video types:device camera/unity Camera/screen video/custom Texture, support AR, MR mixed video.
+Support Unity editor, Android, iOS, Windows, UWP.
+Support multiple video types:device camera/unity camera/custom texture.
+Support VR,AR,MR video(htc/oculus/arfoundation/vuforia/hololens).
+Support 180P (320x180), 360P (640x360), 720P (1280x720), 1080P (1920x1080) video resolution.
+Support dynamically set video resolution and compression quality
+Support one-to-one, one-to-many audio and video chat.
+Support server record chat video.
 
-Support group audio and video calls,server call video record.
+Support Email:1786570525@qq.com
+==================================
+Unity音视频通讯SDK
+https://github.com/ShanguUncle/UnityChatSDK
 
-Support Unity2018 and above.
+Unity Video Chat SDK 支持 Unity编辑器,Android,iOS,Windows,UWP(Hololens1&2),MR/AR/VR 眼镜...
+多种视频采集类型：设备摄像头/Unity摄像机/自定义纹理。
+接口简单，将视频/音频捕获和编解码器分离，你可以将sdk轻松接入自己的网络中。
 
-The interface is simple, the capture of audio and video and codec is separated separately, you can insert the sdk to your own network easily
+支持Unity编辑器, Android, iOS, Windows, UWP平台.
+支持多种视频采集类型：设备摄像头/Unity摄像机/自定义纹理。
+支持VR,AR,MR video(htc/oculus/arfoundation/vuforia/hololens)。
+支持的视频分辨率180P (320x180), 360P (640x360), 720P (1280x720), 1080P (1920x1080)。
+支持动态设置视频分辨率和压缩质量。
+支持一对一，一对多的音频和视频聊天。
+支持服务器录制聊天视频。
 
-https://www.youtube.com/playlist?list=PLqNc8GThKNiQjA4IaFr1U_KQHYuKuqgus
-
-https://www.bilibili.com/video/av56439383
-
-Email:1786570525@qq.com
-
-pay for licence：
-https://www.paypal.com/cgi-bin/webscr?&cmd=_xclick&business=1786570525@qq.com&currency_code=USD&amount=254&item_name=UnityChatSDK Licence
-
-send your registration code to 1786570525@qq.com after payment.
-
-====================Unity Video Chat SDK========================
-
-特点：
-
-1.跨平台 Unity编辑器，Android，IOS，Windows,UWP(Hololens & Surface)，支持Unity2018及以上
-
-2.支持多种视频类型，可传输摄像头画面和Unity Camera渲染画面，屏幕画面，支持AR、MR混合视频
-
-3.支持群组音视频通话，可录制通话视频
-
-4.接口简单，将音视频的捕捉，编解码单独分离，方便开发者对接自己的网络接口
-
-5.支持180P（320x180）、360P（640x360）、720P（1280x720）、1080P（1920x1080)视频格式
-
-6.可动态设置视频的分辨率，压缩质量
-
-7.demo服务器支持一对一，一对多通讯，通话视频服务器录制
-
-========================技术支持=========================
-
-1.QQ群 211031265
-
-2.教程：https://blog.csdn.net/ShanGuUncle/article/details/81535884
+技术支持:
+QQ群 211031265
+教程：https://blog.csdn.net/ShanGuUncle/article/details/81535884
