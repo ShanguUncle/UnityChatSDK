@@ -50,7 +50,7 @@ https://github.com/ShanguUncle/UnityChatHololens
 
 > 技术支持邮箱:1786570525@qq.com
 
-> QQ交流群:211031265[加入](https://jq.qq.com/?_wv=1027&k=uLaFJGfS)
+> QQ交流群:**211031265**  [加入](https://jq.qq.com/?_wv=1027&k=uLaFJGfS)
 
 ## 支付
 
