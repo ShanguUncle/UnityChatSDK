@@ -1,7 +1,7 @@
 ## All Versions
 
 
-### v7.1 (2021/1/31)
+### v7.1 (2021/2/1)
 
 - Added  **group chat** demo
 - Udp and Tcp servers are combined into **one server**.
