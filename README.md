@@ -12,13 +12,13 @@
 
 ## Features
 
--[x] Support Unity editor, Android, iOS, Windows, UWP.
--[x] Support multiple video types:device camera/unity camera/custom texture.
--[x] Support VR,AR,MR video(htc/oculus/arfoundation/vuforia/hololens).
--[x] Support 180P (320x180), 360P (640x360), 720P (1280x720), 1080P (1920x1080) video resolution.
--[x] Support dynamically set video resolution and compression quality
--[x] Support one-to-one, one-to-many audio and video chat.
--[x] Support server record chat video.
+- [x] Support Unity editor, Android, iOS, Windows, UWP.
+- [x] Support multiple video types:device camera/unity camera/custom texture.
+- [x] Support VR,AR,MR video(htc/oculus/arfoundation/vuforia/hololens).
+- [x] Support 180P (320x180), 360P (640x360), 720P (1280x720), 1080P (1920x1080) video resolution.
+- [x] Support dynamically set video resolution and compression quality
+- [x] Support one-to-one, one-to-many audio and video chat.
+- [x] Support server record chat video.
 
 ## Latest Version Update
 - SDK update to **v7.1**
@@ -44,18 +44,22 @@
 https://github.com/ShanguUncle/UnityChatHololens
 
 > Support Email:1786570525@qq.com
+
 > QQ group:211031265[Join](https://jq.qq.com/?_wv=1027&k=uLaFJGfS)
 
 ## Pay
 > Pay for licence with PayPal：
 <a href="https://www.paypal.com/cgi-bin/webscr?&cmd=_xclick&business=1786570525@qq.com&currency_code=USD&amount=254&item_name=UnityChatSDK_Licence" target="_blank"><img src="https://gsjbucket.oss-cn-shanghai.aliyuncs.com/Git/pay.gif" border="0" name="submit" alt="Click to pay with PayPal!"></a>
+
 > Pay for licence and source code(NetWorkPlugin & server source code) with PayPal：
 <a href="https://www.paypal.com/cgi-bin/webscr?&cmd=_xclick&business=1786570525@qq.com&currency_code=USD&amount=1980&item_name=UnityChatSDK_Licence&SourceCode" target="_blank"><img src="https://gsjbucket.oss-cn-shanghai.aliyuncs.com/Git/pay.gif" border="0" name="submit" alt="Click to pay with PayPal!"></a>
+
 > Pay for licence with Taobao：
 <a href="https://item.taobao.com/item.htm?id=574700900943" target="_blank"><img src="https://gsjbucket.oss-cn-shanghai.aliyuncs.com/Git/pay.gif" border="0" name="submit" alt="Click to pay with Taobao!"></a>
 
 ## Register
 Open the project->Unity top title bar->Tools>Register SDK
+
 Please send your bill and Request KEY to 1786570525@qq.com after payment.
 
 ## APP Screenshots
