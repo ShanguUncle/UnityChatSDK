@@ -109,7 +109,7 @@ public class SendChatMessageManager : MonoBehaviour {
     {
         if (string.IsNullOrEmpty(MessageTextInputField.text))
         {
-            MessageManager.Instance.ShowMessage("消息不能为空!");
+            MessageManager.Instance.ShowMessage("message is null!");
             return;
         }
 
