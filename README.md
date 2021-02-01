@@ -23,7 +23,7 @@
 ## Latest Version Update
 - SDK update to **v7.1**
 - Added  **group chat** demo
-- Udp and Tcp servers are combined into **one server**.
+- Udp and Tcp servers are combined into **one server**
 - Fixed **memory leak** during Hololens call
 - Optimized **udp network** transmission
 - Support **vuforia** video
