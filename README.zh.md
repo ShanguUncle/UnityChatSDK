@@ -35,7 +35,7 @@
 | 视频教程                                              | 地址                                                 |
 | ----------------------------------------------------- | ---------------------------------------------------- |
 | UnityChatSDK v7.1                                     | [观看](https://www.bilibili.com/video/BV1ZK4y1H7dM/) |
-|                                                       | [观看]()   |
+|                                                       | [观看](https://www.bilibili.com/video/BV1yz4y1m71J/) |
 | UnityChatSDK WeChat                                   | [观看](https://www.bilibili.com/video/BV1TJ411X79T)  |
 | HoloLens MR Mark                                      | [观看](https://www.bilibili.com/video/BV1Jg4y1B7Ts)  |
 |                                                       | [观看](https://www.bilibili.com/video/BV1yr4y1c7MN)  |

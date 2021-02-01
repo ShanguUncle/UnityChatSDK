@@ -35,7 +35,7 @@
 | Tutorials                                             | Location                                             |
 | ----------------------------------------------------- | ---------------------------------------------------- |
 | UnityChatSDK v7.1                                     | [View](https://www.bilibili.com/video/BV1ZK4y1H7dM/) |
-|                                                       | [View]()   |
+|                                                       | [View](https://www.bilibili.com/video/BV1yz4y1m71J/) |
 | UnityChatSDK WeChat                                   | [View](https://www.bilibili.com/video/BV1TJ411X79T)  |
 | HoloLens MR Mark                                      | [View](https://www.bilibili.com/video/BV1Jg4y1B7Ts)  |
 |                                                       | [View](https://www.bilibili.com/video/BV1yr4y1c7MN)  |
