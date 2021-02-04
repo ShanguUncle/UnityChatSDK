@@ -57,7 +57,7 @@ https://github.com/ShanguUncle/UnityChatHololens
 <a href="https://www.paypal.com/cgi-bin/webscr?&cmd=_xclick&business=1786570525@qq.com&currency_code=USD&amount=356&item_name=UnityChatSDK_Licence" target="_blank"><img src="Readme/Images/SDK/pay.gif" border="0" name="submit" alt="Click to pay with PayPal!"></a>
 Pay for licence with PayPal
 
-<a href="https://www.paypal.com/cgi-bin/webscr?&cmd=_xclick&business=1786570525@qq.com&currency_code=USD&amount=2390&item_name=UnityChatSDK_Licence&SourceCode" target="_blank"><img src="Readme/Images/SDK/pay.gif" border="0" name="submit" alt="Click to pay with PayPal!"></a>
+<a href="https://www.paypal.com/cgi-bin/webscr?&cmd=_xclick&business=1786570525@qq.com&currency_code=USD&amount=2390&item_name=UnityChatSDK_SourceCode" target="_blank"><img src="Readme/Images/SDK/pay.gif" border="0" name="submit" alt="Click to pay with PayPal!"></a>
 Pay for licence and source code(NetWorkPlugin & server source code) with PayPal
 
 <a href="https://item.taobao.com/item.htm?id=574700900943" target="_blank"><img src="Readme/Images/SDK/pay.gif" border="0" name="submit" alt="Click to pay with Taobao!"></a>
