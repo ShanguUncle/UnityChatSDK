@@ -50,7 +50,7 @@ public class MainUIManager : MonoBehaviour
         MessageManager.Instance.ShowMessage("Server disconnect!");
         ChatManager.Instance.OnlineUserList.Clear();
         UpdateUserList();
-        Config.Instance.NetPanl.SetActive(false);
+        Config.Instance.NetPanl.SetActive(true);
     }
     void Update()
     {
