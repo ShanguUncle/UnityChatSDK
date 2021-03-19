@@ -103,6 +103,7 @@ public class UnityChatSet: MonoBehaviour {
 
     public void SetVideoCaptureType(VideoType type, Camera captureCamera)
     {
+        VideoType = type;
         bool result= UnityChatSDK.Instance.SetVideoCaptureType(type, captureCamera);
         if (result == false)
         {
@@ -117,6 +118,7 @@ public class UnityChatSet: MonoBehaviour {
     {
         VideoResolution = r;
         UnityChatSDK.Instance.SetResolution(r);
+        InitVideo();
     }
     public void OnVideoQualityValueChanged(Dropdown dp) 
     {
@@ -143,19 +145,25 @@ public class UnityChatSet: MonoBehaviour {
     /// </summary>
     public void SwitchCam() 
     {
-        UnityChatSDK.Instance.SwitchCam();
+        if (VideoType == VideoType.DeviceCamera) 
+        {
+            UnityChatSDK.Instance.SwitchCam();
+        }
     }
     public void SetFrontCam() 
     {
-        bool result= UnityChatSDK.Instance.SetCamFrontFacing();
-        print("SetFrontCam:"+result);
+        if (VideoType == VideoType.DeviceCamera)
+        {
+            bool result = UnityChatSDK.Instance.SetCamFrontFacing();
+            print("SetFrontCam:" + result);
+        }
     }
     /// <summary>
     /// Set the video capture type to the video captured by device camera
     /// </summary>
     public void SetDeciveCam()
     {
-        SetVideoCaptureType(VideoType.DeviceCamera, null);
+        SetVideoCaptureType(VideoType.DeviceCamera, CaptureCamera);
     }
     /// <summary>
     /// Set the video capture type to the video rendered by Unity Camera
@@ -163,5 +171,12 @@ public class UnityChatSet: MonoBehaviour {
     public void SetUnityCam()
     {
         SetVideoCaptureType(VideoType.UnityCamera, CaptureCamera);
+    }
+    /// <summary>
+    /// Set customTexture capture type ,send video by "UpdateCustomTexture" API of UnityChatSDK
+    /// </summary>
+    public void SetCustomTexture()
+    {
+        SetVideoCaptureType(VideoType.CustomTexture, CaptureCamera);
     }
 }

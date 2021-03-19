@@ -109,18 +109,31 @@ public class MainUIManager : MonoBehaviour
 
     public void SendMessage(int type,byte[]data)
     {
-        if (SelectedFriendList.Count == 0)
+        if (SelectedFriendList.Count == 0 && ChatManager.Instance.ChatPeers.Count == 0)
         {
             MessageManager.Instance.ShowMessage("please select a user!");
             return;
         }
+
         List<int> ids = new List<int>();
         ids.Add(UserInfo.UserID);
-        for (int i = 0; i < SelectedFriendList.Count; i++)
+
+        if (!ChatUIManager.Instance.ChatPanel.activeInHierarchy)
         {
-            ids.Add(SelectedFriendList[i].UserID);
+            for (int i = 0; i < SelectedFriendList.Count; i++)
+            {
+                ids.Add(SelectedFriendList[i].UserID);
+            }
         }
-        ChatManager.Instance.SendMessageToPeers(ChatManager.Instance.UserID,type, data, ids);
+        else if (ChatManager.Instance.ChatPeers.Count > 0) //通话中
+        {
+            for (int i = 0; i < ChatManager.Instance.ChatPeers.Count; i++)
+            {
+                ids.Add(ChatManager.Instance.ChatPeers[i].UserID);
+            }
+        }
+
+        ChatManager.Instance.SendMessageToPeers(ChatManager.Instance.UserID, type, data, ids);
     }
-    
+
 }

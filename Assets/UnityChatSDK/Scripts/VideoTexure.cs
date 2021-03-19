@@ -17,6 +17,7 @@ public class VideoTexure : MonoBehaviour
     {
         render= GetComponent<Renderer>();
         rawImage = GetComponent<RawImage>();
+        SetBlack();
     }
 
     float updateTime;

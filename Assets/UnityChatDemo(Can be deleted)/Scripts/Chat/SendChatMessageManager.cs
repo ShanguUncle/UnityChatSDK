@@ -23,13 +23,17 @@ public class SendChatMessageManager : MonoBehaviour {
     public Text ReceicePicUserText;
     public Text ReceiceVoiceUserText;
 
+    public delegate void OnReciveMessage(MessageInfo info);
+    public OnReciveMessage OnReciveMessageDg;
     public enum MessageType
     {
         None,
         Text,
         Pic,
         Voice,
-        File
+        File,
+        Mark,
+        Other,
     }
     private void Awake()
     {
@@ -61,6 +65,7 @@ public class SendChatMessageManager : MonoBehaviour {
             default:
                 break;
         }
+        OnReciveMessageDg?.Invoke(info);
     }
 
     private void OnReciveText(MessageInfo info)

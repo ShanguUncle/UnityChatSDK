@@ -25,6 +25,8 @@ public class ChatUIManager : MonoBehaviour {
 
     public Texture2D DefultBlack;
 
+    public VideoTexure SelectedPeerVideo;
+
     private void Awake()
     {
         Instance = this;
@@ -43,12 +45,22 @@ public class ChatUIManager : MonoBehaviour {
         GameObject go = peerImageList.Find((GameObject obj)=> { return obj.name == uid.ToString(); });
         if (go!=null) return;
 
-        GameObject peer = Instantiate(PeerImagePrefab,ChatPeersContent);
+        GameObject peer = Instantiate(PeerImagePrefab, ChatPeersContent);
+        Toggle tog = peer.GetComponent<Toggle>();
+        tog.group = ChatPeersContent.GetComponent<ToggleGroup>();
+
         peer.name = uid.ToString();
-        VideoTexure video = peer.transform.Find("RawImage").gameObject.AddComponent<VideoTexure>();
+        VideoTexure video = peer.transform.Find("RawImage").gameObject.GetComponent<VideoTexure>();
         video.ID = uid;
         peerImageList.Add(peer);
+
+        if (peerImageList.Count == 1)
+        {
+            SelectedPeerVideo.ID = uid;
+            tog.isOn = true;
+        }
     }
+
     public void OnUserLeave(int uid)
     {
         Debug.Log("OnUserLeave: uid = " + uid );
@@ -120,7 +132,7 @@ public class ChatUIManager : MonoBehaviour {
     }
     public void SendChatMessage() 
     {
-        if (MainUIManager.Instance.SelectedFriendList.Count == 0)
+        if (MainUIManager.Instance.SelectedFriendList.Count == 0 && ChatManager.Instance.ChatPeers.Count == 0)
         {
             MessageManager.Instance.ShowMessage("please select a user!");
             return;
@@ -162,8 +174,6 @@ public class ChatUIManager : MonoBehaviour {
             }
             CallFriendText.text = "Calling group(" + ChatManager.Instance.ChatPeers.Count + "):" + group;
         }
-
-        //UnityChatSDK.Instance.AddChatPeer(peer,FindObjectOfType<UnityChatSet>().ChatPeerRawImage[0]);
     }
 
     /// <summary>

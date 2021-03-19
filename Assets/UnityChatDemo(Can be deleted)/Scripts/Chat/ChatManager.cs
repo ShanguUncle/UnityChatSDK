@@ -72,7 +72,10 @@ public class ChatManager : MonoBehaviour {
             }
         }
     }
-
+    public UserInfo GetUserInfoById(int id)
+    {
+        return OnlineUserList.Find((UserInfo user) => { return user.UserID == id; });
+    }
     public void Call(long callID, ChatType type, int userId, List<UserInfo> peerId)
     {
         if (CallID == 0)
