@@ -174,6 +174,12 @@ public class ChatUIManager : MonoBehaviour {
             }
             CallFriendText.text = "Calling group(" + ChatManager.Instance.ChatPeers.Count + "):" + group;
         }
+
+        if (ChatManager.Instance.ChatPeers.Count <= 2)
+        {
+            ChatPeersContent.transform.localScale = Vector3.zero;
+        }
+        else { ChatPeersContent.transform.localScale = Vector3.one; } 
     }
 
     /// <summary>
@@ -199,6 +205,12 @@ public class ChatUIManager : MonoBehaviour {
             }
             ChatFriendText.text = "In group call(" + ChatManager.Instance.ChatPeers.Count + "):" + group;
         }
+
+        if (ChatManager.Instance.ChatPeers.Count <= 2)
+        {
+            ChatPeersContent.transform.localScale = Vector3.zero;
+        }
+        else { ChatPeersContent.transform.localScale = Vector3.one; }
     }
     /// <summary>
     /// Hang up call

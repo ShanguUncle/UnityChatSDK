@@ -43,7 +43,7 @@ public class UnityChatSet: MonoBehaviour {
         yield return new WaitUntil(() => UnityChatSDK.Instance != null);
         Application.targetFrameRate = 60;
         InitAudio();
-        InitVideo(); 
+        InitVideo();
     }
     //初始化音频
     void InitAudio() 
@@ -85,14 +85,14 @@ public class UnityChatSet: MonoBehaviour {
         switch (VideoType)
         {
             case VideoType.DeviceCamera:
-                SetVideoCaptureType(VideoType.DeviceCamera, null);
+                SetVideoCaptureType(VideoType.DeviceCamera, CaptureCamera);
                 SetFrontCam();
                 break;
             case VideoType.UnityCamera:
                 SetVideoCaptureType(VideoType.UnityCamera, CaptureCamera);
                 break;
             case VideoType.CustomTexture:
-                SetVideoCaptureType(VideoType.CustomTexture, null);
+                SetVideoCaptureType(VideoType.CustomTexture, CaptureCamera);
                 break;
             default:
                 break;
@@ -118,7 +118,6 @@ public class UnityChatSet: MonoBehaviour {
     {
         VideoResolution = r;
         UnityChatSDK.Instance.SetResolution(r);
-        InitVideo();
     }
     public void OnVideoQualityValueChanged(Dropdown dp) 
     {

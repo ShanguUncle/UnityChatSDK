@@ -292,7 +292,7 @@ public class ChatDataHandler : MonoBehaviour {
         yield return new WaitForEndOfFrame();
         try
         {
-            UnityChatSDK.Instance.StopCpture();
+            UnityChatSDK.Instance.StopCapture();
             UdpSocketManager.Instance.StopListening();
             videoPacketQueue.Clear();
             IsStartChat = false;

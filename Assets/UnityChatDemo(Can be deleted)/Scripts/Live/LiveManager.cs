@@ -34,7 +34,7 @@ public class LiveManager : MonoBehaviour {
     }
     public void StopLive()
     {
-        UnityChatSDK.Instance.StopCpture();
+        UnityChatSDK.Instance.StopCapture();
         Living = false;
     }
     IEnumerator RecordScreen() 
