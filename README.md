@@ -21,12 +21,9 @@
 - [x] Support server record chat video.
 
 ## Latest Version Update
-- SDK update to **v7.1**
-- Added  **group chat** demo
-- Udp and Tcp servers are combined into **one server**
-- Fixed **memory leak** during Hololens call
-- Optimized **udp network** transmission
-- Support **vuforia** video
+- SDK update to **v7.2**
+- Update group chat demo UI 
+- Fixed **server record** conversion bug
 
 [View all version updates](VersionUpdates.md)
 

@@ -1,10 +1,14 @@
 ## All Versions
 
+### v7.2 (2021/3/5)
+
+- Update group chat demo UI 
+- Fixed **server record** encode bug
 
 ### v7.1 (2021/2/1)
 
 - Added  **group chat** demo
-- Udp and Tcp servers are combined into **one server**.
+- Udp and Tcp servers are combined into **one server**
 - Fixed **memory leak** during Hololens call
 - Optimized **udp network** transmission
 - Support **vuforia** video
