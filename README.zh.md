@@ -12,7 +12,7 @@
 
 ## 特点
 
-- [x] 支持Unity编辑器, Android, iOS, Windows, UWP平台.
+- [x] 支持Unity编辑器, Android, iOS, Windows, UWP平台。
 - [x] 支持多种视频采集类型：设备摄像头/Unity摄像机/自定义纹理。
 - [x] 支持VR,AR,MR video(htc/oculus/arfoundation/vuforia/hololens)。
 - [x] 支持的视频分辨率180P (320x180), 360P (640x360), 720P (1280x720), 1080P (1920x1080)。
