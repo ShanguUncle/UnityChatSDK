@@ -9,6 +9,7 @@
 > Unity Video Chat SDK 支持 Unity编辑器,Android,iOS,Windows,UWP(Hololens1&2),MR/AR/VR 眼镜...
 > 多种视频采集类型：设备摄像头/Unity摄像机/自定义纹理。
 > 接口简单，将视频/音频捕获和编解码器分离，你可以将sdk轻松接入自己的网络中。
+[文档](https://github.com/ShanguUncle/UnityChatSDK/blob/master/Readme/VideoChatSDK.pdf)
 
 ## 特点
 

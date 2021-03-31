@@ -22,6 +22,8 @@ public class UnityChatSet: MonoBehaviour {
     public VideoResolution VideoResolution = VideoResolution._180P;
     //video compression quality
     public VideoQuality VideoQuality = VideoQuality.Middle;
+
+    public VideoTextureFormat Format = VideoTextureFormat.BGRA32;
     //video refresh rate
     [Range(5,25)]
     public int Framerate = 15;
@@ -31,6 +33,8 @@ public class UnityChatSet: MonoBehaviour {
     public bool EnableDetection;
     //Video and audio frame synchronization
     public bool EnableSync;
+    //Set android encode compatible if encode video crash,it may reduce performance
+    public bool AndroidEncodeCompatible;
 
     /// <summary>
     /// You need set the unity camera when choosing to capture by Unity Camera
@@ -72,6 +76,8 @@ public class UnityChatSet: MonoBehaviour {
         UnityChatSDK.Instance.Framerate = Framerate;
         UnityChatSDK.Instance.EnableDetection = EnableDetection;
         UnityChatSDK.Instance.EnableSync = EnableSync;
+        UnityChatSDK.Instance.SetAndroidCompatible(AndroidEncodeCompatible);
+        UnityChatSDK.Instance.SetTextureFormat(Format);
 #if UNITY_ANDROID
         if (!Permission.HasUserAuthorizedPermission(Permission.Camera)) 
         {

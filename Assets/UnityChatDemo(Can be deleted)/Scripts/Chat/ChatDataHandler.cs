@@ -184,6 +184,7 @@ public class ChatDataHandler : MonoBehaviour {
         pbPacket.Id = video.Id;
         pbPacket.Width = video.Width;
         pbPacket.Height = video.Height;
+        pbPacket.Format = video.Format;
         pbPacket.Timestamp = video.Timestamp;
 
         if (video.Data!=null)
@@ -199,6 +200,7 @@ public class ChatDataHandler : MonoBehaviour {
         video.Id = packet.Id;
         video.Width = packet.Width;
         video.Height = packet.Height;
+        video.Format = packet.Format;
         video.Timestamp = packet.Timestamp;
 
         if (packet.Data != null)

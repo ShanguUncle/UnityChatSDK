@@ -9,6 +9,7 @@
 > Unity Video Chat SDK  supports UnityEditor,Android,iOS,Windows,UWP(Hololens1&2),MR/AR/VR Glasses...
 > Multiple video types:device camera/unity camera/custom texture.
 > The interface is simple, the video/audio capture and codec are separated, you can insert the sdk to your own network easily.
+[Document](https://github.com/ShanguUncle/UnityChatSDK/blob/master/Readme/VideoChatSDK.pdf)
 
 ## Features
 
