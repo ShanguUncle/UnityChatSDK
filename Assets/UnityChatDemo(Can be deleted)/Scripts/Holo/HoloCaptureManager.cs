@@ -4,7 +4,13 @@ using HoloCapture;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
-public class HoloCaptureManager : MonoBehaviour {
+
+#if UNITY_2020_1_OR_NEWER
+
+#endif
+
+public class HoloCaptureManager : MonoBehaviour
+{
 
     public static HoloCaptureManager Instance;
     private void Awake()
@@ -25,13 +31,13 @@ public class HoloCaptureManager : MonoBehaviour {
         Holo_1280x720,
     }
     //public HoloType holoType;
-    public HoloResolution holoResolution; 
+    public HoloResolution holoResolution;
     public HoloCamFrame holoFrame;
     HoloCapture.Resolution resolution;
     public bool EnableHolograms = true;
 
-    [Range(0,1)]
-    public float Opacity=0.9f;
+    [Range(0, 1)]
+    public float Opacity = 0.9f;
 
 
     public Texture2D _videoTexture { get; set; }
@@ -49,7 +55,7 @@ public class HoloCaptureManager : MonoBehaviour {
                 resolution = new HoloCapture.Resolution(896, 504);
                 break;
             case HoloResolution.Holo_1280x720:
-                resolution = new HoloCapture.Resolution(1280,720);
+                resolution = new HoloCapture.Resolution(1280, 720);
                 break;
         }
         int frame;
@@ -65,8 +71,21 @@ public class HoloCaptureManager : MonoBehaviour {
                 frame = 15;
                 break;
         }
+#if UNITY_WSA
+
+#if UNITY_2020_1_OR_NEWER
+        //Note:
+        //please add those packages on PackageManager
+        //1.XR Plugin Management 4.x
+        //2.Windows XR Plugin 4.x
+        HoloCaptureHelper.Instance.Init(resolution, frame, true, EnableHolograms, Opacity, false,
+UnityEngine.XR.WindowsMR.WindowsMREnvironment.OriginSpatialCoordinateSystem, OnFrameSampleCallback);
+#else
         HoloCaptureHelper.Instance.Init(resolution, frame, true, EnableHolograms, Opacity, false,
 UnityEngine.XR.WSA.WorldManager.GetNativeISpatialCoordinateSystemPtr(), OnFrameSampleCallback);
+#endif
+
+#endif
 
         _videoTexture = new Texture2D(resolution.width, resolution.height, TextureFormat.BGRA32, false);
     }
@@ -111,7 +130,7 @@ UnityEngine.XR.WSA.WorldManager.GetNativeISpatialCoordinateSystemPtr(), OnFrameS
 
         UnityEngine.WSA.Application.InvokeOnAppThread(() =>
         {
-            if (Application.platform==RuntimePlatform.WSAPlayerX86)
+            if (Application.platform == RuntimePlatform.WSAPlayerX86)
             {
                 ImageHorizontalMirror(imageBytes);
             }
@@ -152,11 +171,11 @@ UnityEngine.XR.WSA.WorldManager.GetNativeISpatialCoordinateSystemPtr(), OnFrameS
         int height = resolution.height;
         int Line = width * PixelSize;
 
-        for (int i = 0; i< width; i ++)
+        for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < height / 2; j++)
             {
-                Swap<byte>(ref imageBytes[Line * j + i * PixelSize], ref imageBytes[Line * (height-j-1)+ i * PixelSize]);
+                Swap<byte>(ref imageBytes[Line * j + i * PixelSize], ref imageBytes[Line * (height - j - 1) + i * PixelSize]);
                 Swap<byte>(ref imageBytes[Line * j + i * PixelSize + 1], ref imageBytes[Line * (height - j - 1) + i * PixelSize + 1]);
                 Swap<byte>(ref imageBytes[Line * j + i * PixelSize + 2], ref imageBytes[Line * (height - j - 1) + i * PixelSize + 2]);
                 Swap<byte>(ref imageBytes[Line * j + i * PixelSize + 3], ref imageBytes[Line * (height - j - 1) + i * PixelSize + 3]);
