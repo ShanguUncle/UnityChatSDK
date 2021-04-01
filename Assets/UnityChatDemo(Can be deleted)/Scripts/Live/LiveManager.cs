@@ -29,7 +29,7 @@ public class LiveManager : MonoBehaviour {
 
         Living = true;
 
-        TextureLocal = new Texture2D(Screen.width, Screen.height, TextureFormat.ARGB32, false);
+        TextureLocal = new Texture2D(Screen.width, Screen.height, TextureFormat.BGRA32, false);
         StartCoroutine(RecordScreen());
     }
     public void StopLive()
