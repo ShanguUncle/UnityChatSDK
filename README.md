@@ -9,11 +9,12 @@
 > Unity Video Chat SDK  supports UnityEditor,Android,iOS,Windows,UWP(Hololens1&2),MR/AR/VR Glasses...
 > Multiple video types:device camera/unity camera/custom texture.
 > The interface is simple, the video/audio capture and codec are separated, you can insert the sdk to your own network easily.
+
 [Document](https://github.com/ShanguUncle/UnityChatSDK/blob/master/Readme/VideoChatSDK.pdf)
 
 ## Features
 
-- [x] Support Unity editor, Android, iOS, Windows, UWP.
+- [x] Support Unity editor, Android, iOS, Windows/Mac/Linux, UWP.
 - [x] Support multiple video types:device camera/unity camera/custom texture.
 - [x] Support VR,AR,MR video(htc/oculus/arfoundation/vuforia/hololens).
 - [x] Support 180P (320x180), 360P (640x360), 720P (1280x720), 1080P (1920x1080) video resolution.
@@ -22,9 +23,8 @@
 - [x] Support server record chat video.
 
 ## Latest Version Update
-- SDK update to **v7.2**
-- Update group chat demo UI 
-- Fixed **server record** conversion bug
+- SDK update to **v7.3**
+- Fixed video codec format bug
 
 [View all version updates](VersionUpdates.md)
 

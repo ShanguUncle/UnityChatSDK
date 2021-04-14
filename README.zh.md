@@ -9,11 +9,12 @@
 > Unity Video Chat SDK 支持 Unity编辑器,Android,iOS,Windows,UWP(Hololens1&2),MR/AR/VR 眼镜...
 > 多种视频采集类型：设备摄像头/Unity摄像机/自定义纹理。
 > 接口简单，将视频/音频捕获和编解码器分离，你可以将sdk轻松接入自己的网络中。
+
 [文档](https://github.com/ShanguUncle/UnityChatSDK/blob/master/Readme/VideoChatSDK.pdf)
 
 ## 特点
 
-- [x] 支持Unity编辑器, Android, iOS, Windows, UWP平台。
+- [x] 支持Unity编辑器, Android, iOS, Windows/Mac/Linux, UWP平台。
 - [x] 支持多种视频采集类型：设备摄像头/Unity摄像机/自定义纹理。
 - [x] 支持VR,AR,MR video(htc/oculus/arfoundation/vuforia/hololens)。
 - [x] 支持的视频分辨率180P (320x180), 360P (640x360), 720P (1280x720), 1080P (1920x1080)。
@@ -22,9 +23,8 @@
 - [x] 支持服务器录制聊天视频。
 
 ## 最新版本更新
-- SDK更新到了**v7.2**
-- 更新群组视频Demo界面
-- 修复服务器录制视频转码bug
+- SDK更新到了**v7.3**
+- 修复了视频编解码格式的bug
 
 
 [查看所有版本更新](VersionUpdates.md)
