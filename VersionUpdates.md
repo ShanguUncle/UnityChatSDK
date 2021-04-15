@@ -2,7 +2,6 @@
 
 ### v7.3 (2021/4/15)
 
-- Update group chat demo UI 
 - Fixed **video codec format** bug
 
 ### v7.2 (2021/3/5)
