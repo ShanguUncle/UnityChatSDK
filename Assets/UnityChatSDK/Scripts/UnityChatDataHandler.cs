@@ -69,7 +69,7 @@ public class UnityChatDataHandler : MonoBehaviour {
         yield return new WaitForEndOfFrame();
         try
         {
-            UnityChatSDK.Instance.StartCapture();
+            UnityChatSDK.Instance.StopCapture();
             videoPacketQueue.Clear();
             ReceivedAudioDataQueue.Clear();
             ReceivedVideoDataQueue.Clear();

@@ -18,10 +18,11 @@ public class VideoTexure : MonoBehaviour
         render= GetComponent<Renderer>();
         rawImage = GetComponent<RawImage>();
         SetBlack();
+        lastVideoTime = DateTime.Now;
     }
 
     float updateTime;
-
+    DateTime lastVideoTime; 
     void Update()
     {
         if (Time.time - updateTime < 0.03f)
@@ -42,7 +43,15 @@ public class VideoTexure : MonoBehaviour
 
         if (video == null)
         {
+            if ((DateTime.Now - lastVideoTime).TotalSeconds > 2)
+            {
+                SetBlack();
+            }
             return;
+        }
+        else 
+        {
+            lastVideoTime = video.LastTime;
         }
 
         if ((DateTime.Now - video.LastTime).TotalSeconds > 2)
