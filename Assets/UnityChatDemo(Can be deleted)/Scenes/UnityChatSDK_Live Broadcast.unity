@@ -258,7 +258,7 @@ GameObject:
   - component: {fileID: 26561706}
   - component: {fileID: 26561705}
   m_Layer: 0
-  m_Name: LIveCamera
+  m_Name: Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1046,8 +1046,9 @@ GameObject:
   - component: {fileID: 203063839}
   - component: {fileID: 203063838}
   - component: {fileID: 203063837}
+  - component: {fileID: 203063840}
   m_Layer: 5
-  m_Name: LiveImage
+  m_Name: LiveImagePreview
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1101,11 +1102,25 @@ RectTransform:
   m_Father: {fileID: 116622481}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2019, y: 0}
-  m_SizeDelta: {x: 1920, y: 1080}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 230.03998, y: 129.4}
+  m_SizeDelta: {x: 460.0774, y: 258.79346}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &203063840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 203063836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1da0e970de71b04ab55b4f2b109a248, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsSelf: 1
+  ID: 0
 --- !u!1 &337679252
 GameObject:
   m_ObjectHideFlags: 0
@@ -2279,7 +2294,7 @@ GameObject:
   - component: {fileID: 936590104}
   - component: {fileID: 936590103}
   m_Layer: 5
-  m_Name: SelfRawImage
+  m_Name: CamRawImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3438,8 +3453,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CamRawImage: {fileID: 936590103}
-  LiveImage: {fileID: 203063837}
-  Living: 0
 --- !u!4 &1448247801
 Transform:
   m_ObjectHideFlags: 0
@@ -4156,7 +4169,6 @@ GameObject:
   - component: {fileID: 1869994738}
   - component: {fileID: 1869994740}
   - component: {fileID: 1869994739}
-  - component: {fileID: 1869994741}
   m_Layer: 0
   m_Name: UnityChatSDKManager
   m_TagString: Untagged
@@ -4206,25 +4218,15 @@ MonoBehaviour:
   AudioVolume: 1
   MicVolumeScale: 1
   VideoType: 2
-  VideoResolution: 2
-  VideoQuality: 1
+  VideoResolution: 1
+  VideoQuality: 2
+  Format: 3
   Framerate: 20
   EchoCancellation: 0
   EnableDetection: 0
   EnableSync: 0
+  AndroidEncodeCompatible: 0
   CaptureCamera: {fileID: 0}
---- !u!114 &1869994741
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1869994737}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3ecf9492f8da9b4dabb22f140ee24a7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1885787372
 GameObject:
   m_ObjectHideFlags: 0
@@ -4793,7 +4795,7 @@ GameObject:
   - component: {fileID: 2102343039}
   - component: {fileID: 2102343040}
   m_Layer: 0
-  m_Name: LiveScene
+  m_Name: Scene
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

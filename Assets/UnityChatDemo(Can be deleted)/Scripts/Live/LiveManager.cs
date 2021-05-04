@@ -6,40 +6,31 @@ using UnityEngine.UI;
 
 public class LiveManager : MonoBehaviour {
 
-    public static LiveManager Instance;
-
     public RawImage CamRawImage;
     WebCamTexture cameraTexture;
 
-    public RawImage LiveImage;
-
     Texture2D TextureLocal;
 
-    public bool Living;
+    bool living;
 
-
-    private void Awake()
-    {
-        Instance = this;
-    }
     public void StartLive()
     {
         UnityChatSDK.Instance.ChatType = ChatType.Video;
         UnityChatSDK.Instance.StartCapture();
 
-        Living = true;
+        living = true;
 
         TextureLocal = new Texture2D(Screen.width, Screen.height, TextureFormat.BGRA32, false);
-        StartCoroutine(RecordScreen());
+        StartCoroutine(Record());
     }
     public void StopLive()
     {
         UnityChatSDK.Instance.StopCapture();
-        Living = false;
+        living = false;
     }
-    IEnumerator RecordScreen() 
+    IEnumerator Record() 
     {
-        while (Living) 
+        while (living) 
         {
             yield return new WaitForEndOfFrame();
             TextureLocal.ReadPixels(new Rect(0.0f, 0.0f, Screen.width, Screen.height), 0, 0, false);
@@ -71,32 +62,28 @@ public class LiveManager : MonoBehaviour {
     //decode data when receive living data
     public void DecodeVideoData(VideoPacket videoPacket)
     {
-        if (LiveImage != null)
-            LiveImage.texture = UnityChatSDK.Instance.DecodeVideoData(videoPacket);
+            UnityChatSDK.Instance.DecodeVideoData(videoPacket);
     }
     public void DecodeAudiooData(AudioPacket audioPacket)  
     {
             UnityChatSDK.Instance.DecodeAudioData(audioPacket);
     }
-
-    //todo send audio and video via your network refer to chatDataHandler.cs
-    void SendAudio()
-    {
-        AudioPacket packet = UnityChatSDK.Instance.GetAudio();
-    }
-    void SendVideo()
-    {
-        VideoPacket packet = UnityChatSDK.Instance.GetVideo();
-    }
     private void Update()
     {
         //test==
-        if (Living)
+        //todo send audio and video via your network refer to chatDataHandler.cs
+        if (living)
         {
-            VideoPacket packet = UnityChatSDK.Instance.GetVideo();
-            if (packet!= null && packet.Data != null)
+            VideoPacket videoPacket = UnityChatSDK.Instance.GetVideo();
+            AudioPacket audioPacket = UnityChatSDK.Instance.GetAudio();
+
+            if (videoPacket != null && videoPacket.Data != null)
             {
-                DecodeVideoData(packet);
+                DecodeVideoData(videoPacket);
+            }
+            if (audioPacket != null && audioPacket.Data != null)
+            {
+                DecodeAudiooData(audioPacket);
             }
         }
         //==test
