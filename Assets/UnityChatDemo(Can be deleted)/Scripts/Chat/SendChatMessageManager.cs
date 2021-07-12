@@ -73,7 +73,7 @@ public class SendChatMessageManager : MonoBehaviour {
         OnReceiveTextPanel.SetActive(true);
 
         UserInfo user = ChatManager.Instance.OnlineUserList.Find((UserInfo u) => { return u.UserID == info.UserID; });
-        ReceiveText.text += "<color=#00A6FF>" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "</color>" + "\n";
+        ReceiveText.text += "<color=#00A6FF>" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " [receive] </color>" + "\n";
         ReceiveText.text += user.UserName + "(" + user.UserID + "):" + Encoding.UTF8.GetString(info.MessageData.ToByteArray()) + "\n";
 
         ReceiveText.GetComponent<RectTransform>().sizeDelta = new Vector2(0, ReceiveText.preferredHeight);
@@ -118,7 +118,7 @@ public class SendChatMessageManager : MonoBehaviour {
             return;
         }
 
-        ReceiveText.text += "<color=#00A600>" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "</color>" + "\n";
+        ReceiveText.text += "<color=#00A600>" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " [send] </color>" + "\n";
         ReceiveText.text += ChatManager.Instance.UserName + "(" + ChatManager.Instance.UserID + "):" + MessageTextInputField.text + "\n";
 
         MainUIManager.Instance.SendMessage((int)MessageType.Text,Encoding.UTF8.GetBytes(MessageTextInputField.text));

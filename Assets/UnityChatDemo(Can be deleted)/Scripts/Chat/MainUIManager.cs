@@ -87,7 +87,7 @@ public class MainUIManager : MonoBehaviour
         SelectedFriendList.Clear();
         for (int i = 0; i < ChatManager.Instance.OnlineUserList.Count; i++)
         {
-            if (ChatManager.Instance.OnlineUserList[i].UserID == UserInfo.UserID) continue;
+            if (!useSelfTest && ChatManager.Instance.OnlineUserList[i].UserID == UserInfo.UserID) continue;
             GameObject go = Instantiate(FriendItemPrefab, FriendContent);
             FriendToggleList.Add(go.GetComponent<Toggle>());
             FriendItem item = go.GetComponent<FriendItem>();
@@ -107,6 +107,13 @@ public class MainUIManager : MonoBehaviour
         }
     }
 
+    bool useSelfTest; 
+    public void OnSelfTestToggleChanged(Toggle tog)
+    {
+        useSelfTest = tog.isOn;
+        UpdateUserList();
+    }
+
     public void SendMessage(int type,byte[]data)
     {
         if (SelectedFriendList.Count == 0 && ChatManager.Instance.ChatPeers.Count == 0)
@@ -116,7 +123,6 @@ public class MainUIManager : MonoBehaviour
         }
 
         List<int> ids = new List<int>();
-        ids.Add(UserInfo.UserID);
 
         if (!ChatUIManager.Instance.ChatPanel.activeInHierarchy)
         {
@@ -125,10 +131,11 @@ public class MainUIManager : MonoBehaviour
                 ids.Add(SelectedFriendList[i].UserID);
             }
         }
-        else if (ChatManager.Instance.ChatPeers.Count > 0) //通话中
+        else if (ChatManager.Instance.ChatPeers.Count > 0) //通话中,发送给你其所有他人
         {
             for (int i = 0; i < ChatManager.Instance.ChatPeers.Count; i++)
             {
+                if(ChatManager.Instance.ChatPeers[i].UserID!= ChatManager.Instance.UserID)
                 ids.Add(ChatManager.Instance.ChatPeers[i].UserID);
             }
         }
