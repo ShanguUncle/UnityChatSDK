@@ -24,6 +24,13 @@ public class ChatManager : MonoBehaviour {
     public List<UserInfo> ChatPeers { get; set; } = new List<UserInfo>();
 
     bool isChatting;
+
+    public delegate void OnChatAccept();
+    public OnChatAccept OnChatAcceptgDg;
+
+    public delegate void OnChatHang();
+    public OnChatHang OnChatHangDg;
+
     private void Awake()
     {
         Instance = this;
@@ -124,6 +131,8 @@ public class ChatManager : MonoBehaviour {
 
         //Start udp transmission
         ChatDataHandler.Instance.StartChat();
+
+        OnChatAcceptgDg?.Invoke();
     }
 
     //on user accept the call
@@ -133,6 +142,7 @@ public class ChatManager : MonoBehaviour {
         {
             ChatUIManager.Instance.OnPeerAccept();
             ChatUIManager.Instance.OnPeerJoin(info.UserID);
+            OnChatAcceptgDg?.Invoke();
         }
     }
 
@@ -170,6 +180,8 @@ public class ChatManager : MonoBehaviour {
             CallID = 0;
             ChatPeers.Clear();
             isChatting = false;
+
+            OnChatHangDg?.Invoke();
         }
     }
 
@@ -187,6 +199,7 @@ public class ChatManager : MonoBehaviour {
         if (ChatPeers.Count == 1)
         {
             ChatUIManager.Instance.Hang();
+            OnChatHangDg?.Invoke();
         }
     }
 

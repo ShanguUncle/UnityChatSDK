@@ -3966,7 +3966,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: 'ON/OFF
 
-    WebCam'
+    Video'
 --- !u!222 &556305630
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5029,7 +5029,7 @@ GameObject:
   - component: {fileID: 712312944}
   - component: {fileID: 712312943}
   m_Layer: 5
-  m_Name: ON/OFF WebCam
+  m_Name: ON/OFF Video
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13101,7 +13101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetType: 0
-  ChunkLength: 30000
+  ChunkLength: 36000
 --- !u!1 &1870108960
 GameObject:
   m_ObjectHideFlags: 0
