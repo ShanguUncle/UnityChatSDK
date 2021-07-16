@@ -1,5 +1,14 @@
 ## All Versions
 
+### v8.1 (2021/7/16)
+- Fixed **server crash and record crash** bug
+- Fixed **memory release on hololens after  call** bug
+- Fixed **switch device camera resolution** bug
+- Add **call self test** toggle
+- Added  **Texture Convert** demo
+- Added  **desktop video** feature
+- Added  **UnityDeskVideo/UnityChatDemo_PC_DeskMode** demo
+
 ### v7.3 (2021/4/15)
 
 - Fixed **video codec format** bug

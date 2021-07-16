@@ -66,6 +66,7 @@ public class ChatNetworkManager : MonoBehaviour {
         }
         else
         {
+            OnDisconnect();
             print("offline!");
         }
     }

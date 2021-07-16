@@ -1,0 +1,3 @@
+Decompress zip and replace or download the hololens project.
+
+https://github.com/ShanguUncle/UnityChatHololens

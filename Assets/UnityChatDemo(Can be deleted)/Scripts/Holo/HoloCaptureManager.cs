@@ -5,9 +5,6 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 
-#if UNITY_2020_1_OR_NEWER
-
-#endif
 
 public class HoloCaptureManager : MonoBehaviour
 {
@@ -40,7 +37,7 @@ public class HoloCaptureManager : MonoBehaviour
     public float Opacity = 0.9f;
 
 
-    public Texture2D _videoTexture { get; set; }
+    public Texture2D videoTexture { get; set; }
 
 
     void Start()
@@ -71,7 +68,7 @@ public class HoloCaptureManager : MonoBehaviour
                 frame = 15;
                 break;
         }
-#if UNITY_WSA
+#if UNITY_WSA || UNITY_EDITOR
 
 #if UNITY_2020_1_OR_NEWER
         //Note:
@@ -87,13 +84,14 @@ UnityEngine.XR.WSA.WorldManager.GetNativeISpatialCoordinateSystemPtr(), OnFrameS
 
 #endif
 
-        _videoTexture = new Texture2D(resolution.width, resolution.height, TextureFormat.BGRA32, false);
+        videoTexture = new Texture2D(resolution.width, resolution.height, TextureFormat.BGRA32, false);
     }
 
     private void OnDestroy()
     {
         HoloCaptureHelper.Instance.Destroy();
     }
+
 
     bool isStartCaputure;
     /// <summary>
@@ -103,8 +101,16 @@ UnityEngine.XR.WSA.WorldManager.GetNativeISpatialCoordinateSystemPtr(), OnFrameS
     {
         if (isStartCaputure) return;
         isStartCaputure = true;
-        HoloCaptureHelper.Instance.StartCapture();
+        try
+        {
+            HoloCaptureHelper.Instance.StartCapture();
+        }
+        catch(Exception e)
+        {
+            Debug.Log("Holo StartCapture error:"+e.Message);
+        }
     }
+
     /// <summary>
     /// Disable hololens camera capture
     /// </summary>
@@ -112,7 +118,14 @@ UnityEngine.XR.WSA.WorldManager.GetNativeISpatialCoordinateSystemPtr(), OnFrameS
     {
         if (!isStartCaputure) return;
         isStartCaputure = false;
-        HoloCaptureHelper.Instance.StopCapture();
+        try
+        {
+            HoloCaptureHelper.Instance.StopCapture();
+        }
+        catch (Exception e)
+        {
+            Debug.Log("Holo StopCapture error:" + e.Message);
+        }
     }
 
     /// <summary>
@@ -138,9 +151,9 @@ UnityEngine.XR.WSA.WorldManager.GetNativeISpatialCoordinateSystemPtr(), OnFrameS
             {
                 ImageVerticalMirror(imageBytes);
             }
-            _videoTexture.LoadRawTextureData(imageBytes);
-            _videoTexture.Apply();
-            UnityChatSDK.Instance.UpdateCustomTexture(_videoTexture);
+            videoTexture.LoadRawTextureData(imageBytes);
+            videoTexture.Apply();
+            UnityChatSDK.Instance.UpdateCustomTexture(videoTexture);
 
         }, false);
 

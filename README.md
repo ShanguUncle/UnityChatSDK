@@ -15,7 +15,7 @@
 ## Features
 
 - [x] Support Unity editor, Android, iOS, Windows/Mac/Linux, UWP.
-- [x] Support multiple video types:device camera/unity camera/custom texture.
+- [x] Support multiple video types:device camera/unity camera/custom texture/pc screen.
 - [x] Support VR,AR,MR video(htc/oculus/arfoundation/vuforia/hololens).
 - [x] Support 180P (320x180), 360P (640x360), 720P (1280x720), 1080P (1920x1080) video resolution.
 - [x] Support dynamically set video resolution and compression quality
@@ -23,8 +23,7 @@
 - [x] Support server record chat video.
 
 ## Latest Version Update
-- SDK update to **v7.3**
-- Fixed video codec format bug
+- SDK update to **v8.1**
 
 [View all version updates](VersionUpdates.md)
 

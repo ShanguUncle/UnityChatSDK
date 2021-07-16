@@ -15,7 +15,7 @@
 ## 特点
 
 - [x] 支持Unity编辑器, Android, iOS, Windows/Mac/Linux, UWP平台。
-- [x] 支持多种视频采集类型：设备摄像头/Unity摄像机/自定义纹理。
+- [x] 支持多种视频采集类型：设备摄像头/Unity摄像机/自定义纹理/PC屏幕。
 - [x] 支持VR,AR,MR video(htc/oculus/arfoundation/vuforia/hololens)。
 - [x] 支持的视频分辨率180P (320x180), 360P (640x360), 720P (1280x720), 1080P (1920x1080)。
 - [x] 支持动态设置视频分辨率和压缩质量。
@@ -23,8 +23,7 @@
 - [x] 支持服务器录制聊天视频。
 
 ## 最新版本更新
-- SDK更新到了**v7.3**
-- 修复了视频编解码格式的bug
+- SDK更新到了**v8.1**
 
 
 [查看所有版本更新](VersionUpdates.md)
