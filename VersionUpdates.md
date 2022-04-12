@@ -1,5 +1,8 @@
 ## All Versions
 
+### v8.2 (2022/4/)
+- Update **server**
+
 ### v8.1 (2021/7/16)
 - Fixed **server crash and record crash** bug
 - Fixed **memory release on hololens after  call** bug
