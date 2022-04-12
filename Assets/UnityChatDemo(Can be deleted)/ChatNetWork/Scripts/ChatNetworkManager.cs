@@ -50,7 +50,7 @@ public class ChatNetworkManager : MonoBehaviour {
     /// </summary>
     public void DisconnectServer()
     {
-        client.Close();
+        client.Disconnect();
     }
 
 
