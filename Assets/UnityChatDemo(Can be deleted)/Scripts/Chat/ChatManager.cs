@@ -122,6 +122,7 @@ public class ChatManager : MonoBehaviour {
         model.Request = IMProtocol.IM_ACCEPT;
 
         IMInfo info = new IMInfo();
+        info.CallID = CallID;
         info.UserID = userId;
         info.UserList.AddRange(peerId);
 

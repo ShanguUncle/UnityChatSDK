@@ -5,11 +5,12 @@ using Google.Protobuf;
 using System;
 using ChatProtocol;
 using ChatProto;
+using ChatNetWork;
 
 /// <summary>
 /// Network type, you can customize TCP, UDP, P2P, Webrct, Unet, Photon... The case demo uses UDP
 /// </summary>
-public enum NetType{UdpStream,UdpP2P };
+public enum NetType{ TcpStream,UdpStream };// UdpP2P
 
 public class ChatDataHandler : MonoBehaviour {
 
@@ -31,26 +32,92 @@ public class ChatDataHandler : MonoBehaviour {
     public void StartChat() {
 
         switch (NetType) {
-            case NetType.UdpP2P:
-                break;
+
             case NetType.UdpStream:
-                OnStartChat();
+                OnStartChat_UdpStream();
+                break;
+            case NetType.TcpStream:
+                OnStartChat_TcpStream();
                 break;
         }
     }
+    public void OnStartChat_UdpStream()
+    {
+        try
+        {
+            UdpSocketManager.Instance.StartListening();
 
+            CaptureResult result = UnityChatSDK.Instance.StartCapture();
+            print("StartChat:" + result);
+            IsStartChat = true;
+            udpPacketIndex = ChatManager.Instance.UserID * 1000000;
+            print("OnStartChat_UdpStream");
+        }
+        catch (Exception e)
+        {
+            print("OnStartChat error:" + e.Message);
+        }
+    }
+
+    public void OnStartChat_TcpStream()
+    {
+        try
+        {
+            CaptureResult result = UnityChatSDK.Instance.StartCapture();
+            print("StartChat:" + result);
+            IsStartChat = true;
+            print("OnStartChat_TcpStream");
+        }
+        catch (Exception e)
+        {
+            print("OnStartChat error:" + e.Message);
+        }
+    }
     public void StopChat()
     {
         switch (NetType)
         {
-            case NetType.UdpP2P:
-                //TODO P2P
-                break;
             case NetType.UdpStream:
-                StartCoroutine(OnStopChat());
+                StartCoroutine(OnStopChat_UpdStream());
+                break;
+            case NetType.TcpStream:
+                StartCoroutine(OnStopChat_TcpStream());
                 break;
         }
     }
+    IEnumerator OnStopChat_UpdStream()
+    {
+        yield return new WaitForEndOfFrame();
+        try
+        {
+            UnityChatSDK.Instance.StopCapture();
+            UdpSocketManager.Instance.StopListening();
+            videoPacketQueue.Clear();
+            IsStartChat = false;
+            udpPacketIndex = ChatManager.Instance.UserID * 1000000;
+            print("OnStopChat_UpdStream");
+        }
+        catch (Exception e)
+        {
+            print("OnStopChat error:" + e.Message);
+        }
+    }
+    IEnumerator OnStopChat_TcpStream()
+    {
+        yield return new WaitForEndOfFrame();
+        try
+        {
+            UnityChatSDK.Instance.StopCapture();
+            videoPacketQueue.Clear();
+            IsStartChat = false;
+            print("OnStopChat_TcpStream");
+        }
+        catch (Exception e)
+        {
+            print("OnStopChat error:" + e.Message);
+        }
+    }
+
 
     //After starting the chat, the captured data of audio and video will be sent over the network in FixedUpdate
     //SDK will determine the refresh rate of audio and video, automatically recognize the sound size, determine whether the video is still, and optimize the data size
@@ -61,20 +128,23 @@ public class ChatDataHandler : MonoBehaviour {
 
         switch (NetType) {
             case NetType.UdpStream:
-                switch (UnityChatSDK.Instance.ChatType)
-                {
-                    case ChatType.Audio:
-                        SendAudio();
-                        break;
-                    case ChatType.Video:
-                        SendAudio();
-                        StartCoroutine(SendVideo());
-                        break;
-                    default:
-                        break;
-                }
+              
                 break;
-            case NetType.UdpP2P:
+            case NetType.TcpStream:
+
+                break;
+        }
+
+        switch (UnityChatSDK.Instance.ChatType)
+        {
+            case ChatType.Audio:
+                SendAudio();
+                break;
+            case ChatType.Video:
+                SendAudio();
+                StartCoroutine(SendVideo());
+                break;
+            default:
                 break;
         }
 
@@ -91,22 +161,42 @@ public class ChatDataHandler : MonoBehaviour {
             packet.Id = ChatManager.Instance.UserID;
             byte[] audio = GetPbAudioPacket(packet).ToByteArray();
 
-            //UDP Send data to server
-            if (audio != null)
+            switch (NetType)
             {
-                UdplDataModel model = new UdplDataModel();
-                model.Request = UdpRequest.REQUEST_AUDIO;
+                case NetType.UdpStream:
+                    //UDP Send data to server
+                    if (audio != null)
+                    {
+                        UdplDataModel model = new UdplDataModel();
+                        model.Request = UdpRequest.REQUEST_AUDIO;
 
-                IMInfo info = new IMInfo();
-                info.UserID = ChatManager.Instance.UserID;
-                info.CallID = ChatManager.Instance.CallID;
-                info.UserList.Add(ChatManager.Instance.ChatPeers);
+                        IMInfo info = new IMInfo();
+                        info.UserID = ChatManager.Instance.UserID;
+                        info.CallID = ChatManager.Instance.CallID;
+                        info.UserList.Add(ChatManager.Instance.ChatPeers);
 
-                model.ChatInfoData = info.ToByteArray();
-                model.ChatData = audio;
+                        model.ChatInfoData = info.ToByteArray();
+                        model.ChatData = audio;
 
-                UdpSocketManager.Instance.Send(UdpMessageCodec.Encode(model));
-            }    
+                        UdpSocketManager.Instance.Send(UdpMessageCodec.Encode(model));
+                    }
+                    break;
+                case NetType.TcpStream:
+
+                    if (audio != null)
+                    {
+                        DataModel model = new DataModel();
+                        model.Type = ChatProtocolType.TYPE_CHATDATA;
+                        model.Request = ChatDataProtocol.CHAT_AUDIO;
+                        model.Message = audio;
+                        ChatNetworkManager.Instance.Send(model);
+                    }
+
+                    break;
+                default:
+                    break;
+            }
+        
         }
     }
     PbAudioPacket GetPbAudioPacket(AudioPacket audio)
@@ -130,7 +220,6 @@ public class ChatDataHandler : MonoBehaviour {
         return aduio;
     }
     Queue<VideoPacket> videoPacketQueue = new Queue<VideoPacket>();
-
     /// <summary>
     /// Send video data
     /// </summary>
@@ -159,22 +248,43 @@ public class ChatDataHandler : MonoBehaviour {
             packet.Id = ChatManager.Instance.UserID;
             byte[] video = GetPbVideoPacket(packet).ToByteArray();
 
-            udpPacketIndex++;
-            List<UdpPacket> list = UdpPacketSpliter.Split(udpPacketIndex, video, ChunkLength);
-
-            UdplDataModel model = new UdplDataModel();
-            model.Request = UdpRequest.REQUEST_VIDEO;
-            IMInfo info = new IMInfo();
-            info.UserID = ChatManager.Instance.UserID;
-            info.CallID = ChatManager.Instance.CallID;
-            info.UserList.Add(ChatManager.Instance.ChatPeers);
-            model.ChatInfoData = info.ToByteArray();
-
-            for (int i = 0; i < list.Count; i++)
+            switch (NetType)
             {
-                model.ChatData = UdpPacketEncode(list[i]);
-                UdpSocketManager.Instance.Send(UdpMessageCodec.Encode(model));
-                yield return new WaitForSeconds(0.01f);
+                case NetType.UdpStream:
+
+                    udpPacketIndex++;
+                    List<UdpPacket> list = UdpPacketSpliter.Split(udpPacketIndex, video, ChunkLength);
+
+                    UdplDataModel model = new UdplDataModel();
+                    model.Request = UdpRequest.REQUEST_VIDEO;
+                    IMInfo info = new IMInfo();
+                    info.UserID = ChatManager.Instance.UserID;
+                    info.CallID = ChatManager.Instance.CallID;
+                    info.UserList.Add(ChatManager.Instance.ChatPeers);
+                    model.ChatInfoData = info.ToByteArray();
+
+                    for (int i = 0; i < list.Count; i++)
+                    {
+                        model.ChatData = UdpPacketEncode(list[i]);
+                        UdpSocketManager.Instance.Send(UdpMessageCodec.Encode(model));
+                        yield return new WaitForSeconds(0.01f);
+                    }
+
+                    break;
+                case NetType.TcpStream:
+
+                    if (video != null)
+                    {
+                        DataModel tcpVideoData = new DataModel();
+                        tcpVideoData.Type = ChatProtocolType.TYPE_CHATDATA;
+                        tcpVideoData.Request = ChatDataProtocol.CHAT_VIDEO;
+                        tcpVideoData.Message = video;
+                        ChatNetworkManager.Instance.Send(tcpVideoData);
+                    }
+
+                    break;
+                default:
+                    break;
             }
         }
     }
@@ -269,42 +379,6 @@ public class ChatDataHandler : MonoBehaviour {
         }
         catch (Exception)
         {
-        }
-    }
-
-    public void OnStartChat()
-    {
-        try
-        {
-            UdpSocketManager.Instance.StartListening();
-
-            CaptureResult result= UnityChatSDK.Instance.StartCapture();
-            print("StartChat:" + result);
-            IsStartChat = true;
-            udpPacketIndex = ChatManager.Instance.UserID*1000000;
-            print("OnStartChat");
-        }
-        catch (Exception e)
-        {
-            print("OnStartChat error:" + e.Message);
-        }
-    }
-
-    IEnumerator OnStopChat()
-    {
-        yield return new WaitForEndOfFrame();
-        try
-        {
-            UnityChatSDK.Instance.StopCapture();
-            UdpSocketManager.Instance.StopListening();
-            videoPacketQueue.Clear();
-            IsStartChat = false;
-            udpPacketIndex = ChatManager.Instance.UserID * 1000000;
-            print("OnStopChat");
-        }
-        catch (Exception e)
-        {
-            print("OnStopChat error:" + e.Message);
         }
     }
 

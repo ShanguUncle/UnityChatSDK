@@ -25,6 +25,8 @@ public class MainUIManager : MonoBehaviour
     public Toggle AllFriendToggle;
     List<Toggle> FriendToggleList = new List<Toggle>();
 
+    public Text DelayText;
+
     private void Awake()
     {
         Instance = this;
@@ -54,7 +56,7 @@ public class MainUIManager : MonoBehaviour
     }
     void Update()
     {
-
+        DelayText.text = ChatNetworkManager.Instance.GetDelayMS == -1 ? "": ChatNetworkManager.Instance.GetDelayMS+"ms";
 
     }
     /// <summary>
@@ -131,11 +133,11 @@ public class MainUIManager : MonoBehaviour
                 ids.Add(SelectedFriendList[i].UserID);
             }
         }
-        else if (ChatManager.Instance.ChatPeers.Count > 0) //通话中,发送给你其所有他人
+        else if (ChatManager.Instance.ChatPeers.Count > 0) 
         {
             for (int i = 0; i < ChatManager.Instance.ChatPeers.Count; i++)
             {
-                if(ChatManager.Instance.ChatPeers[i].UserID!= ChatManager.Instance.UserID)
+                //if(ChatManager.Instance.ChatPeers[i].UserID!= ChatManager.Instance.UserID)
                 ids.Add(ChatManager.Instance.ChatPeers[i].UserID);
             }
         }

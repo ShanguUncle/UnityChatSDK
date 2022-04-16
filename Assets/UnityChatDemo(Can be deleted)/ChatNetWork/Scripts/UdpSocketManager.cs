@@ -163,7 +163,7 @@ public class UdpSocketManager : MonoBehaviour
         print("start heartbeat...");
         while (isRunning)
         {
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(1f);
             IMInfo info = new IMInfo();
             info.UserID = ChatManager.Instance.UserID;
             info.CallID = ChatManager.Instance.CallID;

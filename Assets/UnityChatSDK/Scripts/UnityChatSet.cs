@@ -62,8 +62,8 @@ public class UnityChatSet: MonoBehaviour {
 		UnityChatSDK.Instance.MicVolumeScale= MicVolumeScale;
         UnityChatSDK.Instance.AudioThreshold= 0.002f;
         UnityChatSDK.Instance.AudioFrequency = 8000;
-        UnityChatSDK.Instance.AudioSample = 2;
-        UnityChatSDK.Instance.AudioLatency = 500;
+        UnityChatSDK.Instance.AudioSample = 8;
+        UnityChatSDK.Instance.AudioLatency = 125;
         UnityChatSDK.Instance.EchoCancellation = EchoCancellation;
         //初始化音频(麦克风Index)
         UnityChatSDK.Instance.InitMic(0);

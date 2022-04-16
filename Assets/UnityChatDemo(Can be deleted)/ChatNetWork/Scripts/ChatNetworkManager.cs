@@ -125,4 +125,6 @@ public class ChatNetworkManager : MonoBehaviour {
             OnConnectResultAction?.Invoke(connectResult);
         }
     }
+
+    public int GetDelayMS { get{ if (client!=null && client.Connected) return NetDataHanlerCenter.Instance.DelayMS; else return -1; } }
 }

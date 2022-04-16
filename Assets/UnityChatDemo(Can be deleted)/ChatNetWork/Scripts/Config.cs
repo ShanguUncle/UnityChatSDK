@@ -13,6 +13,8 @@ public class Config : MonoBehaviour {
 
     //Server ip and port
     public string ServerIP;
+    public bool UsePublicIP;
+    public string ServerIP_Public;
     public int TcpPort; 
     public int UdpPort;
      
@@ -31,14 +33,21 @@ public class Config : MonoBehaviour {
     }
     void Start ()
     {
-        ServerIPInputField.text= ServerIP;
+        if (UsePublicIP)
+        {
+            ServerIPInputField.text = ServerIP_Public;
+        }
+        else 
+        {
+            ServerIPInputField.text = ServerIP;
+        }
         ChatNetworkManager.Instance.OnConnectResultAction += OnConnect;
         Connect();
     }
 
     private void OnConnect(bool result)
     {
-        if (result) 
+        if (result && !UsePublicIP) 
         {
             PlayerPrefs.SetString(IpKey, ServerIP);
             PlayerPrefs.Save();

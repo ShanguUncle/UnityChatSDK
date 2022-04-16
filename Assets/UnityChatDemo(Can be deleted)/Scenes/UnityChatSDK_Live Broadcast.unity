@@ -4219,9 +4219,9 @@ MonoBehaviour:
   MicVolumeScale: 1
   VideoType: 2
   VideoResolution: 1
-  VideoQuality: 2
+  VideoQuality: 1
   Format: 3
-  Framerate: 20
+  Framerate: 15
   EchoCancellation: 0
   EnableDetection: 0
   EnableSync: 0
