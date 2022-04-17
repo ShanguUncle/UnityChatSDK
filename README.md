@@ -22,6 +22,8 @@
 - [x] Support one-to-one, one-to-many audio and video chat.
 - [x] Support server record chat video.
 
+## Known Issues
+> Echo has problems on mobile platforms,the current solution is to switch to earpiece playback during calls!
 ## Latest Version Update
 - SDK update to **v8.2**
 
