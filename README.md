@@ -31,8 +31,8 @@
 
 | Tutorials                                             | Location                                             |
 | ----------------------------------------------------- | ---------------------------------------------------- |
-| UnityChatSDK v8.2                                     | [观看]() |
-|                                                       | [观看]() |
+| UnityChatSDK v8.2                                     | [View]() |
+|                                                       | [View]() |
 | UnityChatSDK v7.1                                     | [View](https://www.bilibili.com/video/BV1ZK4y1H7dM/) |
 |                                                       | [View](https://www.bilibili.com/video/BV1yz4y1m71J/) |
 | UnityChatSDK WeChat                                   | [View](https://www.bilibili.com/video/BV1TJ411X79T)  |
