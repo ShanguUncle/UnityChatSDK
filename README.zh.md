@@ -23,7 +23,7 @@
 - [x] 支持服务器录制聊天视频。
 
 ## 最新版本更新
-- SDK更新到了**v8.1**
+- SDK更新到了**v8.2**
 
 
 [查看所有版本更新](VersionUpdates.md)
@@ -32,6 +32,8 @@
 
 | 视频教程                                              | 地址                                                 |
 | ----------------------------------------------------- | ---------------------------------------------------- |
+| UnityChatSDK v8.2                                     | [观看]() |
+|                                                       | [观看]() |
 | UnityChatSDK v7.1                                     | [观看](https://www.bilibili.com/video/BV1ZK4y1H7dM/) |
 |                                                       | [观看](https://www.bilibili.com/video/BV1yz4y1m71J/) |
 | UnityChatSDK WeChat                                   | [观看](https://www.bilibili.com/video/BV1TJ411X79T)  |

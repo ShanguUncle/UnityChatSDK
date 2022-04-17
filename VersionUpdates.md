@@ -1,8 +1,9 @@
 ## All Versions
 
 ### v8.2 (2022/4/16)
-- Update **server tcp stream**
-- Fixed **sdk audio** bug
+- Add **server tcp stream** reliable network
+- Fixed **sdk audio caputure** bug
+- Optimized **recorded audio decoding**
 
 ### v8.1 (2021/7/16)
 - Fixed **server crash and record crash** bug
