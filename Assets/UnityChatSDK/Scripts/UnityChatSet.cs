@@ -68,6 +68,7 @@ public class UnityChatSet: MonoBehaviour {
         UnityChatSDK.Instance.EchoCancellation = EchoCancellation;
         //初始化音频(麦克风Index)
         UnityChatSDK.Instance.InitMic(0);
+        UnityChatSDK.Instance.ToggleSpeakerAction += ChatSDKDevice.ToggleSpeaker;
         print("InitAudio OK");
     }
 
@@ -89,7 +90,6 @@ public class UnityChatSet: MonoBehaviour {
         UnityChatSDK.Instance.InitVideo(0);
         UnityChatSDK.Instance.SetVideoQuality(VideoQuality);
         UnityChatSDK.Instance.SetResolution(VideoResolution);
-        UnityChatSDK.Instance.ToggleSpeakerAction += ChatSDKDevice.ToggleSpeaker;
         switch (VideoType)
         {
             case VideoType.DeviceCamera:
