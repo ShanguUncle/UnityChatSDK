@@ -5,12 +5,11 @@ using Google.Protobuf;
 using System;
 using ChatProtocol;
 using ChatProto;
-using ChatNetWork;
 
 /// <summary>
 /// Network type, you can customize TCP, UDP, P2P, Webrct, Unet, Photon... The case demo uses UDP
 /// </summary>
-public enum NetType{ TcpStream,UdpStream };// UdpP2P
+public enum NetType{ TcpStream,UdpStream,WebSocket };// UdpP2P
 
 public class ChatDataHandler : MonoBehaviour {
 
@@ -22,7 +21,7 @@ public class ChatDataHandler : MonoBehaviour {
     [Range(20000,60000)] 
     public int ChunkLength = 36000;
     long udpPacketIndex;
-    void Start() {
+    void Awake() {
         Instance = this;
     }
 
@@ -38,6 +37,9 @@ public class ChatDataHandler : MonoBehaviour {
                 break;
             case NetType.TcpStream:
                 OnStartChat_TcpStream();
+                break;
+            case NetType.WebSocket:
+                OnStartChat_WebSocket();
                 break;
         }
     }
@@ -73,6 +75,22 @@ public class ChatDataHandler : MonoBehaviour {
             print("OnStartChat error:" + e.Message);
         }
     }
+    public void OnStartChat_WebSocket()
+    {
+        try
+        {
+            CaptureResult result = UnityChatSDK.Instance.StartCapture();
+            UnityChatSdkProxy.Instance.StartCaptureWebGL();
+
+            print("StartChat:" + result);
+            IsStartChat = true;
+            print("OnStartChat_WebSocket");
+        }
+        catch (Exception e)
+        {
+            print("OnStartChat error:" + e.Message);
+        }
+    }
     public void StopChat()
     {
         switch (NetType)
@@ -82,6 +100,9 @@ public class ChatDataHandler : MonoBehaviour {
                 break;
             case NetType.TcpStream:
                 StartCoroutine(OnStopChat_TcpStream());
+                break;
+            case NetType.WebSocket:
+                StartCoroutine(OnStopChat_WebSocketStream());
                 break;
         }
     }
@@ -118,6 +139,22 @@ public class ChatDataHandler : MonoBehaviour {
         }
     }
 
+    IEnumerator OnStopChat_WebSocketStream()
+    {
+        yield return new WaitForEndOfFrame();
+        try
+        {
+            UnityChatSDK.Instance.StopCapture();
+            videoPacketQueue.Clear();
+            IsStartChat = false;
+            print("OnStopChat_WebSocketStream");
+        }
+        catch (Exception e)
+        {
+            print("OnStopChat error:" + e.Message);
+        }
+    }
+
 
     //After starting the chat, the captured data of audio and video will be sent over the network in FixedUpdate
     //SDK will determine the refresh rate of audio and video, automatically recognize the sound size, determine whether the video is still, and optimize the data size
@@ -125,15 +162,6 @@ public class ChatDataHandler : MonoBehaviour {
     void FixedUpdate() {
         if (!IsStartChat)
             return;
-
-        switch (NetType) {
-            case NetType.UdpStream:
-              
-                break;
-            case NetType.TcpStream:
-
-                break;
-        }
 
         switch (UnityChatSDK.Instance.ChatType)
         {
@@ -182,6 +210,7 @@ public class ChatDataHandler : MonoBehaviour {
                     }
                     break;
                 case NetType.TcpStream:
+                case NetType.WebSocket:
 
                     if (audio != null)
                     {
@@ -272,6 +301,7 @@ public class ChatDataHandler : MonoBehaviour {
 
                     break;
                 case NetType.TcpStream:
+                case NetType.WebSocket:
 
                     if (video != null)
                     {

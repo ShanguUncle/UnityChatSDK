@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
-using ChatNetWork;
 using ChatProtocol;
 using System.Text;
 
@@ -35,8 +34,14 @@ public class NetDataHanlerCenter : MonoBehaviour {
         {
             byte[] data = ChatNetworkManager.Instance.ReceiveDataQueue.Dequeue();
             HandlerData(data);
-        }	    
-	}
+        }
+
+        if (WebSocketNetwork.Instance.ReceiveDataQueue.Count > 0)
+        {
+            byte[] data = WebSocketNetwork.Instance.ReceiveDataQueue.Dequeue();
+            HandlerData(data);
+        }
+    }
     void HandlerData(byte[] data)
     {
         DataModel model = DataCodec.Decode(data);

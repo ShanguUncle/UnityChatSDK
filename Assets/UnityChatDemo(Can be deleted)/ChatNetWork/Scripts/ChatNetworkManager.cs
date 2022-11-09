@@ -1,10 +1,11 @@
-﻿
-using ChatNetWork;
-using System;
+﻿using System;
 using System.Collections.Generic;
+#if UNITY_EDITOR || !UNITY_WEBGL
+using ChatNetWork;
+#endif
 using System.Net;
 using UnityEngine;
-
+using ChatProtocol;
 
 /// <summary>
 /// TCP chat network manager
@@ -13,7 +14,10 @@ using UnityEngine;
 public class ChatNetworkManager : MonoBehaviour {
 
     public static ChatNetworkManager Instance;
+
+#if UNITY_EDITOR || !UNITY_WEBGL
     SocketClient client;
+#endif
 
     bool isOnConnectResult;
     bool isOnDisconnect;
@@ -23,34 +27,66 @@ public class ChatNetworkManager : MonoBehaviour {
     private void Awake()
     {
         Instance = this;
+    }
+    private void Start()
+    {
         Init();
     }
     void Init()
     {
-        client = new SocketClient();
-        client.OnConnect += OnConnect;
-        client.OnDisconnect += OnDisconnect;
-        client.OnReceiveData += OnReceiveData;
+#if UNITY_EDITOR || !UNITY_WEBGL
+        if (ChatDataHandler.Instance.NetType != NetType.WebSocket)
+        {
+            client = new SocketClient();
+            client.OnConnect += OnConnect;
+            client.OnDisconnect += OnDisconnect;
+            client.OnReceiveData += OnReceiveData;
+        }
+#endif
+        WebSocketNetwork.Instance.OnConnect += OnConnect;
+        WebSocketNetwork.Instance.OnDisconnect += OnDisconnect;
     }
     /// <summary>
     /// connect to the server
     /// </summary>
     public void ConnectServer()
     {
-        IPAddress ipAddress;
-        if (!IPAddress.TryParse(Config.Instance.ServerIP, out ipAddress) || Config.Instance.TcpPort < 0 || Config.Instance.TcpPort > 65535)
+#if UNITY_EDITOR || !UNITY_WEBGL
+        if (ChatDataHandler.Instance.NetType != NetType.WebSocket)
         {
-            Debug.LogError("ip or port is wrong!");
-            return;
+            IPAddress ipAddress;
+            if (!IPAddress.TryParse(Config.Instance.ServerIP, out ipAddress) || Config.Instance.TcpPort < 0 || Config.Instance.TcpPort > 65535)
+            {
+                Debug.LogError("ip or port is wrong!");
+                return;
+            }
+            client.ConnectServer(Config.Instance.ServerIP, Config.Instance.TcpPort);
         }
-        client.ConnectServer(Config.Instance.ServerIP, Config.Instance.TcpPort);
+        else 
+        {
+            WebSocketNetwork.Instance.Connect(Config.Instance.WsAddress);
+        }
+#else
+        WebSocketNetwork.Instance.Connect(Config.Instance.WsAddress);
+#endif
     }
     /// <summary>
     /// disconnect to the server
     /// </summary>
     public void DisconnectServer()
     {
-        client.Disconnect();
+#if UNITY_EDITOR || !UNITY_WEBGL
+        if (ChatDataHandler.Instance.NetType != NetType.WebSocket)
+        {
+            client.Disconnect();
+        }
+        else 
+        {
+            WebSocketNetwork.Instance.Close();
+        }
+#else
+           WebSocketNetwork.Instance.Close();
+#endif
     }
 
 
@@ -60,15 +96,27 @@ public class ChatNetworkManager : MonoBehaviour {
     /// <param name="model"></param>
     internal void Send(DataModel model)
     {
-        if (client.Connected)
+#if UNITY_EDITOR || !UNITY_WEBGL
+
+        if (ChatDataHandler.Instance.NetType != NetType.WebSocket)
         {
-            client.Send(model);
+            if (client.Connected)
+            {
+                client.Send(model);
+            }
+            else
+            {
+                OnDisconnect();
+                print("offline!");
+            }
         }
         else
         {
-            OnDisconnect();
-            print("offline!");
+            WebSocketNetwork.Instance.Send(DataCodec.Encode(model));
         }
+#else
+        WebSocketNetwork.Instance.Send(DataCodec.Encode(model));
+#endif
     }
 
     /// <summary>
@@ -77,6 +125,7 @@ public class ChatNetworkManager : MonoBehaviour {
     /// <param name="data"></param>
     private void OnReceiveData(byte[] data)
     {
+        if (ReceiveDataQueue.Count > 100) ReceiveDataQueue.Clear();
         lock (ReceiveDataQueue)
         {
             ReceiveDataQueue.Enqueue(data);
@@ -126,5 +175,12 @@ public class ChatNetworkManager : MonoBehaviour {
         }
     }
 
-    public int GetDelayMS { get{ if (client!=null && client.Connected) return NetDataHanlerCenter.Instance.DelayMS; else return -1; } }
+    public int GetDelayMS
+    {
+        get
+        {
+           if(connectResult||WebSocketNetwork.Instance.IsConnected)return NetDataHanlerCenter.Instance.DelayMS;
+           return -1;
+        }
+    }
 }

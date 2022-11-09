@@ -2138,7 +2138,7 @@ MeshRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 35ef69ae6811ba545ab32d10f5fbd972, type: 2}
+  - {fileID: 2100000, guid: ab9ce7e40237eea4184b41c96231c9eb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2821,7 +2821,7 @@ MeshRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 35ef69ae6811ba545ab32d10f5fbd972, type: 2}
+  - {fileID: 2100000, guid: ab9ce7e40237eea4184b41c96231c9eb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3477,6 +3477,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TestPeerID: 1001
+  PeerPosition: {x: 0, y: 0, z: 0}
 --- !u!4 &1614357684
 Transform:
   m_ObjectHideFlags: 0
@@ -4111,6 +4112,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1869994738}
   - component: {fileID: 1869994739}
+  - component: {fileID: 1869994742}
   - component: {fileID: 1869994740}
   - component: {fileID: 1869994741}
   m_Layer: 0
@@ -4184,6 +4186,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TestUid: 1001
+--- !u!114 &1869994742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1869994737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e48a6e4cde635745941aa4cb6f9c038, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1876171795
 GameObject:
   m_ObjectHideFlags: 0
@@ -5267,7 +5281,7 @@ Animator:
   m_GameObject: {fileID: 2102343038}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: cf048a4a88d76a64d86786ba74419e87, type: 2}
+  m_Controller: {fileID: 9100000, guid: 938a686440030bc44be2aa4d0dd7dea7, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -5377,7 +5391,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: ab9ce7e40237eea4184b41c96231c9eb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

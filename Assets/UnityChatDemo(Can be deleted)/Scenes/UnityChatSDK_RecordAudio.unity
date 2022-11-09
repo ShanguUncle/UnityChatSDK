@@ -1112,8 +1112,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ad49ad69cd2fbf4eb6f0789d7cfe0d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Layout: {fileID: 0}
   MessgageIamge: {fileID: 1194233047}
-  MessgageText: {fileID: 1885787374}
   SelectBox: {fileID: 983931080}
   WarnText: {fileID: 1008301091}
 --- !u!1 &1194233047
@@ -1815,6 +1815,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1869994738}
   - component: {fileID: 1869994739}
+  - component: {fileID: 1869994741}
   - component: {fileID: 1869994740}
   m_Layer: 0
   m_Name: UnityChatSDKManager
@@ -1874,6 +1875,18 @@ MonoBehaviour:
   EnableSync: 0
   AndroidEncodeCompatible: 0
   CaptureCamera: {fileID: 26561707}
+--- !u!114 &1869994741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1869994737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e48a6e4cde635745941aa4cb6f9c038, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1885787372
 GameObject:
   m_ObjectHideFlags: 0

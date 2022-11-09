@@ -10,8 +10,8 @@ using UnityEngine.UI;
 public class MessageManager : MonoBehaviour
 {
     public static MessageManager Instance;
+    public Transform Layout;
     public GameObject MessgageIamge;
-    public Text MessgageText;
     public GameObject SelectBox;
     public Text WarnText;
     Action yesAction;
@@ -30,14 +30,12 @@ public class MessageManager : MonoBehaviour
 
     public void ShowMessage(string mes, float showTime = 2)
     {
-        MessgageIamge.gameObject.SetActive(true);
-        MessgageText.text = mes;
-        Invoke("HideText", showTime);
-    }
-    void HideText()
-    {
-        MessgageText.text = "";
-        MessgageIamge.gameObject.SetActive(false);
+        GameObject go=GameObject.Instantiate(MessgageIamge, Layout);
+        go.SetActive(true);
+        Text t = go.transform.Find("Text").GetComponent<Text>();
+        t.text = mes;
+        go.transform.GetComponent<RectTransform>().sizeDelta = new Vector2(622,t.preferredHeight+10);
+        Destroy(go, showTime);
     }
 
     /// <summary>

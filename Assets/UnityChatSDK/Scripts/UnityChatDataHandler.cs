@@ -46,6 +46,7 @@ public class UnityChatDataHandler : MonoBehaviour {
             UnityChatSDK.Instance.ChatType = type;
 
             CaptureResult result = UnityChatSDK.Instance.StartCapture();
+            UnityChatSdkProxy.Instance.StartCaptureWebGL();
             print("StartChat:" + result);
             IsStartChat = true;
             print("OnStartChat");
@@ -62,6 +63,7 @@ public class UnityChatDataHandler : MonoBehaviour {
     public void StopChat()
     {
         StartCoroutine(OnStopChat());
+        UnityChatSdkProxy.Instance.StopCaptureWebGL();
     }
 
     IEnumerator OnStopChat()

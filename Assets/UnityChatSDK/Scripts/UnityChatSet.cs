@@ -47,23 +47,20 @@ public class UnityChatSet: MonoBehaviour {
         if (UnityChatSDK.Instance == null) gameObject.AddComponent<UnityChatSDK>();
         yield return new WaitUntil(() => UnityChatSDK.Instance != null);
         Application.targetFrameRate = 60;
+        UnityChatSdkProxy.Instance.RequestUserPermission();
+        yield return new WaitForSeconds(1);
         InitAudio();
         InitVideo();
     }
+
     //初始化音频
     void InitAudio() 
     {
-#if UNITY_ANDROID
-        if (!Permission.HasUserAuthorizedPermission(Permission.Microphone))
-        {
-            Permission.RequestUserPermission(Permission.Microphone);
-        }
-#endif
         UnityChatSDK.Instance.AudioVolume=AudioVolume;
 		UnityChatSDK.Instance.MicVolumeScale= MicVolumeScale;
         UnityChatSDK.Instance.AudioThreshold= 0.002f;
         UnityChatSDK.Instance.AudioFrequency = 8000;
-        UnityChatSDK.Instance.AudioSample = 8;
+        UnityChatSDK.Instance.AudioSample = 2;
         UnityChatSDK.Instance.AudioLatency = 125;
         UnityChatSDK.Instance.EchoCancellation = EchoCancellation;
         //初始化音频(麦克风Index)
@@ -80,12 +77,7 @@ public class UnityChatSet: MonoBehaviour {
         UnityChatSDK.Instance.EnableSync = EnableSync;
         UnityChatSDK.Instance.SetAndroidCompatible(AndroidEncodeCompatible);
         UnityChatSDK.Instance.SetTextureFormat(Format);
-#if UNITY_ANDROID
-        if (!Permission.HasUserAuthorizedPermission(Permission.Camera)) 
-        {
-            Permission.RequestUserPermission(Permission.Camera);
-        }
-#endif
+
         //Initialize video (camera Index)
         UnityChatSDK.Instance.InitVideo(0);
         UnityChatSDK.Instance.SetVideoQuality(VideoQuality);
@@ -141,6 +133,7 @@ public class UnityChatSet: MonoBehaviour {
     {
         print("audioEnable:"+ tog.isOn);
         UnityChatSDK.Instance.SetAudioEnable(tog.isOn);
+        UnityChatSdkProxy.Instance.SetAudioEnable(tog.isOn);
     }
     public void SetVideoEnable(Toggle tog)
     {

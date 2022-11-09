@@ -15,9 +15,12 @@ public class Config : MonoBehaviour {
     public string ServerIP;
     public bool UsePublicIP;
     public string ServerIP_Public;
-    public int TcpPort; 
-    public int UdpPort;
-     
+    public int TcpPort = 6650;
+    public int UdpPort=6680;
+    public int WsPort=6660;
+
+    public string WsAddress { get { return string.Format("ws://{0}:{1}/default", ServerIP, WsPort); }  } 
+
     public GameObject NetPanl;
     public InputField ServerIPInputField;
 

@@ -1,4 +1,7 @@
-﻿using ChatNetWork;
+﻿
+#if UNITY_EDITOR || !UNITY_WEBGL
+using ChatNetWork;
+#endif
 using ChatProto;
 using ChatProtocol;
 using Google.Protobuf;
@@ -22,7 +25,9 @@ public class UdpSocketManager : MonoBehaviour
 
     Dictionary<long, List<UdpPacket>> packetCache=new Dictionary<long, List<UdpPacket>>();
 
-    private ChatUdpClient udpClient; 
+#if UNITY_EDITOR || !UNITY_WEBGL
+    private ChatUdpClient udpClient;
+#endif
 
     private void Awake()
     {
@@ -30,7 +35,9 @@ public class UdpSocketManager : MonoBehaviour
     }
     void Start()
     {
+#if UNITY_EDITOR || !UNITY_WEBGL
         udpClient = new ChatUdpClient();
+#endif
     }
 
     DateTime udpHeratTime;
@@ -146,6 +153,7 @@ public class UdpSocketManager : MonoBehaviour
     /// </summary>
     public void StartListening()
     {
+#if UNITY_EDITOR || !UNITY_WEBGL
         if (isRunning) return;
         isRunning = true;
 
@@ -156,6 +164,7 @@ public class UdpSocketManager : MonoBehaviour
         StartCoroutine(SendHeartbeat());
 
         udpHeratTime = DateTime.Now;
+#endif
     }
     //Send udp heartbeat packet
     IEnumerator SendHeartbeat()
@@ -182,6 +191,7 @@ public class UdpSocketManager : MonoBehaviour
     /// </summary>
     public void StopListening()
     {
+#if UNITY_EDITOR || !UNITY_WEBGL
         if (!isRunning) return;
         isRunning = false;
 
@@ -191,6 +201,7 @@ public class UdpSocketManager : MonoBehaviour
         packetCache.Clear();
         ReceivedAudioDataQueue.Clear();
         ReceivedVideoDataQueue.Clear();
+#endif
     }
     /// <summary>
     /// Send udp data
@@ -198,7 +209,9 @@ public class UdpSocketManager : MonoBehaviour
     /// <param name="buff"></param>
     public void Send(byte[] buff)
     {
+#if UNITY_EDITOR || !UNITY_WEBGL
         udpClient.Send(buff);
+#endif
     }
 
     private void OnDestroy()
