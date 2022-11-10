@@ -25,7 +25,7 @@
 ## Known Issues
 > Echo has problems on mobile platforms,the current solution is to switch to earpiece playback during calls!
 ## Latest Version Update
-- SDK update to **v8.2**
+- SDK update to **v8.3**
 
 [View all version updates](VersionUpdates.md)
 
@@ -33,6 +33,7 @@
 
 | Tutorials                                             | Location                                             |
 | ----------------------------------------------------- | ---------------------------------------------------- |
+| UnityChatSDK v8.3                                     | [View](https://www.bilibili.com/video/BV19v4y1U7xz/) |
 | UnityChatSDK v8.2                                     | [View](https://www.bilibili.com/video/BV1DY411j7UG/) |
 | UnityChatSDK v7.1                                     | [View](https://www.bilibili.com/video/BV1ZK4y1H7dM/) |
 |                                                       | [View](https://www.bilibili.com/video/BV1yz4y1m71J/) |
