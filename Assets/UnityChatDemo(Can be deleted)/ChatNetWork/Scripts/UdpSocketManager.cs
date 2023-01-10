@@ -157,7 +157,7 @@ public class UdpSocketManager : MonoBehaviour
         if (isRunning) return;
         isRunning = true;
 
-        udpClient.Start(Config.Instance.ServerIP, Config.Instance.UdpPort);
+        udpClient.Start(NetConfig.Instance.ServerIP, NetConfig.Instance.UdpPort);
         udpClient.OnReceiveData += OnReceiveData;
 
         print("Start listening");

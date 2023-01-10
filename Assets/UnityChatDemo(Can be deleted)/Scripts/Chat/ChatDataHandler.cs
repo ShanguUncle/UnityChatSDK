@@ -6,14 +6,7 @@ using System;
 using ChatProtocol;
 using ChatProto;
 
-/// <summary>
-/// Network type, you can customize TCP, UDP, P2P, Webrct, Unet, Photon... The case demo uses UDP
-/// </summary>
-public enum NetType{ TcpStream,UdpStream,WebSocket };// UdpP2P
-
 public class ChatDataHandler : MonoBehaviour {
-
-    public NetType NetType;
 
     public static ChatDataHandler Instance;
     public bool IsStartChat { get; set; }
@@ -30,7 +23,7 @@ public class ChatDataHandler : MonoBehaviour {
     /// </summary>
     public void StartChat() {
 
-        switch (NetType) {
+        switch (NetConfig.Instance.NetType) {
 
             case NetType.UdpStream:
                 OnStartChat_UdpStream();
@@ -93,7 +86,7 @@ public class ChatDataHandler : MonoBehaviour {
     }
     public void StopChat()
     {
-        switch (NetType)
+        switch (NetConfig.Instance.NetType)
         {
             case NetType.UdpStream:
                 StartCoroutine(OnStopChat_UpdStream());
@@ -189,7 +182,7 @@ public class ChatDataHandler : MonoBehaviour {
             packet.Id = ChatManager.Instance.UserID;
             byte[] audio = GetPbAudioPacket(packet).ToByteArray();
 
-            switch (NetType)
+            switch (NetConfig.Instance.NetType)
             {
                 case NetType.UdpStream:
                     //UDP Send data to server
@@ -277,7 +270,7 @@ public class ChatDataHandler : MonoBehaviour {
             packet.Id = ChatManager.Instance.UserID;
             byte[] video = GetPbVideoPacket(packet).ToByteArray();
 
-            switch (NetType)
+            switch (NetConfig.Instance.NetType)
             {
                 case NetType.UdpStream:
 

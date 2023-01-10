@@ -202,7 +202,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &38537295
 GameObject:
@@ -1471,7 +1471,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &171641233
 MonoBehaviour:
@@ -4395,7 +4395,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &586997476
 GameObject:
@@ -10062,7 +10062,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1434350920
 MonoBehaviour:
@@ -13245,7 +13245,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1869994739
 MonoBehaviour:
@@ -13295,7 +13295,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f847461d5e6b4e488bf75527dced9fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NetType: 2
   ChunkLength: 36000
 --- !u!114 &1869994742
 MonoBehaviour:
@@ -14959,12 +14958,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 181ad11e12e9de04f94b05a39e6aa4fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  NetType: 0
   ServerIP: 192.168.1.4
-  UsePublicIP: 0
-  ServerIP_Public: 124.223.208.223
   TcpPort: 6650
   UdpPort: 6680
-  WsAddress: ws://192.168.1.4:6660/default
+  WsPort: 6660
+  isSecure: 0
+  DomainName: xxx.com
   NetPanl: {fileID: 115554825}
   ServerIPInputField: {fileID: 497259611}
   IpKey: IpKey
@@ -14981,7 +14981,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2137196456
 GameObject:

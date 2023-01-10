@@ -35,7 +35,7 @@ public class ChatNetworkManager : MonoBehaviour {
     void Init()
     {
 #if UNITY_EDITOR || !UNITY_WEBGL
-        if (ChatDataHandler.Instance.NetType != NetType.WebSocket)
+        if (NetConfig.Instance.NetType != NetType.WebSocket)
         {
             client = new SocketClient();
             client.OnConnect += OnConnect;
@@ -52,19 +52,19 @@ public class ChatNetworkManager : MonoBehaviour {
     public void ConnectServer()
     {
 #if UNITY_EDITOR || !UNITY_WEBGL
-        if (ChatDataHandler.Instance.NetType != NetType.WebSocket)
+        if (NetConfig.Instance.NetType != NetType.WebSocket)
         {
             IPAddress ipAddress;
-            if (!IPAddress.TryParse(Config.Instance.ServerIP, out ipAddress) || Config.Instance.TcpPort < 0 || Config.Instance.TcpPort > 65535)
+            if (!IPAddress.TryParse(NetConfig.Instance.ServerIP, out ipAddress) || NetConfig.Instance.TcpPort < 0 || NetConfig.Instance.TcpPort > 65535)
             {
                 Debug.LogError("ip or port is wrong!");
                 return;
             }
-            client.ConnectServer(Config.Instance.ServerIP, Config.Instance.TcpPort);
+            client.ConnectServer(NetConfig.Instance.ServerIP, NetConfig.Instance.TcpPort);
         }
         else 
         {
-            WebSocketNetwork.Instance.Connect(Config.Instance.WsAddress);
+            WebSocketNetwork.Instance.Connect(NetConfig.Instance.WsAddress);
         }
 #else
         WebSocketNetwork.Instance.Connect(Config.Instance.WsAddress);
@@ -76,7 +76,7 @@ public class ChatNetworkManager : MonoBehaviour {
     public void DisconnectServer()
     {
 #if UNITY_EDITOR || !UNITY_WEBGL
-        if (ChatDataHandler.Instance.NetType != NetType.WebSocket)
+        if (NetConfig.Instance.NetType != NetType.WebSocket)
         {
             client.Disconnect();
         }
@@ -98,7 +98,7 @@ public class ChatNetworkManager : MonoBehaviour {
     {
 #if UNITY_EDITOR || !UNITY_WEBGL
 
-        if (ChatDataHandler.Instance.NetType != NetType.WebSocket)
+        if (NetConfig.Instance.NetType != NetType.WebSocket)
         {
             if (client.Connected)
             {

@@ -225,9 +225,9 @@ QualitySettings:
   - serializedVersion: 2
     name: Chat
     pixelLightCount: 4
-    shadows: 1
+    shadows: 0
     shadowResolution: 0
-    shadowProjection: 1
+    shadowProjection: 0
     shadowCascades: 1
     shadowDistance: 20
     shadowNearPlaneOffset: 3
@@ -237,12 +237,12 @@ QualitySettings:
     skinWeights: 1
     textureQuality: 0
     anisotropicTextures: 0
-    antiAliasing: 2
+    antiAliasing: 0
     softParticles: 0
     softVegetation: 1
     realtimeReflectionProbes: 0
     billboardsFaceCameraPosition: 0
-    vSyncCount: 1
+    vSyncCount: 0
     lodBias: 2
     maximumLODLevel: 0
     streamingMipmapsActive: 0
@@ -266,7 +266,7 @@ QualitySettings:
     PSP2: 2
     Standalone: 6
     Tizen: 2
-    WebGL: 2
+    WebGL: 6
     WiiU: 5
     Windows Store Apps: 6
     XboxOne: 5

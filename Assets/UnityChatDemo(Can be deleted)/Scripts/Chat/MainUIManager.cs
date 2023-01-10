@@ -42,7 +42,7 @@ public class MainUIManager : MonoBehaviour
     private void OnConnectResultAction(bool result)
     {
         MessageManager.Instance.ShowMessage("Connect server:" + result);
-        Config.Instance.NetPanl.SetActive(!result);
+        NetConfig.Instance.NetPanl.SetActive(!result);
         //login info
         ChatManager.Instance.Login(SystemInfo.deviceName);
     }
@@ -52,7 +52,7 @@ public class MainUIManager : MonoBehaviour
         MessageManager.Instance.ShowMessage("Server disconnect!");
         ChatManager.Instance.OnlineUserList.Clear();
         UpdateUserList();
-        Config.Instance.NetPanl.SetActive(true);
+        NetConfig.Instance.NetPanl.SetActive(true);
     }
     void Update()
     {
