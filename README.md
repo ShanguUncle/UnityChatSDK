@@ -64,6 +64,22 @@ Pay for licence and source code(NetWorkPlugin & server source code) with PayPal
 <a href="https://item.taobao.com/item.htm?id=574700900943" target="_blank"><img src="Readme/Images/SDK/pay.gif" border="0" name="submit" alt="Click to pay with Taobao!"></a>
 Pay for licence with Taobao
 
+## Paypal
+
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+<input type="hidden" name="cmd" value="_s-xclick">
+<input type="hidden" name="hosted_button_id" value="R5FLA9VYK3QNE">
+<table>
+<tr><td><input type="hidden" name="on0" value="Licence、Server source code">Licence、Server source code</td></tr><tr><td><select name="os0">
+	<option value="Licence x2">Licence x2 $ 356.00 USD</option>
+	<option value="Server source code (include 1 licence)">Server source code (include 1 licence) $ 2,390.00 USD</option>
+</select> </td></tr>
+</table>
+<input type="hidden" name="currency_code" value="USD">
+<input type="image" src="https://www.paypalobjects.com/zh_XC/i/btn/btn_cart_LG.gif" border="0" name="submit" alt="PayPal——最安全便捷的在线支付方式！">
+<img alt="" border="0" src="https://www.paypalobjects.com/zh_XC/i/scr/pixel.gif" width="1" height="1">
+</form>
+
 ## Register
 Open the project->Unity top title bar->Tools>Register SDK
 
