@@ -12,7 +12,7 @@ public class ChatDataHandler : MonoBehaviour {
     public bool IsStartChat { get; set; }
     //Udp data chunk length <66500, and there are length restrictions on some platforms,you should adjust set 10000 or so
     [Range(20000,60000)] 
-    public int ChunkLength = 36000;
+    public int ChunkLength = 20000;
     long udpPacketIndex;
     void Awake() {
         Instance = this;

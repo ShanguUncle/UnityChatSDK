@@ -11860,8 +11860,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f847461d5e6b4e488bf75527dced9fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NetType: 2
-  ChunkLength: 36000
+  ChunkLength: 20000
 --- !u!114 &1869994742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13165,12 +13164,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 181ad11e12e9de04f94b05a39e6aa4fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  NetType: 0
   ServerIP: 192.168.3.39
-  UsePublicIP: 0
-  ServerIP_Public: 124.223.208.223
   TcpPort: 6650
   UdpPort: 6680
-  WsAddress: wss://shanguuncle.cn:6660/default
+  WsPort: 6660
+  isSecure: 0
+  DomainName: xxx.com
   NetPanl: {fileID: 115554825}
   ServerIPInputField: {fileID: 497259611}
   IpKey: IpKey
