@@ -67,7 +67,7 @@ public class ChatNetworkManager : MonoBehaviour {
             WebSocketNetwork.Instance.Connect(NetConfig.Instance.WsAddress);
         }
 #else
-        WebSocketNetwork.Instance.Connect(Config.Instance.WsAddress);
+        WebSocketNetwork.Instance.Connect(NetConfig.Instance.WsAddress);
 #endif
     }
     /// <summary>
