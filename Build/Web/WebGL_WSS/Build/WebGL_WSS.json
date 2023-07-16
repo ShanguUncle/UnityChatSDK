@@ -1,0 +1,17 @@
+{
+"companyName": "SG",
+"productName": "UnityChatDemo",
+"productVersion": "8.3",
+"dataUrl": "WebGL_WSS.data.unityweb",
+"asmCodeUrl": "WebGL_WSS.asm.code.unityweb",
+"asmMemoryUrl": "WebGL_WSS.asm.memory.unityweb",
+"asmFrameworkUrl": "WebGL_WSS.asm.framework.unityweb",
+"TOTAL_MEMORY": 268435456,
+"graphicsAPI": ["WebGL 2.0","WebGL 1.0"],
+"webglContextAttributes": {"preserveDrawingBuffer": false},
+"splashScreenStyle": "Dark",
+"backgroundColor": "#231F20",
+"developmentBuild": false,
+"multithreading": false,
+"unityVersion": "2019.4.40f1"
+}
