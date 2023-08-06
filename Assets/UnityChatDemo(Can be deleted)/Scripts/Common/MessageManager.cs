@@ -11,7 +11,7 @@ public class MessageManager : MonoBehaviour
 {
     public static MessageManager Instance;
     public Transform Layout;
-    public GameObject MessgageIamge;
+    public GameObject MessagePrefab;
     public GameObject SelectBox;
     public Text WarnText;
     Action yesAction;
@@ -30,7 +30,7 @@ public class MessageManager : MonoBehaviour
 
     public void ShowMessage(string mes, float showTime = 2)
     {
-        GameObject go=GameObject.Instantiate(MessgageIamge, Layout);
+        GameObject go=GameObject.Instantiate(MessagePrefab, Layout);
         go.SetActive(true);
         Text t = go.transform.Find("Text").GetComponent<Text>();
         t.text = mes;

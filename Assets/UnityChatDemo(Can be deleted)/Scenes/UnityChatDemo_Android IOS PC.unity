@@ -8083,7 +8083,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Layout: {fileID: 1545520650}
-  MessgageIamge: {fileID: 78907374}
+  MessagePrefab: {fileID: 78907374}
   SelectBox: {fileID: 533132276}
   WarnText: {fileID: 833404513}
 --- !u!1 &1151758109
@@ -14959,7 +14959,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetType: 0
-  ServerIP: 192.168.1.4
+  ServerIP: 192.168.3.16
   TcpPort: 6650
   UdpPort: 6680
   WsPort: 6660

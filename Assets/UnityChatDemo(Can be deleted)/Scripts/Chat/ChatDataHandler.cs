@@ -18,9 +18,6 @@ public class ChatDataHandler : MonoBehaviour {
         Instance = this;
     }
 
-    /// <summary>
-    /// 开始聊天
-    /// </summary>
     public void StartChat() {
 
         switch (NetConfig.Instance.NetType) {
